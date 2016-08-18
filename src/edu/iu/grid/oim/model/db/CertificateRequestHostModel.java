@@ -1049,7 +1049,7 @@ public class CertificateRequestHostModel extends CertificateRequestModelBase<Cer
 		
 		
 		//revoke one
-	      //CertificateManager cm = CertificateManager.Factory(context, rec.approver_vo_id);
+	      CertificateManager cm = CertificateManager.Factory(context, rec.approver_vo_id);
 		try {
 			log.info("Revoking certificate with serial ID: " + cert_serial_id);
 			cm.revokeHostCertificate(cert_serial_id);
