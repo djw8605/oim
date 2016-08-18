@@ -1045,8 +1045,35 @@ public class CertificateRequestHostModel extends CertificateRequestModelBase<Cer
 			throw new CertificateRequestException("Invalid certififcate index:"+idx);
 		}
 		
+		String issuer_dn = ""; //by default
+	
+		ArrayList<Certificate> chain = null;
+		try {
+			if (rec.getPKCS7s()[0] != null) {
+				chain = CertificateManager.parsePKCS7(rec.getPKCS7s()[0]);
+				X509Certificate c0 = CertificateManager.getIssuedX509Cert(chain);
+				X500Principal issuer = c0.getIssuerX500Principal();
+				issuer_dn = CertificateManager.X500Principal_to_ApacheDN(issuer);
+				log.debug("issuer dn is " + issuer_dn);
+			}
+		} catch (CertificateException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (CMSException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			//e2.printStackTrace(); -this will error for cilogon
+			
+		}
+
+
+		CertificateManager cm = CertificateManager.Factory(issuer_dn);
+		
+		
 		//revoke one
-		CertificateManager cm = CertificateManager.Factory(context, rec.approver_vo_id);
+	      //CertificateManager cm = CertificateManager.Factory(context, rec.approver_vo_id);
 		try {
 			log.info("Revoking certificate with serial ID: " + cert_serial_id);
 			cm.revokeHostCertificate(cert_serial_id);
