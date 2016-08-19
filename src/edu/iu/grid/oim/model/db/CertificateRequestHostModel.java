@@ -990,6 +990,9 @@ public class CertificateRequestHostModel extends CertificateRequestModelBase<Cer
 
 
 		CertificateManager cm = CertificateManager.Factory(issuer_dn);
+		
+		log.debug("issuer dn is " + issuer_dn);
+
 		try {
 			String[] cert_serial_ids = rec.getSerialIDs();
 			StringArray statuses = new StringArray(rec.cert_statuses);
