@@ -141,7 +141,8 @@ public class CertificateManager {
 	
 	public static CertificateManager Factory(String dn) {
 		//determine the singer from vo_id (if provided)
-	
+		log.debug("dn is " + dn);
+
 		String signer = null;
 		if(dn != null) {
 			try {
