@@ -1011,8 +1011,6 @@ public class CertificateRequestHostModel extends CertificateRequestModelBase<Cer
 				ticket.description += "Digicert Serial ID: "+ cert_serial_ids[i]+"\n\n";
 				ticket.description +="DN: "+issuer_dn+"\n\n";
 				ticket.description += "The alert has been sent to GOC alert for further actions on this issue.";
-				ticket.assignees.add(StaticConfig.conf.getProperty("certrequest.fail.assignee"));
-				ticket.status = "Open";
 				ticket.nextaction = "OSG RA to process request";
 				//   fp.open(ticket);                                                                                                                                           
 				fp.update(ticket, rec.goc_ticket_id);
@@ -1108,9 +1106,7 @@ public class CertificateRequestHostModel extends CertificateRequestModelBase<Cer
 		    ticket.description += "Digicert Serial ID: "+ cert_serial_id+"\n\n";
 		    ticket.description +="DN: "+issuer_dn+"\n\n";
 		    ticket.description += "The alert has been sent to GOC alert for further actions on this issue.";
-		    ticket.assignees.add(StaticConfig.conf.getProperty("certrequest.fail.assignee"));
-		    ticket.status = "Open";
-		     ticket.nextaction = "OSG RA to process request";
+		    ticket.nextaction = "OSG RA to process request";
 		    //   fp.open(ticket);
 		    fp.update(ticket, rec.goc_ticket_id);
                     log.info("Opened ticket (revoke digicert) with ID:" + rec.goc_ticket_id);
