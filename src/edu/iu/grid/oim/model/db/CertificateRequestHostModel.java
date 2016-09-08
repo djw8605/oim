@@ -435,9 +435,9 @@ public class CertificateRequestHostModel extends CertificateRequestModelBase<Cer
 		}
 		ticket.description += "To retrieve the certificate please visit " + getTicketUrl(rec.id) + " and click on Issue Certificate button.\n\n";
     	if(StaticConfig.isDebug()) {
-    		ticket.description += "Or if you are using the command-line: osg-cert-retrieve -T -i "+rec.id+"\n\n";
+    		ticket.description += "Or if you are using the command-line: osg-cert-retrieve -T "+rec.id+"\n\n";
     	} else {
-    		ticket.description += "Or if you are using the command-line: osg-cert-retrieve -i "+rec.id+"\n\n";  		
+    		ticket.description += "Or if you are using the command-line: osg-cert-retrieve "+rec.id+"\n\n";  		
     	}
 		ticket.nextaction = "Requester to download certificate";
 		Calendar nad = Calendar.getInstance();
