@@ -21,6 +21,7 @@ import com.divrep.DivRep;
 import com.divrep.DivRepEvent;
 import com.divrep.DivRepEventListener;
 import com.divrep.common.DivRepButton;
+import com.divrep.common.DivRepCheckBox;
 import com.divrep.common.DivRepSelectBox;
 import com.divrep.common.DivRepStaticContent;
 import com.divrep.common.DivRepToggler;
@@ -162,11 +163,26 @@ public class TopologyServlet extends ServletBase implements Servlet {
 		contentview.add(facility_selector);
 		//contentview.add(new HtmlView("</td></tr></table>"));
 
+		final DivRepCheckBox hideDisabled = new DivRepCheckBox(context.getPageRoot());
+	
+		hideDisabled.addEventListener(new DivRepEventListener() {
+
+			@Override
+			public void handleEvent(DivRepEvent e) {
+
+					hideDisabled.redirect("topology");
+			}
+		});
+		
+		contentview.add(new HtmlView("<br>Hide Disabled Resources/Groups "));
+	contentview.add(hideDisabled);
+
+
 		
 		contentview.add(new HtmlView("<div id=\"topology\">"));
 		
 		for(FacilityRecord frec : frecs) {
-			if(facility_id != null && !frec.id.equals(facility_id)) continue;
+			if((facility_id != null && !frec.id.equals(facility_id)) ) continue;
 			
 			String disable_css = "";
 			String tag = "";
@@ -195,6 +211,8 @@ public class TopologyServlet extends ServletBase implements Servlet {
 				}
 			});
 			for(SiteRecord srec : srecs) {
+				//if( hideDisabled.getValue() == false && srec.disable) continue;
+
 				disable_css = "";
 				tag = "";
 				if(srec.disable) {
@@ -260,6 +278,7 @@ public class TopologyServlet extends ServletBase implements Servlet {
 						}
 					});
 					for(ResourceRecord rrec : rrecs) {
+						//if( hideDisabled.getValue() == false && rrec.disable) continue;
 						disable_css = "";
 						tag = "";
 						if(rrec.disable) {
