@@ -947,14 +947,17 @@ public class CertificateRequestHostModel extends CertificateRequestModelBase<Cer
 	//NO-AC
 	public void revoke(CertificateRequestHostRecord rec) throws CertificateRequestException {		
 		//revoke
-		//CertificateManager cm = CertificateManager.Factory(context, rec.approver_vo_id);
-
-		
-
 	
 		ArrayList<Certificate> chain = null;
 		try {
-			chain = CertificateManager.parsePKCS7(rec.cert_pkcs7);
+			//chain = CertificateManager.parsePKCS7(rec.cert_pkcs7);
+			if (rec.getPKCS7s()[0] != null) {
+				chain = CertificateManager.parsePKCS7(rec.getPKCS7s()[0]);
+				X509Certificate c0 = CertificateManager.getIssuedX509Cert(chain);
+				X500Principal issuer = c0.getIssuerX500Principal();
+				issuer_dn = CertificateManager.X500Principal_to_ApacheDN(issuer);
+			}
+
 		} catch (CertificateException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
@@ -1239,7 +1242,7 @@ public class CertificateRequestHostModel extends CertificateRequestModelBase<Cer
 	}
 	
 	//pass null to not filter
-	public ArrayList<CertificateRequestHostRecord> search(String cns_contains, String status, Date request_after, Date request_before) throws SQLException {
+	public ArrayList<CertificateRequestHostRecord> search(String cns_contains, String status, Date request_after, Date request_before, Integer signer) throws SQLException {
 		ArrayList<CertificateRequestHostRecord> recs = new ArrayList<CertificateRequestHostRecord>();
 		ResultSet rs = null;
 		Connection conn = connectOIM();
@@ -1262,7 +1265,16 @@ public class CertificateRequestHostModel extends CertificateRequestModelBase<Cer
 		PreparedStatement stmt = conn.prepareStatement(sql);
 	    rs = stmt.executeQuery();
 	    while(rs.next()) {
-    		recs.add(new CertificateRequestHostRecord(rs));
+	    	CertificateRequestHostRecord cr = new CertificateRequestHostRecord(rs);
+	    	if (signer != null) {
+	    		log.debug("cr signer " + cr.getSigner());
+	    		if ((signer == 0 && cr.getSigner().matches("(.*)CILogon(.*)")) || (signer == 1 && cr.getSigner().matches("(.*)DigiCert(.*)"))) {
+	    			recs.add(cr);
+	    		}
+	    	}
+	    	else {
+	    		recs.add(cr);
+	    	}
 	    }
 	    stmt.close();
 	    conn.close();
