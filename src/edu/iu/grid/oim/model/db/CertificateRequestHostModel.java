@@ -347,6 +347,11 @@ public class CertificateRequestHostModel extends CertificateRequestModelBase<Cer
 					} else {
 						ticket.description = "Someone with IP address: " + context.getRemoteAddr() + " has issued certificate. Resolving this ticket.";
 					}
+			    	//get number of certificate requested for this request
+			    	String [] cns = rec.getCNs();
+					for(String cn : cns) {
+						ticket.description += "/CN=" + cn + "\n";
+					}
 					ticket.status = "Resolved";
 					
 					//suppressing notification if submitter is GA
@@ -359,9 +364,9 @@ public class CertificateRequestHostModel extends CertificateRequestModelBase<Cer
 						}
 					}
 					if(submitter_is_ga) {
-						ticket.mail_suppression_assignees = true;
-						ticket.mail_suppression_submitter = true;
-						ticket.mail_suppression_ccs = true;
+						//ticket.mail_suppression_assignees = true;
+						//ticket.mail_suppression_submitter = true;
+						//ticket.mail_suppression_ccs = true;
 					}
 					
 					fp.update(ticket, rec.goc_ticket_id);
@@ -417,8 +422,8 @@ public class CertificateRequestHostModel extends CertificateRequestModelBase<Cer
 		if(submitter_is_ga) {
 			ticket.description = rec.requester_name + " has approved this host certificate request.\n\n";
 			ticket.mail_suppression_assignees = false; //Per Von/Alain's request, we will send notification to Alain when request is approved
-			ticket.mail_suppression_ccs = true;
-			ticket.mail_suppression_submitter = true;
+			//ticket.mail_suppression_ccs = true;
+			//ticket.mail_suppression_submitter = true;
 		} else {
 			ticket.description = "Dear " + rec.requester_name + ",\n\n";
 			ticket.description += "Your host certificate request has been approved. \n\n";
@@ -613,9 +618,9 @@ public class CertificateRequestHostModel extends CertificateRequestModelBase<Cer
 			
 			if(submitter_is_ga) {
 				ticket.description = "Host certificate request has been submitted by a GridAdmin.\n\n";
-				ticket.mail_suppression_assignees = true;
-				ticket.mail_suppression_submitter = true;
-				ticket.mail_suppression_ccs = true;
+				//ticket.mail_suppression_assignees = true;
+				//ticket.mail_suppression_submitter = true;
+				//ticket.mail_suppression_ccs = true;
 			} else {
 	        	ticket.description = "Dear GridAdmin; ";
 				for(ContactRecord ga : gas) {
