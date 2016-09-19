@@ -172,7 +172,7 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 			try {
 				log.debug("trying to establish a connection to cilogon server " + hc.toString());
 				testCon = shcp.getConnection(hc, 60000);
-				if (testCon.isResponseAvailable()) {
+				if (testCon.isOpen()) {
 					log.debug("response available");
 				}
 				else {
