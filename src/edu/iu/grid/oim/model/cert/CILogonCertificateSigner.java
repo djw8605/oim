@@ -2,6 +2,7 @@ package edu.iu.grid.oim.model.cert;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.net.InetAddress;
 import java.security.KeyStore;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
@@ -10,14 +11,13 @@ import java.text.ParseException;
 import java.security.cert.Certificate;
 import java.util.ArrayList;
 
-import org.apache.commons.httpclient.ConnectionPoolTimeoutException;
-import org.apache.commons.httpclient.HostConfiguration;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpConnection;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.SimpleHttpConnectionManager;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.codec.binary.Base64;
@@ -149,9 +149,9 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 	
 	public CertificateBase requestUserCert(String csr, String cn, String email_address) throws CILogonCertificateSignerException {
 		HttpClient cl = createHttpClient();
-		SimpleHttpConnectionManager shcp = new SimpleHttpConnectionManager();
-		HostConfiguration hc = new HostConfiguration();
-		hc.setHost("https://osg0.cilogon.org");
+//		SimpleHttpConnectionManager shcp = new SimpleHttpConnectionManager();
+//		HostConfiguration hc = new HostConfiguration();
+//		hc.setHost("https://osg0.cilogon.org");
 		PostMethod post = new PostMethod(StaticConfig.conf.getProperty("cilogon.api.host")+"/getusercert");
 		
 		//need to strip first and last line (-----BEGIN CERTIFICATE REQUEST-----, -----END CERTIFICATE REQUEST-----)
@@ -170,17 +170,12 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 		try {
 			HttpConnection testCon;
 			try {
-				log.debug("trying to establish a connection to cilogon server " + hc.toString());
-				testCon = shcp.getConnection(hc, 60000);
-				if (testCon.isOpen()) {
-					log.debug("response available");
-				}
-				else {
-					log.debug("No response available from " + hc.toString());
-				}
+				log.debug("trying to establish a connection to cilogon server " + StaticConfig.conf.getProperty("cilogon.api.host"));
+				InetAddress address = InetAddress.getByName(StaticConfig.conf.getProperty("cilogon.api.host")); 
+				log.debug(address.getHostAddress());
 			}
 			catch (Exception e) {
-				log.debug("Unable to make first attempt at host connection to " +hc.toString() + " " + e);
+				log.debug("Unable to make first attempt at host connection to " + StaticConfig.conf.getProperty("cilogon.api.host") + " " + e);
 			}
 			log.debug("trying second connection attempt");
 			cl.executeMethod(post);
