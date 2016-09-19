@@ -151,7 +151,7 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 		HttpClient cl = createHttpClient();
 		SimpleHttpConnectionManager shcp = new SimpleHttpConnectionManager();
 		HostConfiguration hc = new HostConfiguration();
-		hc.setHost(StaticConfig.conf.getProperty("cilogon.api.host"), 443, "https");
+		hc.setHost("osg0.cilogon.org", 443, "https");
 		PostMethod post = new PostMethod(StaticConfig.conf.getProperty("cilogon.api.host")+"/getusercert");
 		
 		//need to strip first and last line (-----BEGIN CERTIFICATE REQUEST-----, -----END CERTIFICATE REQUEST-----)
