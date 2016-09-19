@@ -168,14 +168,14 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 		post.setParameter("cert_lifetime", "34128000000"); //TODO - how long is this?		
 		post.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
 		try {
-			HttpConnection testCon;
+	//		HttpConnection testCon;
 			try {
-				log.debug("trying to establish a connection to cilogon server " + StaticConfig.conf.getProperty("cilogon.api.host"));
-				InetAddress address = InetAddress.getByName(StaticConfig.conf.getProperty("cilogon.api.host")); 
+				log.debug("trying to establish a connection to cilogon server osg0.cilogon.org" );
+				InetAddress address = InetAddress.getByName("osg0.cilogon.org"); 
 				log.debug(address.getHostAddress());
 			}
 			catch (Exception e) {
-				log.debug("Unable to make first attempt at host connection to " + StaticConfig.conf.getProperty("cilogon.api.host") + " " + e);
+				log.debug("Unable to make first attempt at host connection to osg0.cilogon.org "  + e);
 			}
 			log.debug("trying second connection attempt");
 			cl.executeMethod(post);
