@@ -170,7 +170,7 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 		try {
 			HttpConnection testCon;
 			try {
-				testCon = shcp.getConnectionWithTimeout(hc, 60000);
+				testCon = shcp.getConnection(hc, 60000);
 				log.debug("trying to establish a connection to cilogon server " + hc.toString());
 			}
 			catch (Exception e) {
