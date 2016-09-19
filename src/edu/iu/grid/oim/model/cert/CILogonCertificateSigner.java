@@ -149,9 +149,6 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 	
 	public CertificateBase requestUserCert(String csr, String cn, String email_address) throws CILogonCertificateSignerException {
 		HttpClient cl = createHttpClient();
-//		SimpleHttpConnectionManager shcp = new SimpleHttpConnectionManager();
-//		HostConfiguration hc = new HostConfiguration();
-//		hc.setHost("https://osg0.cilogon.org");
 		PostMethod post = new PostMethod(StaticConfig.conf.getProperty("cilogon.api.host")+"/getusercert");
 		
 		//need to strip first and last line (-----BEGIN CERTIFICATE REQUEST-----, -----END CERTIFICATE REQUEST-----)
@@ -168,7 +165,7 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 		post.setParameter("cert_lifetime", "34128000000"); //TODO - how long is this?		
 		post.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
 		try {
-	//		HttpConnection testCon;
+
 			try {
 				log.debug("trying to establish a connection to cilogon server osg0.cilogon.org" );
 				InetAddress address = InetAddress.getByName("osg0.cilogon.org"); 
@@ -257,6 +254,15 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 		post.setParameter("alt_hostnames", StringUtils.join(sans, ","));
 		post.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
 		try {
+			try {
+				log.debug("trying to establish a connection to cilogon server osg0.cilogon.org" );
+				InetAddress address = InetAddress.getByName("osg0.cilogon.org"); 
+				log.debug(address.getHostAddress());
+			}
+			catch (Exception e) {
+				log.debug("Unable to make first attempt at host connection to osg0.cilogon.org "  + e);
+			}
+			log.debug("trying second connection attempt");
 			cl.executeMethod(post);
 			
 			switch(post.getStatusCode()) {
