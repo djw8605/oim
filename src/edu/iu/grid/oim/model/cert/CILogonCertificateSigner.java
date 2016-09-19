@@ -170,12 +170,19 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 		try {
 			HttpConnection testCon;
 			try {
-				testCon = shcp.getConnection(hc, 60000);
 				log.debug("trying to establish a connection to cilogon server " + hc.toString());
+				testCon = shcp.getConnection(hc, 60000);
+				if (testCon.isResponseAvailable()) {
+					log.debug("response available");
+				}
+				else {
+					log.debug("No response available from " + hc.toString());
+				}
 			}
 			catch (Exception e) {
 				log.debug("Unable to make first attempt at host connection to " +hc.toString() + " " + e);
 			}
+			log.debug("trying second connection attempt");
 			cl.executeMethod(post);
 			switch(post.getStatusCode()) {
 			case 200:
