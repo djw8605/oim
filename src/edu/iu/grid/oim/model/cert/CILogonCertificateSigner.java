@@ -165,23 +165,30 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 		post.setParameter("cert_lifetime", "34128000000"); //TODO - how long is this?		
 		post.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
 		try {
-
+			String addressString = null;
+			InetAddress address = null;
+			String dnsAddress = "osg0.xcilong.org";
 			try {
-				log.debug("trying to establish a connection to cilogon server osg0.cilogon.org" );
-				InetAddress address = InetAddress.getByName("osg0.cilogon.org"); 
-				String addressString = address.getHostAddress();
-				log.debug("host address is " + addressString);
-				for (int retry_count=0;retry_count<2 && (addressString == null); retry_count++) {
-					wait(30);
-					address = InetAddress.getByName("osg0.cilogon.org"); 
-					addressString = address.getHostAddress();
-					log.debug("host address is " + addressString);
-				}
-				
+				log.debug("trying to establish a connection to cilogon server " + dnsAddress  );
+				address = InetAddress.getByName(dnsAddress); 
+				addressString = address.getHostAddress();
+				log.debug("host address is " + addressString);			
 			}
 			catch (Exception e) {
 				log.debug("Unable to make first attempt at host connection to osg0.cilogon.org "  + e);
+				for (int retry_count=0;retry_count<2 && (addressString == null); retry_count++) {
+					try {
+					wait(30);
+					address = InetAddress.getByName(dnsAddress); 
+					addressString = address.getHostAddress();
+					log.debug("host address is " + addressString);
+					}
+					catch (Exception e2) {
+						continue;
+					}
+				}
 			}
+
 			log.debug("trying second connection attempt");
 			cl.executeMethod(post);
 			switch(post.getStatusCode()) {
