@@ -180,7 +180,7 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 
 					try {
 						log.debug("retrying");
-						wait(30);
+						wait(30000);
 						address = InetAddress.getByName(dnsAddress); 
 						addressString = address.getHostAddress();
 						log.debug("host address is " + addressString);
