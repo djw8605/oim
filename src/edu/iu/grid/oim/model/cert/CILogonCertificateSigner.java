@@ -273,7 +273,7 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 		post.setParameter("alt_hostnames", StringUtils.join(sans, ","));
 		post.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
 		try {
-			try {
+			
 				String addressString = "";
 				InetAddress address = null;
 				URI uri = new URI(StaticConfig.conf.getProperty("cilogon.api.host"));
@@ -300,8 +300,8 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 						}
 					}
 				}
-
-				log.debug("trying second connection attempt");
+			
+			log.debug("trying second connection attempt");
 
 			cl.executeMethod(post);
 			
