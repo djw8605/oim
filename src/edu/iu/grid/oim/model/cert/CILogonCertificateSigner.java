@@ -274,14 +274,35 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 		post.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
 		try {
 			try {
-				log.debug("trying to establish a connection to cilogon server osg0.cilogon.org" );
-				InetAddress address = InetAddress.getByName("osg0.cilogon.org"); 
-				log.debug(address.getHostAddress());
-			}
-			catch (Exception e) {
-				log.debug("Unable to make first attempt at host connection to osg0.cilogon.org "  + e);
-			}
-			log.debug("trying second connection attempt");
+				String addressString = "";
+				InetAddress address = null;
+				URI uri = new URI(StaticConfig.conf.getProperty("cilogon.api.host"));
+				String dnsAddress = uri.getAuthority();
+				try {
+					log.debug("trying to establish a connection to cilogon server " + dnsAddress  );
+					address = InetAddress.getByName(dnsAddress); 
+					addressString = address.getHostAddress();
+					log.debug("host address is " + addressString);			
+				}
+				catch (Exception e) {
+					log.debug("Unable to make first attempt at host connection to " + dnsAddress + " " + e );
+					for (int retry_count=0;retry_count<2 && (addressString == ""); retry_count++) {
+
+						try {
+							log.debug("retrying");
+							Thread.sleep(30000);
+							address = InetAddress.getByName(dnsAddress); 
+							addressString = address.getHostAddress();
+							log.debug("host address is " + addressString);
+						}
+						catch (Exception e2) {
+							continue;
+						}
+					}
+				}
+
+				log.debug("trying second connection attempt");
+
 			cl.executeMethod(post);
 			
 			switch(post.getStatusCode()) {
