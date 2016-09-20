@@ -167,7 +167,7 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 		try {
 			String addressString = "";
 			InetAddress address = null;
-			String dnsAddress = "osg0.xcilong.org";
+			String dnsAddress = StaticConfig.conf.getProperty("cilogon.api.host").replaceFirst("^(https://www\\.|http://www\\.)","");
 			try {
 				log.debug("trying to establish a connection to cilogon server " + dnsAddress  );
 				address = InetAddress.getByName(dnsAddress); 
@@ -175,12 +175,12 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 				log.debug("host address is " + addressString);			
 			}
 			catch (Exception e) {
-				log.debug("Unable to make first attempt at host connection to osg0.cilogon.org "  + e + "addressString is " + addressString);
+				log.debug("Unable to make first attempt at host connection to " + dnsAddress + " " + e );
 				for (int retry_count=0;retry_count<2 && (addressString == ""); retry_count++) {
 
 					try {
 						log.debug("retrying");
-						wait(30000);
+						Thread.sleep(30000);
 						address = InetAddress.getByName(dnsAddress); 
 						addressString = address.getHostAddress();
 						log.debug("host address is " + addressString);
