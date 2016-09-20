@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpConnection;
 import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.PostMethod;
 
@@ -167,7 +168,8 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 		try {
 			String addressString = "";
 			InetAddress address = null;
-			String dnsAddress = StaticConfig.conf.getProperty("cilogon.api.host").replaceFirst("^(https://www\\.|http://www\\.)","");
+			URI uri = new URI(StaticConfig.conf.getProperty("cilogon.api.host"));
+			String dnsAddress = uri.getPath();
 			try {
 				log.debug("trying to establish a connection to cilogon server " + dnsAddress  );
 				address = InetAddress.getByName(dnsAddress); 
