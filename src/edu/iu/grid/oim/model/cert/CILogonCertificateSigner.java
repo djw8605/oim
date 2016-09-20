@@ -169,7 +169,15 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 			try {
 				log.debug("trying to establish a connection to cilogon server osg0.cilogon.org" );
 				InetAddress address = InetAddress.getByName("osg0.cilogon.org"); 
-				log.debug(address.getHostAddress());
+				String addressString = address.getHostAddress();
+				log.debug("host address is " + addressString);
+				for (int retry_count=0;retry_count<2 && (addressString == null); retry_count++) {
+					wait(30);
+					address = InetAddress.getByName("osg0.cilogon.org"); 
+					addressString = address.getHostAddress();
+					log.debug("host address is " + addressString);
+				}
+				
 			}
 			catch (Exception e) {
 				log.debug("Unable to make first attempt at host connection to osg0.cilogon.org "  + e);
