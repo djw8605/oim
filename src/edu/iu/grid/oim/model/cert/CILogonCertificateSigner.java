@@ -169,7 +169,7 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 			String addressString = "";
 			InetAddress address = null;
 			URI uri = new URI(StaticConfig.conf.getProperty("cilogon.api.host"));
-			String dnsAddress = uri.getScheme();
+			String dnsAddress = uri.getAuthority();
 			try {
 				log.debug("trying to establish a connection to cilogon server " + dnsAddress  );
 				address = InetAddress.getByName(dnsAddress); 
