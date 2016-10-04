@@ -660,6 +660,33 @@ public class CertificateRequestUserModel extends CertificateRequestModelBase<Cer
 
 		CertificateManager cm = CertificateManager.Factory(dnrec);
 		try {
+
+
+		    log.info("DigiCert API has been disabled.  Your request has been sent to support. Updating ticket ID: dnrec - "+dnrec+"; or rec.dn - "+rec.dn +"");
+
+                    //  throw new CertificateRequestException("DigiCert API has been disabled.  Your request has been sent to support. Updating ticket ID: "+dnrec+"");                                 
+
+                    if(rec.dn.contains("DigiCert-Grid")) {
+                        try{
+                            Footprints fp = new Footprints(context);
+                            FPTicket ticket = fp.new FPTicket();
+                            ticket.description="\n";
+                            ticket.description = "Digicert certificates have to be revoked directly through digicert.\n\n";
+                            ticket.description += "Digicert Serial ID: "+rec.cert_serial_id+"\n\n";
+                            ticket.description +="DN: "+rec.dn+"\n\n";
+			    ticket.description += "The alert has been sent to GOC alert for further actions on this issue.";
+
+                            ticket.nextaction = "OSG RA to process request";
+                            fp.update(ticket, rec.goc_ticket_id);
+                            log.info("Opened ticket (revoke digicert) with ID:" + rec.goc_ticket_id);
+			}
+
+			finally{
+                            throw new CertificateRequestException("DigiCert API has been disabled.  Your request has been sent to support. Updating ticket ID: "+rec.goc_ticket_id+"");
+                        }
+
+		    }
+
 			cm.revokeUserCertificate(rec.cert_serial_id);
 			log.info("Revoked " + rec.dn + " with serial id:" + rec.cert_serial_id);
 			

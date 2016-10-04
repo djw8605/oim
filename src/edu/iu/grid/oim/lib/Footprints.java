@@ -284,8 +284,8 @@ public class Footprints
 		ticket.metadata.put("SUBMITTED_VIA", "OIM/registration");
 		
 		if(StaticConfig.isDebug()) {
-			ticket.assignees.add("hayashis");
-            ticket.ccs.add("soichih@gmail.com");
+			ticket.assignees.add("mvkrenz");
+            ticket.ccs.add("mvkrenz@iu.edu");
 		} else {
 			ticket.assignees.add("echism");
 			ticket.assignees.add("kagross");
