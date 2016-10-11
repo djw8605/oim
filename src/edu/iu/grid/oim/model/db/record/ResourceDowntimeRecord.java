@@ -8,6 +8,7 @@ public class ResourceDowntimeRecord extends RecordBase {
 
 	@Key public Integer id;
 	public Timestamp timestamp;
+        public Timestamp created;
 	public Timestamp start_time;
 	public Timestamp end_time;
 	public String downtime_summary;
@@ -21,6 +22,7 @@ public class ResourceDowntimeRecord extends RecordBase {
 	public ResourceDowntimeRecord(ResourceDowntimeRecord copy) {
 		id = copy.id;
 		timestamp = copy.timestamp;
+                created = copy.created;
 		start_time = copy.start_time;
 		end_time = copy.end_time;
 		downtime_summary = copy.downtime_summary;
