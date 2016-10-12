@@ -153,15 +153,6 @@ public class ResourceDowntimeEditor extends DivRepFormElement {
 			
 		}
 
-		if(rec.created != null) {
-		    created = rec.created;
-		} else {
-		    //		    Date current = new Date();
-		    // timestamp = new Timestamp(current.getTime());
-
-		}
-
-
 
 	}
 	
@@ -519,7 +510,19 @@ public class ResourceDowntimeEditor extends DivRepFormElement {
 		newrec.id = rec.id;
 		newrec.resource_id = rec.resource_id;
 		newrec.downtime_summary = summary.getValue();
-                newrec.created = timestamp;
+                
+
+		Date created_current = new Date();
+		//		created = new Timestamp(created_current.getTime());              
+		if(rec.id == null){
+		newrec.created = new Timestamp(created_current.getTime());//rec.created;
+		}else{
+
+		    newrec.created = rec.created;
+}
+
+
+
 		newrec.start_time = new Timestamp(getStartTime().getTime());
 		newrec.end_time = new Timestamp(getEndTime().getTime());
 		newrec.downtime_class_id = class_id.getValue();
