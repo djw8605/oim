@@ -515,7 +515,7 @@ public class ResourceDowntimeEditor extends DivRepFormElement {
 		Date created_current = new Date();
 		
 		if(rec.id == null){
-		    newrec.created = new Timestamp(created_current.getTime());//rec.created;
+		    newrec.created = timestamp;//new Timestamp(created_current.getTime());//rec.created;
 		}else{
 		    newrec.created = rec.created;
 		}
