@@ -202,7 +202,21 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 					e.printStackTrace();
 				}
 				String errorMessage = obj.getString("message");
-				throw new CILogonCertificateSignerException("Unknown status code from cilogon: " +post.getStatusCode() + response);	
+				String nextAction = obj.getString("next_action");
+				String exception = obj.getString("exception");
+
+				if (nextAction.equals("retry_later") ||  exception.startsWith("java.net")) {
+					try {
+						Thread.sleep(10000);//10 seconds
+					} catch (InterruptedException e) {
+						log.error("Sleep interrupted", e);
+					}
+					requestUserCert(csr, cn, email_address);
+				}
+				if (nextAction.equals("pending") || nextAction.equals("failed_permanently")) {
+					
+					throw new CILogonCertificateSignerException("Unknown status code from cilogon: " +post.getStatusCode() + response);	
+				}
 			}		
 		} catch (HttpException e) {
 			throw new CILogonCertificateSignerException("Failed to make cilogon/rest request: "+e, e);
