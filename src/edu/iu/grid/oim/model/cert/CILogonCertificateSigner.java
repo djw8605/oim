@@ -211,7 +211,50 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 					} catch (InterruptedException e) {
 						log.error("Sleep interrupted", e);
 					}
-					requestUserCert(csr, cn, email_address);
+					cl.executeMethod(post);
+					switch(post.getStatusCode()) {
+					case 200:
+						 cert = new CertificateBase();
+						 writer = new StringWriter();
+						IOUtils.copy(post.getResponseBodyAsStream(), writer, "UTF-8"); //should use ascii?
+						cert.pkcs7 = writer.toString();
+						
+						//pull some information from the cert for validation purpose
+						 chain = CertificateManager.parsePKCS7(cert.pkcs7);
+							
+						 c0 = CertificateManager.getIssuedX509Cert(chain);
+						cert.notafter = c0.getNotAfter();
+						cert.notbefore = c0.getNotBefore();
+						
+						//convert issued cert to pem (why don't we do this at CertificateDownload??)
+				         pem = "-----BEGIN CERTIFICATE-----\n";
+				        pem += new String(Base64.encodeBase64Chunked(c0.getEncoded()));
+				        pem += "-----END CERTIFICATE-----";
+				        cert.certificate = pem;
+				        
+				        //do we need this stuff?
+						cert.intermediate = "(cilogin cert doesn't have intermediate)";
+						
+						//convert to hex.. to be consistent with Digicert?
+						cert.serial = c0.getSerialNumber().toString(16);
+						
+						return cert;
+					default:
+						 response = post.getResponseBodyAsString();
+						 obj = null;
+						try {
+							 obj = new JSONObject(response);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						 errorMessage = obj.getString("message");
+						 nextAction = obj.getString("next_action");
+						 exception = obj.getString("exception");
+
+
+						throw new CILogonCertificateSignerException("Unknown status code from cilogon: " +post.getStatusCode() + response);	
+					}
 				}
 				if (nextAction.equals("pending") || nextAction.equals("failed_permanently")) {
 					
@@ -227,6 +270,8 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 		} catch (CMSException e) {
 			throw new CILogonCertificateSignerException("Failed to parse certificate: "+e, e);
 		}
+		return null;
+	
 	}
 	
 	protected String convertToPem(X509Certificate cert) throws CertificateEncodingException {
