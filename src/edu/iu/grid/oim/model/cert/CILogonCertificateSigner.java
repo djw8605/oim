@@ -207,7 +207,7 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 
 				if (nextAction.equals("retry_later") ||  exception.startsWith("java.net")) {
 					try {
-						Thread.sleep(10000);//10 seconds
+						Thread.sleep(20000);//20 seconds
 					} catch (InterruptedException e) {
 						log.error("Sleep interrupted", e);
 					}
