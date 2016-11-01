@@ -188,6 +188,14 @@ public class ResourceDowntimeServlet extends ServletBase implements Servlet {
 		DNModel dnmodel = new DNModel(context);
 		view.add(new HtmlView("<tr><th>Entered By</th><td class=\"muted\">"+dnmodel.get(rec.dn_id).dn_string+"</td></tr>"));
 		//table.addRow("DN", dnmodel.get(rec.dn_id).dn_string);
+
+		if(rec.created != null){
+		    view.add(new HtmlView("<tr><th>Created</th><td class=\"muted\">"+dformat.format(rec.created)+"</td></tr>"));
+		}else{
+		    view.add(new HtmlView("<tr><th>Created</th><td class=\"muted\">Not Available</td></tr>"));
+
+		}
+
 		
 		view.add(new HtmlView("<tr><th>Updated At</th><td class=\"muted\">"+dformat.format(rec.timestamp)+"</td></tr>"));
 		

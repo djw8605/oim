@@ -58,6 +58,7 @@ public class ResourceDowntimeEditor extends DivRepFormElement {
 	private DivRepSelectBox class_id;
 	private DivRepSelectBox severity_id;
 	private Timestamp timestamp;
+        private Timestamp created;
 
 	private ResourceDowntimeRecord rec;
 	
@@ -151,6 +152,8 @@ public class ResourceDowntimeEditor extends DivRepFormElement {
 			timestamp = new Timestamp(current.getTime());
 			
 		}
+
+
 	}
 	
 	class DateDE extends DivRepFormElement<Date>
@@ -507,6 +510,16 @@ public class ResourceDowntimeEditor extends DivRepFormElement {
 		newrec.id = rec.id;
 		newrec.resource_id = rec.resource_id;
 		newrec.downtime_summary = summary.getValue();
+                
+
+		Date created_current = new Date();
+		
+		if(rec.id == null){
+		    newrec.created = timestamp;//new Timestamp(created_current.getTime());//rec.created;
+		}else{
+		    newrec.created = rec.created;
+		}
+
 		newrec.start_time = new Timestamp(getStartTime().getTime());
 		newrec.end_time = new Timestamp(getEndTime().getTime());
 		newrec.downtime_class_id = class_id.getValue();
