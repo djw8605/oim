@@ -452,6 +452,15 @@ public class CertificateRequestHostModel extends CertificateRequestModelBase<Cer
     	rec.requester_email = requester.primary_email;
     	//rec.requester_phone = requester.primary_phone;
     	
+    	
+    	int count = csrs.size();
+    	
+    	//check quota
+    	CertificateQuotaModel quota = new CertificateQuotaModel(context);
+    	if(!quota.canApproveHostCert(count)) {
+    		throw new CertificateRequestException("You will exceed your host certificate quota.");
+    	}
+    	
 		Footprints fp = new Footprints(context);
 		FPTicket ticket = fp.new FPTicket();
 		ticket.name = requester.name;
