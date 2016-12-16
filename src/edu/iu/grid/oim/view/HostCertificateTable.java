@@ -130,7 +130,7 @@ public class HostCertificateTable implements IView {
 			}
 			if(issuer_dn.contains("DigiCert")) {
 				out.write("<td style=\"color:red\">Digicert</td>");
-			} else if (issuer_dn.contains("CILogon")){
+			} else if (issuer_dn.contains("opensciencegrid")){
 				out.write("<td style=\"color:green\">CILogon</td>");
 			}
 			else {

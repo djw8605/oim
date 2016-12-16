@@ -76,7 +76,7 @@ public class UserCertificateTable implements IView {
 			}
 			if(rec.dn.contains("DigiCert-Grid")) {
 				out.write("<td style=\"color:red\">Digicert</td>");
-			} else if (rec.dn.contains("CILogon")){
+			} else if (rec.dn.contains("opensciencegrid")){
 				out.write("<td style=\"color:green\">CILogon</td>");
 			}
 			else {
