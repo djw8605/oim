@@ -455,6 +455,13 @@ public class CertificateRequestHostModel extends CertificateRequestModelBase<Cer
     		String[] request_ccs, 
     		Integer approver_vo_id) throws CertificateRequestException 
     {
+    	
+    	int count = csrs.size();
+    	//check quota
+    	CertificateQuotaModel quota = new CertificateQuotaModel(context);
+    	if(!quota.canApproveHostCert(count)) {
+    		throw new CertificateRequestException("You will exceed your host certificate quota.");
+    	}
     	CertificateRequestHostRecord rec = new CertificateRequestHostRecord();
 		//Date current = new Date();
     	rec.requester_contact_id = requester.id;
