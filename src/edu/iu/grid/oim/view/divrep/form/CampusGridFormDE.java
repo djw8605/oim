@@ -118,11 +118,11 @@ public class CampusGridFormDE extends DivRepForm
 		description.setRequired(true);
 		description.setSampleValue("Collider Detector at Fermilab");
 		
-		gratia = new DivRepTextBox(this);
-		gratia.setLabel("URL of Campus Grid Gratia Accounting");
+		//gratia = new DivRepTextBox(this);
+		//gratia.setLabel("URL of Campus Grid Gratia Accounting");
 		//gratia.setRequired(true);
 		//gratia.setSampleValue("gratiaweb.grid.iu.edu/gratia/xml/glidein_hours_bar_smry?probe=condor:glidein.unl.edu");
-		gratia.setValue(rec.gratia);
+		//gratia.setValue(rec.gratia);
 		//gratia.setWidth(450);
 
 		maturity = new DivRepSelectBox(this);
