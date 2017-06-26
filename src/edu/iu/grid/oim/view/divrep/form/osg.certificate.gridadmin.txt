@@ -2,13 +2,17 @@ Dear OSG PKI operations,
 
 I ##Name of new Grid Administrator## would like to be a Grid administrator for ##site##. 
 
-I would like to be authorized to request and approve OSG certificates for the following name space(s):
+I would like to be authorized to request and approve CILogon OSG CA host and service certificates for the following name space(s):
 a. FQDN 1 or range of addresses for a particular domain (e.g., *.vo.opensciencegrid.org - please be as specific as possible)
 b. FQDN 2
 c. Others.
 
-1. As the Grid Administrator, I have read and understand the responsibilities and tasks assigned to a Grid Administrator as laid out in the Trusted Agent Agreement: https://twiki.grid.iu.edu/twiki/pub/Operations/OSGPKIAgreements/DigiCert-OSG_Agent_Agreement.pdf
+1. I agree that as Grid Administrator I will only submit and approve host and service certificates for the FQDNs listed above. 
 
-2. I agree that as Grid Administrator I will only submit and approve Service certificates for the FQDNs listed above.
+2. I understand that I will only approve host and service certificates that are in compliance with the CILogon OSG CA CP/CPS naming policies.
 
-3. I understand that I am responsible for the revocation of certificates that are suspected of being compromised or issued in violation of the OSG policies.
+3. I understand that host and service certificates cannot be renewed or re-keyed, and a new request must be made accordingly.
+
+4. I understand that I am responsible for notifying about and requesting the revocation of host and service certificates that are suspected of being compromised or issued in violation of the CILogon OSG CA CP/CPS policies.
+
+5. I understand that I am responsible for customer support for our [VO/site] related to CILogon OSG CA host and service certificate issuance, revocation, and information.
