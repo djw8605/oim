@@ -52,8 +52,8 @@ import java.net.URI;
 import java.net.URL;
 
 import com.nimbusds.oauth2.sdk.client.*;
-//import com.nimbusds.oauth2.sdk.token.*;
-//import com.nimbusds.oauth2.sdk.util.*;
+import com.nimbusds.oauth2.sdk.token.*;
+import com.nimbusds.oauth2.sdk.util.*;
 import com.nimbusds.oauth2.sdk.id.*;
 import com.nimbusds.oauth2.sdk.auth.*;
 import com.nimbusds.oauth2.sdk.http.*;
@@ -100,6 +100,7 @@ public class SSOServlet extends ServletBase  {
 		    State state = new State();
 		    // Build the request                                                             
 		    Nonce nonce = new Nonce();
+		    System.out.println("#########################################  Hello World");
 
 		    if(request.getParameter("code")=="" || request.getParameter("code")==null){
 			try {
