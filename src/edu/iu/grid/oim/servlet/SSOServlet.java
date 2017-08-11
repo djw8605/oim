@@ -20,6 +20,9 @@ import net.minidev.json.parser.ParseException;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 
+import java.net.URI;
+import java.net.URL;
+
 ////////////////////////////////
 
 import java.io.IOException;
