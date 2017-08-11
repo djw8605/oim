@@ -32,6 +32,9 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/json-simple-1.1.1 2.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/oauth2-oidc-sdk-2.10.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/lang-tag-1.4.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/json-smart-2.2.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/asm-5.0.3.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/accessors-smart-1.1.jar"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/tomcat6 for oim"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/bcmail-jdk15on-153.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/bcpg-jdk15on-153.jar"/>
