@@ -863,6 +863,18 @@
         <url-pattern>/projectedit</url-pattern>
     </servlet-mapping>  
     
+<servlet>
+  <description>
+    </description>
+  <display-name>SSOServlet</display-name>
+  <servlet-name>SSOServlet</servlet-name>
+  <servlet-class>edu.iu.grid.oim.servlet.SSOServlet</servlet-class>
+  </servlet>
+<servlet-mapping>
+  <servlet-name>SSOServlet</servlet-name>
+  <url-pattern>/sso/</url-pattern>
+  </servlet-mapping>
+
     <servlet>
 		<description>
 		</description>
