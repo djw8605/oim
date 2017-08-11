@@ -1,5 +1,6 @@
 package edu.iu.grid.oim.servlet;
-////////////////////////////////                                               
+
+////////////////////////////////
 import edu.iu.grid.oim.lib.StaticConfig;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -19,25 +20,6 @@ import net.minidev.json.parser.ParseException;
 
 import java.io.UnsupportedEncodingException;
 import java.util.*;
-
-import java.net.URI;
-import java.net.URL;
-
-import com.nimbusds.oauth2.sdk.client.*;
-import com.nimbusds.oauth2.sdk.token.*;                                      
-import com.nimbusds.oauth2.sdk.util.*;                                       
-import com.nimbusds.oauth2.sdk.id.*;
-import com.nimbusds.oauth2.sdk.auth.*;
-import com.nimbusds.oauth2.sdk.http.*;
-import com.nimbusds.oauth2.sdk.*;
-
-import com.nimbusds.openid.connect.sdk.*;
-import com.nimbusds.openid.connect.sdk.claims.*;
-import com.nimbusds.openid.connect.sdk.id.*;
-import com.nimbusds.openid.connect.sdk.op.*;
-import com.nimbusds.openid.connect.sdk.rp.*;
-import com.nimbusds.openid.connect.sdk.util.*;
-
 
 ////////////////////////////////
 
@@ -65,6 +47,27 @@ import edu.iu.grid.oim.view.IView;
 import edu.iu.grid.oim.view.LinkView;
 import edu.iu.grid.oim.view.SideContentView;
 
+///////////////////////
+import java.net.URI;
+import java.net.URL;
+
+import com.nimbusds.oauth2.sdk.client.*;
+//import com.nimbusds.oauth2.sdk.token.*;
+//import com.nimbusds.oauth2.sdk.util.*;
+import com.nimbusds.oauth2.sdk.id.*;
+import com.nimbusds.oauth2.sdk.auth.*;
+import com.nimbusds.oauth2.sdk.http.*;
+import com.nimbusds.oauth2.sdk.*;
+
+import com.nimbusds.openid.connect.sdk.*;
+import com.nimbusds.openid.connect.sdk.claims.*;
+import com.nimbusds.openid.connect.sdk.id.*;
+import com.nimbusds.openid.connect.sdk.op.*;
+import com.nimbusds.openid.connect.sdk.rp.*;
+import com.nimbusds.openid.connect.sdk.util.*;
+
+
+
 public class SSOServlet extends ServletBase  {
 	private static final long serialVersionUID = 1L;
     static Logger log = Logger.getLogger(HomeServlet.class);  
@@ -72,126 +75,125 @@ public class SSOServlet extends ServletBase  {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		UserContext context = new UserContext(request);
-		//Authorization auth = context.getAuthorization();
-		///////////////////////////////////////////////////////////////////////////////
+		
 		try {
-		    URI authzEndpoint = new URI("https://cilogon.org/authorize");
-                    //URI authzEndpoint = new URI("http://mvkrenz.grid.iu.edu");       
-                    // The client identifier provisioned by the server                
-
-		    ClientID clientID = new ClientID(StaticConfig.conf.getProperty("cilogon.client_id"));
-                    // The requested scope values for the token                       
-		    String clientIDstr = StaticConfig.conf.getProperty("cilogon.client_id");
-
+		     URI authzEndpoint = new URI("https://cilogon.org/authorize");
+		    //URI authzEndpoint = new URI("http://mvkrenz.grid.iu.edu");
+		    // The client identifier provisioned by the server	\
+		    
+		     ClientID clientID = new ClientID(StaticConfig.conf.getProperty("cilogon.client_id"));
+		    // The requested scope values for the token	\
+		     String clientIDstr = StaticConfig.conf.getProperty("cilogon.client_id");
+		    
 		    Scope scope = new Scope("openid", "email","profile","org.cilogon.userinfo");
-                    String scopestr = "scope=openid+email+profile+org.cilogon.userinfo";
-                    Secret clientSecret = new Secret(StaticConfig.conf.getProperty("cilogon.client_secret"));
-                    String clientSecretstr = StaticConfig.conf.getProperty("cilogon.client_secret");
-                    // The client callback URI, typically pre-registered with the server                                                                                    
+		    String scopestr = "scope=openid+email+profile+org.cilogon.userinfo";
+		    Secret clientSecret = new Secret(StaticConfig.conf.getProperty("cilogon.client_secret"));
+		    String clientSecretstr = StaticConfig.conf.getProperty("cilogon.client_secret");
+		    // The client callback URI, typically pre-registered with the server \
+		    		 
 
-                    URI callback = new URI(StaticConfig.conf.getProperty("cilogon.callback"));
+		    URI callback = new URI(StaticConfig.conf.getProperty("cilogon.callback"));
 
-                    String redirectURLstr =StaticConfig.conf.getProperty("cilogon.callback");
-                    // Generate random state string for pairing the response to the request                                                                                 
+		    String redirectURLstr =StaticConfig.conf.getProperty("cilogon.callback");
+		    // Generate random state string for pairing the response to the request \
+		    
+		    State state = new State();
+		    // Build the request                                                             
+		    Nonce nonce = new Nonce();
 
-                    State state = new State();
-                    // Build the request
+		    if(request.getParameter("code")=="" || request.getParameter("code")==null){
+			try {
+			    // Compose the request (in code flow)
+			    AuthenticationRequest req = new AuthenticationRequest(
+						 authzEndpoint,
+						 new ResponseType(ResponseType.Value.CODE),
+						 Scope.parse("openid email profile org.cilogon.userinfo"),
+						 clientID,
+						 callback,
+						 state,
+						 nonce);
 
-                    Nonce nonce = new Nonce();
+			    URI requestURI = req.toURI();
 
-                    if(request.getParameter("code")=="" || request.getParameter("code")==null){
-                        try {
-                            // Compose the request (in code flow)                      
-                            AuthenticationRequest req = new AuthenticationRequest(
-										  authzEndpoint,
-										  new ResponseType(ResponseType.Value.CODE),
-										  Scope.parse("openid email profile org.cilogon.userinfo"),
-										  clientID,
-										  callback,
-										  state,
-										  nonce);
-
-                            URI requestURI = req.toURI();
-
-                            String str = requestURI.toString();
-                            response.sendRedirect(str);
-                        }
+			    String str = requestURI.toString();
+			    response.sendRedirect(str);
+			}
+			
 			catch(Exception exception) {
-                            System.out.println("Caught Exception: " + exception);
-                        }
-                    }else{
-                        String code =  request.getParameter("code");
+			    System.out.println("Caught Exception: " + exception);
+			}
+		    }else{
+			String code =  request.getParameter("code");
 
-                        try{
-                            String url = "https://cilogon.org/oauth2/token";
-                            //String url="http://mvkrenz.grid.iu.edu";                 
-                            URL obj = new URL(url);
-                            HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
-
-                            //add reuqest header                                       
-                            con.setRequestMethod("POST");
-                            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                            con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-                            String data = "grant_type=authorization_code&client_id=" + clientIDstr +
-                                "&client_secret=" + clientSecretstr +
-                                "&code=" +code +
+			try{
+			    String url = "https://cilogon.org/oauth2/token";
+			    //String url="http://mvkrenz.grid.iu.edu";
+			    URL obj = new URL(url);
+			    HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+			    
+			    //add reuqest header
+			    con.setRequestMethod("POST");
+			    con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+			    con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+			    String data = "grant_type=authorization_code&client_id=" + clientIDstr +
+				"&client_secret=" + clientSecretstr + 
+				"&code=" +code +
 				"&redirect_uri=" + redirectURLstr;
-
-                            // Send post request                                       
-                            con.setDoOutput(true);
-                            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-                            wr.writeBytes(data);
-                            wr.flush();
-                            wr.close();
-
-                            int responseCode = con.getResponseCode();
-                            System.out.println("\nSending 'POST' request to URL : " + url);
-                            System.out.println("Post parameters : " + data);
-                            System.out.println("Response Code : " + responseCode);
-
-                            BufferedReader in = new BufferedReader(
-                                                                   new InputStreamReader(con.getInputStream()));
-                            String inputLine;
-                            StringBuffer response5 = new StringBuffer();
-
+			    
+			    // Send post request
+			    con.setDoOutput(true);
+			    DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+			    wr.writeBytes(data);
+			    wr.flush();
+			    wr.close();
+			    
+			    int responseCode = con.getResponseCode();
+			    System.out.println("\nSending 'POST' request to URL : " + url);
+			    System.out.println("Post parameters : " + data);
+			    System.out.println("Response Code : " + responseCode);
+			    
+			    BufferedReader in = new BufferedReader(
+								   new InputStreamReader(con.getInputStream()));
+			    String inputLine;
+			    StringBuffer response5 = new StringBuffer();
+			    
 			    while ((inputLine = in.readLine()) != null) {
-                                response5.append(inputLine);
-                            }
-                            in.close();
-
-                            //print result                                             
-                            String jsonstr= response5.toString();
-                            JSONObject json = (JSONObject) JSONValue.parseWithException(jsonstr);
-                            String access_token = (String) json.get("access_token");
+				response5.append(inputLine);
+			    }
+			    in.close();
+			    
+			    //print result
+			    String jsonstr= response5.toString();
+			    JSONObject json = (JSONObject) JSONValue.parseWithException(jsonstr);
+			    String access_token = (String) json.get("access_token");
                             String refresh_token = (String) json.get("refresh_token");
                             String id_token = (String) json.get("id_token");
                             String token_type = (String) json.get("token_type");
-                            //Integer expires_in = (Integer) json.get("expires_in");   
+                            //Integer expires_in = (Integer) json.get("expires_in");
 
 
-                            System.out.print("############################# "+ access_token+ " <= access token");
-                            String url_userinfo = "https://cilogon.org/oauth2/userinfo";
+			    System.out.print("############################# "+ access_token+ " <= access token");
+			    String url_userinfo = "https://cilogon.org/oauth2/userinfo";
                             URL objuserinfo = new URL(url_userinfo);
-			    HttpsURLConnection conuserinfo = (HttpsURLConnection) objuserinfo.openConnection();
+                            HttpsURLConnection conuserinfo = (HttpsURLConnection) objuserinfo.openConnection();
 
-                            //add reuqest header                                      
-                                                                                       
+                            //add reuqest header                                                                                              
                             conuserinfo.setRequestMethod("POST");
                             conuserinfo.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                             conuserinfo.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
                             String datauserinfo = "access_token=" + access_token;
 
-                            // Send post request                                      
-                                                                                       
+                            // Send post request                                                                                              
                             conuserinfo.setDoOutput(true);
                             DataOutputStream wr_userinfo = new DataOutputStream(conuserinfo.getOutputStream());
                             wr_userinfo.writeBytes(datauserinfo);
                             wr_userinfo.flush();
                             wr_userinfo.close();
-			    // int responseCode1 = conuserinfo.getResponseCode();      
 
+			    // int responseCode1 = conuserinfo.getResponseCode();
+                            
                             BufferedReader in_userinfo = new BufferedReader(
-                                                                            new InputStreamReader(conuserinfo.getInputStream()));
+									    new InputStreamReader(conuserinfo.getInputStream()));
                             String inputLine_userinfo;
                             StringBuffer response5_userinfo = new StringBuffer();
 
@@ -200,42 +202,39 @@ public class SSOServlet extends ServletBase  {
                             }
                             in_userinfo.close();
 
-                            //print result                                            
-                                                                                       
-                            System.out.println("before json parse");
+                            //print result                                                                                                    
+			    System.out.println("before json parse");
                             String jsonstr_userinfo= response5_userinfo.toString();
                             JSONObject json_userinfo = (JSONObject) JSONValue.parseWithException(jsonstr_userinfo);
                             String access_email = (String) json_userinfo.get("email");
 
-                            HttpSession session = request.getSession();
-			    //  String user_access=  (String) session.getAttribute("user_access");                                                                           
+			    HttpSession session = request.getSession();
 
-                            session.setAttribute("user_access", access_email);
-                            String user_access=  (String) session.getAttribute("user_access");
+			    //  String user_access=  (String) session.getAttribute("user_access");
+			   
+			    session.setAttribute("user_access", access_email);
+			    String user_access=  (String) session.getAttribute("user_access");
 
-                            System.out.println(user_access + " < = session email");
+			    System.out.println(user_access + " < = session email");
 
-                            System.out.println(access_email + "<== access email");
+			    System.out.println(access_email + "<== access email"); 
                             System.out.print("############################# "+ access_email+ " <= access email");
-                            response.sendRedirect("/");
+			    response.sendRedirect("/");
+			    
+			}
 
-                        }
-		       
                         catch(Exception exception) {
                             System.out.println("Caught Exception: " + exception);
                         }
-		    
+
 		    }
-                }
+		}
+
 		catch(Exception exception) {
-                    System.out.println("Caught Exception: " + exception);
-                }
-
-	
-		
-
-		///////////////////////////////////////////////////////////////////////////////
-
+		    System.out.println("Caught Exception: " + exception);
+		}
+			
+		///////////////////////////////////////////////////////////////////		
 		BootMenuView menuview = new BootMenuView(context, "home");
 		BootPage page = new BootPage(context, menuview, new Content(context), createSideView(context));
 		page.addExCSS("home.css");
@@ -247,6 +246,8 @@ public class SSOServlet extends ServletBase  {
 		page.setPageHeader(header);
 		
 		page.render(response.getWriter());
+
+
 	}
 	
 	class Content implements IView {
@@ -258,8 +259,10 @@ public class SSOServlet extends ServletBase  {
 		@Override
 		public void render(PrintWriter out) {
 			//out.write("<div>");
-			Authorization auth = context.getAuthorization();
-			if(auth.isUser()) {
+		    //disable authorization on the home pag 6/29/2017
+
+		    	Authorization auth = context.getAuthorization();
+		    	if(auth.isUser()) {
 				try {
 					ContactRecord user = auth.getContact();
 					Confirmation conf = new Confirmation(user.id, context);
@@ -277,6 +280,7 @@ public class SSOServlet extends ServletBase  {
 					log.error(e);
 				}
 			} else {
+		    
 				//guest view
 				out.write("<div class=\"row-fluid\">");
 				out.write("<div class=\"span4 hotlink\" onclick=\"document.location='topology';\">");
@@ -295,11 +299,11 @@ public class SSOServlet extends ServletBase  {
 				out.write("<img src=\"images/scicon.png\">");
 				out.write("</div>");
 				out.write("</div>");
-			}
+				}
 			//out.write("</div>");
 		}
 	}
-	       	
+	
 	private SideContentView createSideView(UserContext context)
 	{
 		SideContentView contentview = new SideContentView();
@@ -317,7 +321,7 @@ public class SSOServlet extends ServletBase  {
 			
 			//If you are not sure how to register, or have any questions, please open <a target=\"_blank\" href=\"https://ticket.grid.iu.edu/goc/oim\">a ticket</a> with the OSG Grid Operations Center (GOC).";
 			contentview.add(new HtmlView("<div class=\"alert alert-info\"><p>"+text+"</p></div>"));
-		}
+			}
 		
 		contentview.add(new HtmlView("<h2>Documentations</h2>"));
 		contentview.add(new LinkView("https://twiki.grid.iu.edu/twiki/bin/view/Operations/OIMTermDefinition", "OIM Definitions", true));
