@@ -75,7 +75,7 @@ public class SSOServlet extends ServletBase  {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		UserContext context = new UserContext(request);
-		
+		System.out.println("########hello");
 		try {
 		     URI authzEndpoint = new URI("https://cilogon.org/authorize");
 		    //URI authzEndpoint = new URI("http://mvkrenz.grid.iu.edu");
