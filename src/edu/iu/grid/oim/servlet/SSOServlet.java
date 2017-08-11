@@ -23,6 +23,22 @@ import java.util.*;
 import java.net.URI;
 import java.net.URL;
 
+import com.nimbusds.oauth2.sdk.client.*;
+import com.nimbusds.oauth2.sdk.token.*;                                      
+import com.nimbusds.oauth2.sdk.util.*;                                       
+import com.nimbusds.oauth2.sdk.id.*;
+import com.nimbusds.oauth2.sdk.auth.*;
+import com.nimbusds.oauth2.sdk.http.*;
+import com.nimbusds.oauth2.sdk.*;
+
+import com.nimbusds.openid.connect.sdk.*;
+import com.nimbusds.openid.connect.sdk.claims.*;
+import com.nimbusds.openid.connect.sdk.id.*;
+import com.nimbusds.openid.connect.sdk.op.*;
+import com.nimbusds.openid.connect.sdk.rp.*;
+import com.nimbusds.openid.connect.sdk.util.*;
+
+
 ////////////////////////////////
 
 import java.io.IOException;
