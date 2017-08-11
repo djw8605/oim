@@ -1,5 +1,20 @@
 package edu.iu.grid.oim.lib;
 
+//import java.util.Enumeration;
+//import com.nimbusds.oauth2.*;
+
+import java.io.IOException;  
+import javax.servlet.ServletException;  
+import javax.servlet.http.HttpServlet;  
+import javax.servlet.http.HttpServletRequest;  
+import javax.servlet.http.HttpServletResponse;  
+import javax.servlet.http.HttpSession;
+
+///////
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
@@ -21,6 +36,34 @@ import edu.iu.grid.oim.model.db.record.AuthorizationTypeRecord;
 import edu.iu.grid.oim.model.db.record.ContactRecord;
 import edu.iu.grid.oim.model.db.record.DNRecord;
 
+import edu.iu.grid.oim.model.db.record.SSORecord;
+import edu.iu.grid.oim.model.db.SSOAuthorizationTypeModel;
+import edu.iu.grid.oim.model.db.SSOModel;
+//import com.oauth2-oidc-sdk-4.16.1.*;
+
+import com.nimbusds.oauth2.sdk.*;
+//import com.nimbusds.oauth2.sdk.client;
+import java.net.URI;
+import java.net.URL;
+
+import com.nimbusds.oauth2.sdk.client.*;
+import com.nimbusds.oauth2.sdk.token.*;
+import com.nimbusds.oauth2.sdk.util.*;
+import com.nimbusds.oauth2.sdk.id.*;
+import com.nimbusds.oauth2.sdk.auth.*;
+import com.nimbusds.oauth2.sdk.http.*;
+
+import com.nimbusds.oauth2.sdk.*;
+import com.nimbusds.oauth2.sdk.ClientCredentialsGrant;
+import com.nimbusds.openid.connect.sdk.*;
+import com.nimbusds.openid.connect.sdk.claims.*;
+import com.nimbusds.openid.connect.sdk.id.*;
+import com.nimbusds.openid.connect.sdk.op.*;
+import com.nimbusds.openid.connect.sdk.rp.*;
+import com.nimbusds.openid.connect.sdk.util.*;
+
+//import com.nimbusds.oauth2.sdk.token.Tokens;
+
 //provide client the authorization information
 public class Authorization {
 	static Logger log = Logger.getLogger(Authorization.class);  
@@ -31,6 +74,9 @@ public class Authorization {
 	private String user_dn = null;
 	private String user_cn = null;
 	private DNRecord dnrec = null;
+
+    private SSORecord ssorec = null;
+
     private ContactRecord contact = null;
     public String getUserDN() { return user_dn; }
     public String getUserCN() { return user_cn; }
@@ -40,7 +86,18 @@ public class Authorization {
     	}
     	return null;
     }
-    
+
+    public Integer getSSOID() {
+	if(ssorec != null) {
+	    return ssorec.id;
+        }
+        return null;
+    }
+
+    /////////////////////////////////////////
+  
+    /////////////////////////////////////////    
+
     private boolean secure = false;
     public boolean isSecure() { return secure; }
      
@@ -77,13 +134,13 @@ public class Authorization {
     private HashSet<String> auth_types = new HashSet<String>();
 	public void check(String action) throws AuthorizationException
 	{
-		if(!allows(action)) {
+	    /*if(!allows(action)) {
 			String dn = user_dn;
 			if(dn == null) {
 				dn = "(Guest)";
 			}
 			throw new AuthorizationException("Action:"+action+" is not authorized for " + dn);
-		}
+			}*/
 	}
 	public Boolean allows(String action)
 	{
@@ -99,12 +156,23 @@ public class Authorization {
 	}
 	
 	//pull user_dn from Apache's SSL_CLIENT_S_DN
-	public Authorization(HttpServletRequest request) throws AuthorizationException 
+    public Authorization(HttpServletRequest request) throws AuthorizationException 
 	{		
+	    /////////////////////////////////////////////////////////////////////////////////////////////
+	    /////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	    Enumeration params = request.getParameterNames(); 
+	    while(params.hasMoreElements()){
+		String paramName = (String)params.nextElement();
+		System.out.println("Parameter Name - "+paramName+", Value - "+request.getParameter(paramName));
+	    }
+
 		guest_context = UserContext.getGuestContext(request);
-		usertype = UserType._GUEST;
+		//usertype = UserType._GUEST; // mvkrenz deisabled on 6/5/2017
+		usertype = UserType.USER;
 		loadGuestAction();
-		
+		//usertype = UserType.USER;
 		if(request.isSecure()) {
 			secure = true;
 		} else {
@@ -118,7 +186,67 @@ public class Authorization {
 		String remoteaddr = request.getRemoteAddr();
 		log.debug("Request received from " + remoteaddr);
 		
+
+		//String user_access = (String)request.getHeader("OIDC_CLAIM_email");                                                                                                                  
+			
+		HttpSession session = request.getSession(false);
+		String user_access = (String)session.getAttribute("user_access");
+
+                
+		String user_agent =(String)request.getHeader("user-agent");                                                                                                                    
+          
+		log.info("User agent "+ user_agent);                                                                                                                                           
+          
+		log.info("OIDC_CLAIM_email from header  "+ user_access);
 		String as_user = StaticConfig.conf.getProperty("debug.as_user");
+		String sso_user_dn_tmp = (String)request.getAttribute("SSL_CLIENT_S_DN");
+		
+		if(sso_user_dn_tmp==""){
+		      usertype = UserType.USER;
+		}else{
+		    usertype = UserType._GUEST;
+		}
+
+		System.out.println("############################### "+user_access + "<= email");
+		if(user_access!="" && user_access!=null && user_access!="null"){
+
+		    usertype = UserType.USER;
+
+		    try{
+			
+			String sso_token =  "<script>document.write(localStorage.getItem('access_token'));</script>";
+			
+			String sc_id_str3 = request.getParameter("login");
+			
+			System.out.println("########################### This is login value: " + sc_id_str3);
+			//String sso_user_dn_tmp = (String)request.getAttribute("SSL_CLIENT_S_DN");
+			String sso_user_cn_tmp = (String)request.getAttribute("SSL_CLIENT_I_DN_CN");
+			
+			SSOModel ssomodel = new SSOModel(guest_context);
+			ssomodel.ifContactExistAdd(user_access, sso_user_dn_tmp,request);
+			
+			//if(sso_user_dn_tmp==""){
+			user_access.toLowerCase();
+			ssorec = ssomodel.getByEmail(user_access);
+			ContactModel cmodel = new ContactModel(guest_context);
+			// check here if the contact is pulled 
+			System.out.println("********** This is a contact ID "+ssorec.contact_id);
+			contact = cmodel.get(ssorec.contact_id);
+			
+			//usertype = UserType.USER;
+			SSOinitAction(ssorec);   // call methods that might throw SQLException
+		    
+			//}    
+		    }
+		    catch (SQLException e)
+			{
+			    // do something appropriate with the exception, *at least*:
+			    e.printStackTrace();
+			}
+		    
+		    
+		}
+		
 		if(as_user == null //if we are debugging as_user, then don't assume we are local 
 				&& (remoteaddr.equals("127.0.0.1") || remoteaddr.startsWith("192.168.") || remoteaddr.equals("::1"))) {
 			usertype = UserType.LOCAL;
@@ -136,7 +264,7 @@ public class Authorization {
 				log.info(request.getRequestURI() + "?" + request.getQueryString());
 				log.info("Authenticated User DN: "+user_dn + " SSL_CLIENT_I_DN_CN: " + user_cn);
 				
-				if(user_dn == null || user_cn == null) {
+				/*if(user_dn == null || user_cn == null) {
 					log.info("SSL_CLIENT_S_DN or SSL_CLIENT_I_DN_CN is not set. Logging in as guest.");
 				} else {
 					String client_verify = (String)request.getAttribute("SSL_CLIENT_VERIFY");
@@ -171,7 +299,7 @@ public class Authorization {
 							throw new AuthorizationException("Authorization check failed due to " + e.getMessage());
 						}
 					}
-				}
+					}*/
 			}
 		}
 		
@@ -241,4 +369,38 @@ public class Authorization {
 			actions.add(actionmodel.get(aid).name);
 		}
 	}
+
+
+    //return false if contact is disabled                                                                                                                                                             
+    private boolean SSOinitAction(SSORecord certdn) throws SQLException
+    {
+	SSOAuthorizationTypeModel dnauthtypemodel = new SSOAuthorizationTypeModel(guest_context);
+	Collection<Integer> auth_type_ids = dnauthtypemodel.getAuthorizationTypesByDNID(certdn.id);
+	for (Integer auth_type_id : auth_type_ids) {
+	    SSOloadActions(auth_type_id);
+	    System.out.println("************************** SSO Initiating actions");
+
+	}
+
+	return true;
+    }
+
+    private void SSOloadActions(int auth_type_id) throws SQLException {
+	AuthorizationTypeActionModel authactionmodel = new AuthorizationTypeActionModel(guest_context);
+	ActionModel actionmodel = new ActionModel(guest_context);
+	AuthorizationTypeModel authtypemodel = new AuthorizationTypeModel(guest_context);
+	AuthorizationTypeRecord authrec = authtypemodel.get(auth_type_id);
+	auth_types.add(authrec.name);
+	Collection<Integer> aids = authactionmodel.getActionByAuthTypeID(auth_type_id);
+	for (Integer aid : aids) {
+	    actions.add(actionmodel.get(aid).name);
+	    System.out.println("************************** SSO Loading actions inside the loop: "+actionmodel.get(aid).name);
+
+	}
+	
+    }
+
+
+
+
 }
