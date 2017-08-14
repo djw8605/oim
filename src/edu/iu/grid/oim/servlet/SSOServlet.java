@@ -75,15 +75,16 @@ public class SSOServlet extends ServletBase  {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		UserContext context = new UserContext(request);
-		System.out.println("########hello");
+		System.out.println("#########################################  Hello World");
+
 		try {
 		     URI authzEndpoint = new URI("https://cilogon.org/authorize");
 		    //URI authzEndpoint = new URI("http://mvkrenz.grid.iu.edu");
 		    // The client identifier provisioned by the server	\
 		    
-		     ClientID clientID = new ClientID(StaticConfig.conf.getProperty("cilogon.client_id"));
+		     ClientID clientID = new ClientID(StaticConfig.conf.getProperty("cilogon.clientID"));
 		    // The requested scope values for the token	\
-		     String clientIDstr = StaticConfig.conf.getProperty("cilogon.client_id");
+		     String clientIDstr = StaticConfig.conf.getProperty("cilogon.clientID");
 		    
 		    Scope scope = new Scope("openid", "email","profile","org.cilogon.userinfo");
 		    String scopestr = "scope=openid+email+profile+org.cilogon.userinfo";
@@ -117,11 +118,13 @@ public class SSOServlet extends ServletBase  {
 			    URI requestURI = req.toURI();
 
 			    String str = requestURI.toString();
+			    System.out.println("#########################################  Hello World 3");
+
 			    response.sendRedirect(str);
 			}
 			
 			catch(Exception exception) {
-			    System.out.println("Caught Exception: " + exception);
+			    System.out.println("Caught Exception No Code: " + exception);
 			}
 		    }else{
 			String code =  request.getParameter("code");
@@ -225,14 +228,14 @@ public class SSOServlet extends ServletBase  {
 			}
 
                         catch(Exception exception) {
-                            System.out.println("Caught Exception: " + exception);
+                            System.out.println("Caught Exception Code Passed: " + exception);
                         }
 
 		    }
 		}
 
 		catch(Exception exception) {
-		    System.out.println("Caught Exception: " + exception);
+		    System.out.println("Caught Exception Main: " + exception);
 		}
 			
 		///////////////////////////////////////////////////////////////////		
