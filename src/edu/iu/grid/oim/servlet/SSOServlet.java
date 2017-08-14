@@ -75,12 +75,10 @@ public class SSOServlet extends ServletBase  {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		UserContext context = new UserContext(request);
-		System.out.println("#########################################  Hello World");
-
+		
 		try {
 		     URI authzEndpoint = new URI("https://cilogon.org/authorize");
-		    //URI authzEndpoint = new URI("http://mvkrenz.grid.iu.edu");
-		    // The client identifier provisioned by the server	\
+		 
 		    
 		     ClientID clientID = new ClientID(StaticConfig.conf.getProperty("cilogon.clientID"));
 		    // The requested scope values for the token	\
@@ -101,8 +99,7 @@ public class SSOServlet extends ServletBase  {
 		    State state = new State();
 		    // Build the request                                                             
 		    Nonce nonce = new Nonce();
-		    System.out.println("#########################################  Hello World");
-
+		
 		    if(request.getParameter("code")=="" || request.getParameter("code")==null){
 			try {
 			    // Compose the request (in code flow)
