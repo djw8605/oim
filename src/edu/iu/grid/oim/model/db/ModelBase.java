@@ -42,6 +42,10 @@ public abstract class ModelBase<T extends RecordBase> {
 		return context.getConnection();
 	}
 	
+	protected Connection connectSSO() throws SQLException {
+	    return context.getSSOConnection();
+        }
+
 	//override this to provide human readable value
 	public String getHumanValue(String field_name, String value) throws NumberFormatException, SQLException
 	{
