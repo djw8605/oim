@@ -1,6 +1,9 @@
 package edu.iu.grid.oim.servlet;
 
 ////////////////////////////////
+import edu.iu.grid.oim.model.db.SmallTableModelBase;
+import edu.iu.grid.oim.model.db.SSOSmallTableModelBase;
+
 import edu.iu.grid.oim.lib.StaticConfig;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -75,6 +78,9 @@ public class SSOServlet extends ServletBase  {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		UserContext context = new UserContext(request);
+		SmallTableModelBase.emptyAllCache();
+		SSOSmallTableModelBase.emptyAllCache();
+	
 		
 		try {
 		     URI authzEndpoint = new URI("https://cilogon.org/authorize");

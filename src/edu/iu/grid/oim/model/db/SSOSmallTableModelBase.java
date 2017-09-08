@@ -33,23 +33,43 @@ public abstract class SSOSmallTableModelBase<T extends RecordBase> extends Model
 	
     protected void fillCache() throws SQLException
 	{
-		if(!cache.containsKey(table_name)) {
-			TreeSet<RecordBase> list = new TreeSet<RecordBase>(new KeyComparator());
-			ResultSet rs = null;
-			Connection conn = connectSSO();
-			Statement stmt = conn.createStatement();
-		    if (stmt.execute("SELECT * FROM "+table_name)) {
-		    	rs = stmt.getResultSet();
-		    	while(rs.next()) {
-		    		RecordBase rec = createRecord();
-		    		rec.set(rs);
-		    		list.add(rec);
-				}
-		    }	
-		    stmt.close();
-		    conn.close();
-		    cache.put(table_name, list);
-		}
+	    
+	    if(!cache.containsKey(table_name)) {
+		
+		TreeSet<RecordBase> list = new TreeSet<RecordBase>(new KeyComparator());
+		ResultSet rs = null;
+		Connection conn = connectSSO();
+		Statement stmt = conn.createStatement();
+		String intid;
+                System.out.println("insdie fillCache new table " + table_name);
+
+		if (stmt.execute("SELECT * FROM "+table_name + "")) {
+		    
+		    rs = stmt.getResultSet();
+		    while(rs.next()) {
+			//   intid = rs.getString("contact_authorization_type_id");                                                                                                                  
+			
+			
+			RecordBase rec = createRecord();
+			rec.set(rs);
+			list.add(rec);
+			if(table_name=="contact_authorization_type_index"){
+			    intid = rs.getString("contact_authorization_type_id");
+			    //  System.out.println("++++++++++++++ "+ intid);
+			    if(intid.equals("172101")){
+				System.out.println("authorization type id:   "+ rs.getString("authorization_type_id"));
+				System.out.println("++++++++++++++++++++++++ SELECT * FROM "+table_name + " -----   " +intid);
+				
+			    }
+			}
+		    }
+		}	
+		stmt.close();
+		conn.close();
+		cache.put(table_name, list);
+		System.out.println("insdie fillCache");
+
+	    }
 	}
     
     //used after we do insert/update
@@ -65,7 +85,8 @@ public abstract class SSOSmallTableModelBase<T extends RecordBase> extends Model
     }
     
 	protected TreeSet<RecordBase> getCache() throws SQLException {
-		fillCache();
+	    fillCache();
+	    System.out.println("get cache ->" + table_name);
 		return cache.get(table_name);
 	}
     public T get(T keyrec) throws SQLException

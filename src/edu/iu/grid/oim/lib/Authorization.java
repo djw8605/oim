@@ -87,6 +87,13 @@ public class Authorization {
     	return null;
     }
 
+    public Integer getContactID() {
+        if(ssorec != null) {
+	    return ssorec.contact_id;
+        }
+        return null;
+    }
+
     public Integer getSSOID() {
 	if(ssorec != null) {
 	    return ssorec.id;
@@ -169,7 +176,7 @@ public class Authorization {
 	    }
 
 		guest_context = UserContext.getGuestContext(request);
-		//usertype = UserType._GUEST; // mvkrenz deisabled on 6/5/2017
+		//usertype = UserType._GUEST; // mvkrenz disabled on 6/5/2017
 		usertype = UserType.USER;
 		loadGuestAction();
 		//usertype = UserType.USER;
@@ -298,8 +305,13 @@ public class Authorization {
 						} catch (SQLException e) {
 							throw new AuthorizationException("Authorization check failed due to " + e.getMessage());
 						}
-					}
-					}*/
+						}
+						}
+				*/
+
+
+
+
 			}
 		}
 		

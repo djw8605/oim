@@ -171,9 +171,10 @@ public class BootMenuView implements IView {
 			out.println("<li><a href=\"logout\">(Disabled)</a></li>");
 		} else if(auth.isSecure()) {
 			out.println("<li class=\"dropdown\">");
-			out.println("<a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">(NoCert) <b class=\"caret\"></b></a>");
+			out.println("<a href=\"/oim/sso/\">Login <b class=\"caret\"></b></a>");
+			
 			out.println("<ul class=\"dropdown-menu\">");
-				out.println("<li><a href=\"https://confluence.grid.iu.edu/pages/viewpage.action?pageId=8323117\" target=\"_blank\">What is (NoCert)?</a></li>");
+			//out.println("<li><a href=\"https://confluence.grid.iu.edu/pages/viewpage.action?pageId=8323117\" target=\"_blank\">What is (NoCert)?</a></li>");
 				out.println("<li><a href=\"logout\">Logout</a></li>");
 			out.println("</ul>");//dropdown-menu
 			out.println("</li>");		
