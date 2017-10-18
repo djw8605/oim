@@ -31,7 +31,7 @@ public class EventPublisher {
     	} else {
 			try {
 				//connect to rabbitmq server
-				ConnectionFactory factory = new ConnectionFactory();
+				/*ConnectionFactory factory = new ConnectionFactory();
 				factory.setUsername(StaticConfig.conf.getProperty("rabbitmq.username"));
 				factory.setPassword(StaticConfig.conf.getProperty("rabbitmq.pass"));
 				factory.setVirtualHost(StaticConfig.conf.getProperty("rabbitmq.vhost"));
@@ -49,7 +49,7 @@ public class EventPublisher {
 				//close it up
 				channel.close();
 				conn.close();
-				
+				*/
 				log.debug("posted to oim event server");
 			} catch (Exception e) {
 				log.error("Failed to publish OIM event", e);
