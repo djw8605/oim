@@ -60,7 +60,7 @@ public class OIMDefinitionServlet extends ServletBase  {
 				out.write("</div>");
 
 				out.write("<ul>");
-				out.write("<li> <a href='#About_This_Document'> About This Document</a>");
+				out.write("<li> <a href='/oim/oimdefinition#About_This_Document'> About This Document</a>");
 				out.write("</li></ul> ");
 				out.write("</li> <li> <a href='#Definition_of_Terms_as_used_in_t'> Definition of Terms as used in the OSG Information Management (OIM) Project</a> <ul>");
 				out.write("<li> <a href='/oim/oimdefinition#OIM_Home_Page'> OIM Home Page</a>");
@@ -76,7 +76,7 @@ public class OIMDefinitionServlet extends ServletBase  {
 				out.write("<p />");
 				out.write("<p />");
 				out.write("<p />");
-				out.write("<h1><a name='Definition_of_Terms_as_used_in_t'></a> Definition of Terms as used in the OSG Information Management (OIM) Project </h1>");
+				out.write("<a name='Definition_of_Terms_as_used_in_t'></a> <h2><div class='twikinetHeader'>Definition of Terms as used in the OSG Information Management (OIM) Project </div></h2>");
 				out.write("OIM defines the topology used by various OSG systems and services; it is based on the OSG Trash/Trash/Blueprint Document available at <a href='http://osg-docdb.opensciencegrid.org/cgi-bin/ShowDocument?docid=18' target='_top'>http://osg-docdb.opensciencegrid.org/cgi-bin/ShowDocument?docid=18</a>. For example, MyOSG, BDII, Gratia all use topology defined in OIM.");
 				out.write("<p />");
 				out.write("<h2 class='twikinetRoundedAttachments'><span class='twikinetHeader'><a name='OIM_Home_Page'></a> OIM Home Page </span></h2> <ul>");
@@ -154,6 +154,7 @@ public class OIMDefinitionServlet extends ServletBase  {
 				out.write("</li> <li> Administrative contact -- A primary contact for ticketing and assorted issues. This is typically a user/application support person or a help desk.");
 				out.write("</li> <li> Security contact - Security notifications sent out by the OSG security team are sent to primary and secondary security contacts for a VO em>OSG-GOC SC</em> and {Admin, Security} contact for the <em>IUPUI-ITB</em> resource.");
 				out.write("</li></ul> ");
+				out.write("</li> <li> Example: Gratia Ops Group is Operations Contact for <em>Gratia</em> SC; Rob Quick is Operations Contact for the <em>OSG-GOC SC</em> and {Admin, Security} contact for the <em>IUPUI-ITB</em> resource.</li></ul> </div>");
 				
 		}
 	}
@@ -163,14 +164,11 @@ public class OIMDefinitionServlet extends ServletBase  {
 		SideContentView contentview = new SideContentView();
 		Authorization auth = context.getAuthorization();
 		
-		contentview.add(new HtmlView("<h2>Documentations</h2>"));
-		contentview.add(new LinkView("https://twiki.grid.iu.edu/twiki/bin/view/Operations/OIMTermDefinition", "OIM Definitions", true));
-		contentview.add(new LinkView("https://twiki.grid.iu.edu/twiki/bin/view/Operations/OIMRegistrationInstructions", "Registration", true));
-		contentview.add(new LinkView("https://twiki.grid.iu.edu/twiki/bin/view/Operations/OIMMaintTool", "Resource Downtime", true));
+	
 		//contentview.add(new LinkView("https://twiki.grid.iu.edu/twiki/bin/view/Operations/OIMStandardOperatingProcedures", "Operating Procedures", true));
 
 		if(auth.isUser()) {
-			contentview.addContactLegend();
+		    //	contentview.addContactLegend();
 		}
 		
 		return contentview;

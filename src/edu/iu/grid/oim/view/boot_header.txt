@@ -40,6 +40,13 @@
         padding-top: 40px;
         padding-bottom: 40px;
       }
+      h1,h2,h3{
+      color:#ff6600;
+      }
+      .twikinetHeader{	
+      		color:#ff6600;
+      
+      }
       .sidebar-nav {
         padding: 9px 0;
       }
@@ -68,7 +75,37 @@
       #content, #sideContent {
       margin-top: 20px;
       }
+.more {
+      display: none;
+}
+a.showLink, a.hideLink {
+	    text-decoration: none;
+	    color: #36f;
+	    padding-left: 8px;
+	    background: transparent url('down.gif') no-repeat left; }
+a.hideLink {
+	   background: transparent url('up.gif') no-repeat left; }
+a.showLink:hover, a.hideLink:hover {
+		  border-bottom: 1px dotted #36f; }
+
     </style>
+<script>
+
+function showHide(shID) {
+	 if (document.getElementById(shID)) {
+	    if (document.getElementById(shID+'-show').style.display != 'none') {
+	       							    document.getElementById(shID+'-show').style.display = 'none';
+								    							  document.getElementById(shID).style.display = 'block';
+															  					      }
+																				       else {
+																				       	     document.getElementById(shID+'-show').style.display = 'inline';
+																					     							   document.getElementById(shID).style.display = 'none';
+																												   					       }
+																																	       }
+}
+</script>
+
+
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
 	
 	<link href="css/divrep.css?v=123" rel="stylesheet" type="text/css" />
