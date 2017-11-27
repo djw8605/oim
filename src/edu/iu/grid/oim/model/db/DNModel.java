@@ -50,9 +50,11 @@ public class DNModel extends SmallTableModelBase<DNRecord> {
 	public DNRecord getByDNString(String dn_string) throws SQLException
 	{
 		if(dn_string != null) {
+			log.info("checking v cache");
 			for(RecordBase it : getCache()) 
 			{
 				DNRecord rec = (DNRecord)it;
+				log.info(rec.dn_string);
 				if(rec.dn_string.compareTo(dn_string) == 0) {
 					return rec;
 				}

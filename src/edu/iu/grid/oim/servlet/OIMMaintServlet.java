@@ -71,7 +71,7 @@ public class OIMMaintServlet extends ServletBase  {
 			out.write("<li> <a href='/oim/oimmaint#Adding_a_New_Maintenance_Window'> Adding a New Maintenance Window</a></li>");
 			out.write("<li> <a href='/oim/oimmaint#Deleting_a_Maintenance_Window'> Deleting a Maintenance Window</a></li>");
 			out.write("<li> <a href='/oim/oimmaint#Modifying_a_Maintenance_Window'> Modifying a Maintenance Window</a></li>");
-			out.write("<li> <a href='/oim/oimmaint#References'> References</a> <ul>");
+			//out.write("<li> <a href='/oim/oimmaint#References'> References</a> <ul>");
 			out.write("</div>");
 			out.write("<a name='About_This_Document'></a><h2><div class='twikinetHeader'> About This Document </div></h2>");
 			out.write(" This document is a brief discussion of the Resource Maintenance Tool in OIM");
