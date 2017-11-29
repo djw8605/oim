@@ -17,6 +17,7 @@ public class MenuView implements IView {
 	
 	public MenuView(UserContext context, String _current) {
 		Authorization auth = context.getAuthorization();
+		System.out.println("############################### shoq menu");
 		
 		// Always show home page with information about what OIM is... how can we make this better? -agopu
 		menu.add(new MenuItem("Home", "home"));
@@ -40,7 +41,8 @@ public class MenuView implements IView {
 		}
 		
 		if(auth.allows("edit_my_sc")) {
-			menu.add(new MenuItem("Support Centers", "sc"));
+			menu.add(new MenuItem("Support Centers" , "sc"));
+			System.out.println("############################### support menu");
 		}
 		
 		if(auth.allows("edit_my_contact")) {

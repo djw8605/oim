@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import edu.iu.grid.oim.lib.StaticConfig;
 import edu.iu.grid.oim.model.UserContext;
+//////////////////////////////////////////
+import javax.servlet.http.HttpSession;
+
 
 public class LogoutServlet extends ServletBase  {
 	private static final long serialVersionUID = 1L;
@@ -16,7 +19,13 @@ public class LogoutServlet extends ServletBase  {
 	{
 		UserContext context = new UserContext(request);
 		context.getSession().invalidate();
-		
+		request.getSession().invalidate();
+
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+		    session.invalidate();
+		}
+
 		//construct home url
 		String homeurl = "http://"+context.getRequestURL().getHost();
 		if(StaticConfig.conf.getProperty("application.guestport") != null) {

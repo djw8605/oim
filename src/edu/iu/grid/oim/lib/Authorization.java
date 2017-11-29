@@ -168,6 +168,7 @@ public class Authorization {
 	    /////////////////////////////////////////////////////////////////////////////////////////////
 	    /////////////////////////////////////////////////////////////////////////////////////////////
 
+	    System.out.println("Starting Authorization ");
 
 	    Enumeration params = request.getParameterNames(); 
 	    while(params.hasMoreElements()){
@@ -194,17 +195,19 @@ public class Authorization {
 		log.debug("Request received from " + remoteaddr);
 		
 
-		//String user_access = (String)request.getHeader("OIDC_CLAIM_email");                                                                                                                  
+		//String user_access0 = (String)request.getHeader("OIDC_CLAIM_email");                                                                                                                  
 			
 		HttpSession session = request.getSession(false);
 		String user_access = (String)session.getAttribute("user_access");
-
-                
-		String user_agent =(String)request.getHeader("user-agent");                                                                                                                    
+		//String user_access ="GARHAN.ATTEBURY@UNL.EDU";
+		//String user_access = "bbockelman2@unl.edu";
+                //String user_access = "marinochka007@suso.com";
+		//String user_access = "BOCKELMAN@UNL.EDU";
+		//String user_access =  "bbockelm@cse.unl.edu";
+		//String user_access =  "blin28@wisc.edu";
+		String user_agent =(String)request.getHeader("user-agent");                                                                                                             
           
-		log.info("User agent "+ user_agent);                                                                                                                                           
-          
-		log.info("OIDC_CLAIM_email from header  "+ user_access);
+		log.info("User agent "+ user_agent);                                                                                                                                           		
 		String as_user = StaticConfig.conf.getProperty("debug.as_user");
 		String sso_user_dn_tmp = (String)request.getAttribute("SSL_CLIENT_S_DN");
 		
@@ -214,8 +217,11 @@ public class Authorization {
 		    usertype = UserType._GUEST;
 		}
 
-		System.out.println("############################### "+user_access + "<= email");
+		
+
+		//System.out.println("############################### "+user_access + "<= email");
 		if(user_access!="" && user_access!=null && user_access!="null"){
+		    String user_access_lower = user_access.toString().toLowerCase();
 
 		    usertype = UserType.USER;
 
@@ -230,11 +236,13 @@ public class Authorization {
 			String sso_user_cn_tmp = (String)request.getAttribute("SSL_CLIENT_I_DN_CN");
 			
 			SSOModel ssomodel = new SSOModel(guest_context);
-			ssomodel.ifContactExistAdd(user_access, sso_user_dn_tmp,request);
+			ssomodel.ifContactExistAdd(user_access_lower, sso_user_dn_tmp,request);
 			
 			//if(sso_user_dn_tmp==""){
-			user_access.toLowerCase();
-			ssorec = ssomodel.getByEmail(user_access);
+			//String user_access = user_access0.toLowerCase();
+                        //System.out.println("********** Lower case email: "+user_access);
+
+			ssorec = ssomodel.getByEmail(user_access_lower);
 			ContactModel cmodel = new ContactModel(guest_context);
 			// check here if the contact is pulled 
 			System.out.println("********** This is a contact ID "+ssorec.contact_id);
@@ -253,6 +261,7 @@ public class Authorization {
 		    
 		    
 		}
+	
 		
 		if(as_user == null //if we are debugging as_user, then don't assume we are local 
 				&& (remoteaddr.equals("127.0.0.1") || remoteaddr.startsWith("192.168.") || remoteaddr.equals("::1"))) {
@@ -261,57 +270,65 @@ public class Authorization {
 			if(secure) {			
 				//we set mod_jk to return "none" ifdhe value doesn't exist. let's convert back to null.
 				String user_dn_tmp = (String)request.getAttribute("SSL_CLIENT_S_DN");
+                                String api_action = (String)request.getParameter("action");
+
+				log.debug("API ACTION: " + api_action );	
 				if(user_dn_tmp != null && !user_dn_tmp.equals("none")) {
 					user_dn = user_dn_tmp;
+					log.debug("API ACTION: USER DN - " + user_dn );
+
 				}
 				String user_cn_tmp = (String)request.getAttribute("SSL_CLIENT_I_DN_CN");
 				if(user_cn_tmp != null && !user_cn_tmp.equals("none")) {
 					user_cn = user_cn_tmp;
+
+					log.debug("API ACTION: USER CN - " + user_cn );
 				}
 				log.info(request.getRequestURI() + "?" + request.getQueryString());
 				log.info("Authenticated User DN: "+user_dn + " SSL_CLIENT_I_DN_CN: " + user_cn);
-				
-				/*if(user_dn == null || user_cn == null) {
+				//if(api_action == "host_certs_request" || api_action == "host_certs_request" || api_action == "host_certs_approve" || api_action == "host_certs_revoke" || api_action == "host_certs_cancel" || api_action == "host_certs_retrieve" || api_action == "host_certs_issue" || api_action == "user_cert_renew" || api_action == "user_cert_retrieve" || api_action == "user_cert_revoke"){
+				if(api_action!="" && api_action!= null && api_action != "null"){
+				    log.debug("API ACTION: DN AUTHENTICATION" + api_action );
+
+				    if(user_dn == null || user_cn == null) {
 					log.info("SSL_CLIENT_S_DN or SSL_CLIENT_I_DN_CN is not set. Logging in as guest.");
-				} else {
+				    } else {
 					String client_verify = (String)request.getAttribute("SSL_CLIENT_VERIFY");
 					if(client_verify == null || !(client_verify.equals("SUCCESS"))) {
-						log.info("SSL_DN / CN is set, but CLIENT_VERIFY has failed :: "+client_verify+". Logging in as guest");
-						user_dn = null;
-						user_cn = null;
+					    log.info("SSL_DN / CN is set, but CLIENT_VERIFY has failed :: "+client_verify+". Logging in as guest");
+					    user_dn = null;
+					    user_cn = null;
 					} else {
-						//login as OIM user
-						try {
-							//check to see if the DN is already registered
-							DNModel dnmodel = new DNModel(guest_context);
-							dnrec = dnmodel.getByDNString(user_dn);
-							
-							if(dnrec == null) {
-								usertype = UserType.UNREGISTERED;
-								loadGuestAction();
-							} else {
-								//check for disabled dn / contact
-								ContactModel cmodel = new ContactModel(guest_context);
-								contact = cmodel.get(dnrec.contact_id);
-								if (contact.disable || dnrec.disable) {
-									log.info("The DN found in \"dn\" table but is mapped to disabled contact or dn. Set isDisabled to true.");
-									usertype = UserType.DISABLED;
-									loadGuestAction(); //disabled user can still access guest content
-								} else {
-									usertype = UserType.USER;
-									initAction(dnrec);
-								}
-							}
-						} catch (SQLException e) {
-							throw new AuthorizationException("Authorization check failed due to " + e.getMessage());
+					    //login as OIM user
+					    try {
+						//check to see if the DN is already registered
+						DNModel dnmodel = new DNModel(guest_context);
+						dnrec = dnmodel.getByDNString(user_dn);
+						log.debug("Trying to get record for this DN " + user_dn);
+
+						if(dnrec == null) {
+						    usertype = UserType.UNREGISTERED;
+						    loadGuestAction();
+						} else {
+						    //check for disabled dn / contact
+						    ContactModel cmodel = new ContactModel(guest_context);
+						    contact = cmodel.get(dnrec.contact_id);
+						    if (contact.disable || dnrec.disable) {
+							log.info("The DN found in \"dn\" table but is mapped to disabled contact or dn. Set isDisabled to true.");
+							usertype = UserType.DISABLED;
+							loadGuestAction(); //disabled user can still access guest content
+						    } else {
+							usertype = UserType.USER;
+							initAction(dnrec);
+						    }
 						}
-						}
-						}
-				*/
-
-
-
-
+					    } catch (SQLException e) {
+						throw new AuthorizationException("Authorization check failed due to " + e.getMessage());
+					    }
+					}
+				    }
+				       }
+				
 			}
 		}
 		

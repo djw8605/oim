@@ -220,6 +220,19 @@ public class SSOServlet extends ServletBase  {
 			    //  String user_access=  (String) session.getAttribute("user_access");
 			   
 			    session.setAttribute("user_access", access_email);
+                            String family_name = (String) json_userinfo.get("family_name");
+			    String given_name = (String) json_userinfo.get("given_name");
+			    String idp = (String) json_userinfo.get("idp");
+			    String idp_name = (String) json_userinfo.get("idp_name");
+			    String eptid = (String) json_userinfo.get("eptid");
+
+			    session.setAttribute("OIDC_CLAIM_access_token",eptid);
+			    session.setAttribute("OIDC_CLAIM_family_name", family_name);
+			    session.setAttribute("OIDC_CLAIM_given_name", given_name);
+			    session.setAttribute("OIDC_CLAIM_idp", idp);
+			    session.setAttribute("OIDC_CLAIM_idp_name", idp_name);
+
+
 			    String user_access=  (String) session.getAttribute("user_access");
 
 			    System.out.println(user_access + " < = session email");

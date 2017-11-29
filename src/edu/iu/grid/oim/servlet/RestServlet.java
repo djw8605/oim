@@ -81,7 +81,7 @@ public class RestServlet extends ServletBase  {
 		
 		try {
 			String action = request.getParameter("action");
-			
+			System.out.println("starting rest API");			
 			//host certificate api
 			if(action.equals("host_certs_request")) {
 				doHostCertsRequest(request, reply);
@@ -198,20 +198,20 @@ public class RestServlet extends ServletBase  {
 		
 		String name, email, phone;
 		if(auth.isUser()) {
-			ContactRecord user = auth.getContact();
-			name = user.name;
-			email = user.primary_email;
-			phone = user.primary_phone;
-			
-			context.setComment("OIM authenticated user; " + name + " submitted host certificatates request.");
+		    ContactRecord user = auth.getContact();
+		    name = user.name;
+		    email = user.primary_email;
+		    phone = user.primary_phone;
+		    
+		    context.setComment("OIM authenticated user; " + name + " submitted host certificatates request.");
 		} else if(auth.isUnregistered()) {
-			throw new RestException("Accessed via https using unregistered user certificate :" + auth.getUserDN());
+		    throw new RestException("Accessed via https using unregistered user certificate :" + auth.getUserDN());
 		} else if(auth.isDisabled()) {
-			throw new RestException("Accessed via https using disabled user certificate: "+ auth.getUserDN());
-		} else if(auth.isSecure()) {
-			throw new RestException("Accessed via https without a user certificate (please use http for guest access)");
-		} else {
+		    throw new RestException("Accessed via https using disabled user certificate: "+ auth.getUserDN());
+		    //} else if(auth.isSecure()) {
+		    //throw new RestException("Accessed via https without a user certificate (please use http for guest access)");
 			//must be a guest then.. we need name/address info.			
+		} else {
 			name = request.getParameter("name");
 			email = request.getParameter("email");
 			phone = request.getParameter("phone");

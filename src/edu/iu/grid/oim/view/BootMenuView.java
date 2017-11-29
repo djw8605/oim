@@ -42,7 +42,7 @@ public class BootMenuView implements IView {
 				out.println("<li><a href=\"https://myosg.grid.iu.edu\">MyOSG</a></li>");
 				out.println("<li class=\"active\"><a href=\"#\">OIM</a></li>");
 				out.println("<li><a href=\"https://ticket.grid.iu.edu\">Ticket</a></li>");
-				out.println("<li><a href=\"https://twiki.grid.iu.edu\">TWiki</a></li>");
+				//out.println("<li><a href=\"https://twiki.grid.iu.edu\">TWiki</a></li>");
 				out.println("<li class=\"divider\"></li>");
 				out.println("<li><a href=\"http://repo.grid.iu.edu\">Repo</a></li>");
 				//out.println("<li><a href=\"http://software.grid.iu.edu\">Software Cache</a></li>");
@@ -154,7 +154,7 @@ public class BootMenuView implements IView {
 				}
 	
 				out.println("<li class=\"divider\"></li>");
-				out.println("<li><a href=\"logout\">Logout</a></li>");
+				out.println("<li><a href=\"logout\">Logoff</a></li>");
 				
 			out.println("</ul>");//dropdown-menu
 			//out.println("</div>");//btn-group
@@ -166,7 +166,7 @@ public class BootMenuView implements IView {
 				out.println("<li>");		
 			}	
 			out.println("<a href=\"register\">Register</a></li>");
-			out.println("<li><a href=\"logout\">Logout</a></li>");
+			out.println("<li><a href=\"logout\">Logoff</a></li>");
 		} else if(auth.isDisabled()) {			
 			out.println("<li><a href=\"logout\">(Disabled)</a></li>");
 		} else if(auth.isSecure()) {
@@ -175,7 +175,7 @@ public class BootMenuView implements IView {
 			
 			out.println("<ul class=\"dropdown-menu\">");
 			//out.println("<li><a href=\"https://confluence.grid.iu.edu/pages/viewpage.action?pageId=8323117\" target=\"_blank\">What is (NoCert)?</a></li>");
-				out.println("<li><a href=\"logout\">Logout</a></li>");
+				out.println("<li><a href=\"logout\">Logoff</a></li>");
 			out.println("</ul>");//dropdown-menu
 			out.println("</li>");		
 		} else {

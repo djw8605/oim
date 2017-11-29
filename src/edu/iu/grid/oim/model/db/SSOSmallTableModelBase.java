@@ -41,7 +41,7 @@ public abstract class SSOSmallTableModelBase<T extends RecordBase> extends Model
 		Connection conn = connectSSO();
 		Statement stmt = conn.createStatement();
 		String intid;
-                System.out.println("insdie fillCache new table " + table_name);
+                System.out.println("inside fillCache new table " + table_name);
 
 		if (stmt.execute("SELECT * FROM "+table_name + "")) {
 		    
@@ -67,7 +67,7 @@ public abstract class SSOSmallTableModelBase<T extends RecordBase> extends Model
 		stmt.close();
 		conn.close();
 		cache.put(table_name, list);
-		System.out.println("insdie fillCache");
+		System.out.println("inside fillCache");
 
 	    }
 	}
