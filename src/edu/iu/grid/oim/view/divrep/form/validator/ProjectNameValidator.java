@@ -11,8 +11,8 @@ public class ProjectNameValidator implements DivRepIValidator<String>
 	
 	public Boolean isValid(String value) {
 		message = null;
-		if(!value.matches("[-0-9a-zA-Z]*")) {
-			message = "Please use alphabet, number, or -(dash).";
+		if(!value.matches("^[-\\.0-9a-zA-Z]*$")) {
+			message = "Please use alphabet, number, -(dash) or .(period).";
 			return false;
 		}
 		return true;

@@ -771,7 +771,7 @@ public class VOFormDE extends DivRepForm
 					foss,
 					vo_report_name_div.getVOReports(model),
 					oasis_info.getManagerContacts());
-				context.message(MessageType.SUCCESS, "Successfully registered new VO. You should receive a notification with an instruction on how to active your VO.");
+				context.message(MessageType.SUCCESS, "Successfully registered new VO. A ticket has been generated and OSG Operations will alert you when they have reviewed and activated your VO.");
 				
 				try {
 					//Find the Footprint ID of the associated SC

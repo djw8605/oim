@@ -381,6 +381,41 @@
 		<servlet-name>TopologyServlet</servlet-name>
 		<servlet-class>edu.iu.grid.oim.servlet.TopologyServlet</servlet-class>
 	</servlet>
+	<servlet>
+                <description>
+                </description>
+                <display-name>OIMMaintServlet</display-name>
+                <servlet-name>OIMMaintServlet</servlet-name>
+                <servlet-class>edu.iu.grid.oim.servlet.OIMMaintServlet</servlet-class>
+        </servlet>
+
+	<servlet>
+                <description>
+		          </description>
+		<display-name>OIMRegistrationServlet</display-name>
+                <servlet-name>OIMRegistrationServlet</servlet-name>
+                <servlet-class>edu.iu.grid.oim.servlet.OIMRegistrationServlet</servlet-class>
+        </servlet>
+
+	<servlet>
+                <description>
+		          </description>
+		<display-name>OIMDefinitionServlet</display-name>
+                <servlet-name>OIMDefinitionServlet</servlet-name>
+                <servlet-class>edu.iu.grid.oim.servlet.OIMDefinitionServlet</servlet-class>
+        </servlet>
+	<servlet-mapping>
+                <servlet-name>OIMRegistrationServlet</servlet-name>
+                <url-pattern>/oimregistration</url-pattern>
+        </servlet-mapping>
+	<servlet-mapping>
+                <servlet-name>OIMDefinitionServlet</servlet-name>
+                <url-pattern>/oimdefinition</url-pattern>
+        </servlet-mapping>
+	<servlet-mapping>
+                <servlet-name>OIMMaintServlet</servlet-name>
+		<url-pattern>/oimmaint</url-pattern>
+        </servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>DivRepServlet</servlet-name>
