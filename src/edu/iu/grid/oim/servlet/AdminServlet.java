@@ -53,7 +53,7 @@ public class AdminServlet extends ServletBase  {
 			out.write("<p><a href=\"action\">Action</a></p>");
 			out.write("<p><a href=\"authtype\">Authorization Types</a></p>");
 			out.write("<p><a href=\"authmatrix\">Action/Authorization Matrix</a></p>");
-			out.write("<p><a href=\"sso/user\">DN/AuthType Mapping</a></p>");
+			out.write("<p><a href=\"ssouser\">DN/AuthType Mapping</a></p>");
 			out.write("</div>");
 			
 			out.write("<div class=\"span4\">");
