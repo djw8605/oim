@@ -15,6 +15,9 @@ public class SSORecord extends RecordBase {
 
     @Key public Integer id;
     public String dn_string;
+    public String given_name;
+    public String family_name;
+
     public String email;
     public String email1;
     public String email2;

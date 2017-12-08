@@ -72,6 +72,8 @@ public class Authorization {
 	
 	//internal states
 	private String user_dn = null;
+    private String user_email = null;
+
 	private String user_cn = null;
 	private DNRecord dnrec = null;
 
@@ -141,13 +143,13 @@ public class Authorization {
     private HashSet<String> auth_types = new HashSet<String>();
 	public void check(String action) throws AuthorizationException
 	{
-	    /*if(!allows(action)) {
-			String dn = user_dn;
+	    if(!allows(action)) {
+			String dn = user_email;
 			if(dn == null) {
 				dn = "(Guest)";
 			}
 			throw new AuthorizationException("Action:"+action+" is not authorized for " + dn);
-			}*/
+			}
 	}
 	public Boolean allows(String action)
 	{
@@ -199,6 +201,7 @@ public class Authorization {
 			
 		HttpSession session = request.getSession(false);
 		String user_access = (String)session.getAttribute("user_access");
+		user_email = (String)session.getAttribute("user_access");
 		//String user_access ="GARHAN.ATTEBURY@UNL.EDU";
 		//String user_access = "bbockelman2@unl.edu";
                 //String user_access = "marinochka007@suso.com";
@@ -240,7 +243,7 @@ public class Authorization {
 			
 			//if(sso_user_dn_tmp==""){
 			//String user_access = user_access0.toLowerCase();
-                        //System.out.println("********** Lower case email: "+user_access);
+                        System.out.println("********** Lower case email: "+user_access_lower);
 
 			ssorec = ssomodel.getByEmail(user_access_lower);
 			ContactModel cmodel = new ContactModel(guest_context);

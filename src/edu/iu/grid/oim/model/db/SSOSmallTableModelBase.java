@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 import edu.iu.grid.oim.model.UserContext;
 import edu.iu.grid.oim.model.db.record.RecordBase;
 
-public abstract class SSOSmallTableModelBase<T extends RecordBase> extends ModelBase<T> {
+public abstract class SSOSmallTableModelBase<T extends RecordBase> extends SSOModelBase<T> {
     static Logger log = Logger.getLogger(SSOSmallTableModelBase.class);  
 	private static HashMap<String, TreeSet<RecordBase>> cache = new HashMap();
     
@@ -56,18 +56,18 @@ public abstract class SSOSmallTableModelBase<T extends RecordBase> extends Model
 			if(table_name=="contact_authorization_type_index"){
 			    intid = rs.getString("contact_authorization_type_id");
 			    //  System.out.println("++++++++++++++ "+ intid);
-			    if(intid.equals("172101")){
-				System.out.println("authorization type id:   "+ rs.getString("authorization_type_id"));
-				System.out.println("++++++++++++++++++++++++ SELECT * FROM "+table_name + " -----   " +intid);
+			    ///    if(intid.equals("172101")){
+			    //	System.out.println("authorization type id:   "+ rs.getString("authorization_type_id"));
+			    ///	System.out.println("++++++++++++++++++++++++ SELECT * FROM "+table_name + " -----   " +intid);
 				
-			    }
+			    // }
 			}
 		    }
 		}	
 		stmt.close();
 		conn.close();
 		cache.put(table_name, list);
-		System.out.println("inside fillCache");
+		
 
 	    }
 	}
@@ -86,7 +86,7 @@ public abstract class SSOSmallTableModelBase<T extends RecordBase> extends Model
     
 	protected TreeSet<RecordBase> getCache() throws SQLException {
 	    fillCache();
-	    System.out.println("get cache ->" + table_name);
+	    
 		return cache.get(table_name);
 	}
     public T get(T keyrec) throws SQLException
@@ -137,6 +137,8 @@ public abstract class SSOSmallTableModelBase<T extends RecordBase> extends Model
 	  	
 		//if auto commit is true, then do rollback, if caller is handling commit, 
 		//then don't do rollback here and let caller do the rollback.
+
+	System.out.println("updating from SSO SMall table model base");
     	Connection conn = connectSSO();
 		Boolean rollback = conn.getAutoCommit(); 
 		

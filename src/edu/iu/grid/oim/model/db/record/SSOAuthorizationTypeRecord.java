@@ -1,4 +1,3 @@
-
 package edu.iu.grid.oim.model.db.record;
 
 import java.sql.ResultSet;
@@ -15,8 +14,9 @@ import edu.iu.grid.oim.model.db.SSOModel;
 public class SSOAuthorizationTypeRecord extends RecordBase {
 
     //@Key public Integer dn_id;
-        @Key public Integer authorization_type_id;
-        @Key public Integer contact_authorization_type_id;;
+    @Key public Integer authorization_type_id;
+    @Key public Integer contact_authorization_type_id;
+    @Key public Integer contact_id;
 	
 	//load from existing record
 	public SSOAuthorizationTypeRecord(ResultSet rs) throws SQLException { super(rs); }

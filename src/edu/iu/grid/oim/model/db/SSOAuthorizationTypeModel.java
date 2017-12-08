@@ -33,7 +33,7 @@ public class SSOAuthorizationTypeModel extends SSOSmallTableModelBase<SSOAuthori
 	}
 	public Collection<Integer> getAuthorizationTypesByDNID(Integer contact_authorization_type_id) throws SQLException
 	{
-	    System.out.println("from inside getAuthorizationTypesByDNID");
+	    //   System.out.println("from inside getAuthorizationTypesByDNID");
 
 		HashSet<Integer> list = new HashSet();
 		for(RecordBase it : getCache()) 
@@ -41,13 +41,14 @@ public class SSOAuthorizationTypeModel extends SSOSmallTableModelBase<SSOAuthori
 		  
 			SSOAuthorizationTypeRecord rec = (SSOAuthorizationTypeRecord)it;
 			//System.out.println("inside getAuthorizationTypesByDNID contact_authorization_type_id - " + contact_authorization_type_id + "  --> " + rec.contact_authorization_type_id);
-			if(rec.contact_authorization_type_id.compareTo(contact_authorization_type_id) == 0) {
-			
-			    	list.add(rec.authorization_type_id);
-			    	}
+				if(rec.contact_authorization_type_id.compareTo(contact_authorization_type_id) == 0) {
+			//if(rec.contact_id.compareTo(contact_authorization_type_id) == 0) {
+			//System.out.println(rec.contact_id);
+				list.add(rec.authorization_type_id);
+			 	}
 		}
 		
-		System.out.println(list);
+		//System.out.println(list);
 		return list;
 	}
 	public Collection<SSOAuthorizationTypeRecord> getAllByDNID(Integer contact_authorization_type_id) throws SQLException

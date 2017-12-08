@@ -1,5 +1,5 @@
 
-var http = require('http');
+var http = require('https');
 var fs = require('fs');
 
 var _ = require('lodash');
@@ -402,7 +402,7 @@ async.series([
     if(err) throw err;
     console.log("all done.. calling oim/clear_cache");
     var ret = "";
-    http.get("http://localhost/oim/rest?action=clear_cache", function(res) {
+    http.get("https://localhost/oim/rest?action=clear_cache", function(res) {
         if(res.statusCode != 200) {
             console.error("oim/clear_cache returned "+res.statusCode);
         }

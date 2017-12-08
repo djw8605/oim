@@ -61,8 +61,9 @@ public class SSOModel extends SSOSmallTableModelBase<SSORecord> {
 	    for(RecordBase it : getCache()) 
 		{
 		    SSORecord rec = (SSORecord)it;
-		    
-		    
+		    if(rec.family_name.toString().toLowerCase() == "krenz"){
+			System.out.println("getby EMail:" + rec.email.toString().toLowerCase() + " - - - " + email_toLower);
+		    }
 		    if(rec.email.toString().toLowerCase().compareTo(email_toLower) == 0 ) {
 			
 			System.out.println(rec.email+"<-- email from inside getbyEmail 2");
@@ -169,7 +170,7 @@ public class SSOModel extends SSOSmallTableModelBase<SSORecord> {
 	    
 			//insert rec itself and get the new ID
 	    insert(rec);
-	    
+	    System.out.println("Inside insertDetail for SSO Record");
 	    //insert auth_type
 	    SSOAuthorizationTypeModel amodel = new SSOAuthorizationTypeModel(context);
 	    ArrayList<SSOAuthorizationTypeRecord> arecs = new ArrayList<SSOAuthorizationTypeRecord>();
@@ -199,10 +200,10 @@ public class SSOModel extends SSOSmallTableModelBase<SSORecord> {
     public void updateDetail(SSORecord rec, ArrayList<Integer> auth_types) throws SQLException
     {
 	//Do insert / update to our DB
-	Connection conn = connectSSO();
+	Connection connsso = connectSSO();
 	try {
 	    //process detail information
-	    conn.setAutoCommit(false);
+	    connsso.setAutoCommit(false);
 	    
 	    update(get(rec), rec);
 	    
@@ -217,20 +218,52 @@ public class SSOModel extends SSOSmallTableModelBase<SSORecord> {
 	    }
 	    amodel.update(amodel.getAllByDNID(rec.id), arecs);
 	    
-	    conn.commit();
-	    conn.setAutoCommit(true);
+	    connsso.commit();
+	    connsso.setAutoCommit(true);
 	} catch (SQLException e) {
 	    log.error(e);
 	    log.info("Rolling back SSO detail update transaction.");
-	    if(conn != null) {
-		conn.rollback();
-		conn.setAutoCommit(true);
+	    if(connsso != null) {
+		connsso.rollback();
+		connsso.setAutoCommit(true);
 	    }
 	    //re-throw original exception
 	    throw e;
 	}			
     }
     
+    public void updateSSOprives(Integer id, ArrayList<Integer> auth_types) throws SQLException
+    {
+        //Do insert / update to our DB                                                                                                    
+        Connection connsso = connectSSO();
+	try {
+            //process detail information                                  
+
+	    Statement updateprivs = connsso.createStatement();
+	      updateprivs.execute("delete from contact_authorization_type_index where contact_authorization_type_id="+id+"");
+	    System.out.println("delete from contact_authorization_type_index where contact_authorization_type_id="+id+"");
+            connsso.setAutoCommit(false);
+
+            for(Integer auth_type : auth_types) {
+	       updateprivs.execute("INSERT INTO contact_authorization_type_index (contact_authorization_type_id, authorization_type_id) VALUES ("+id+","+auth_type+")");
+		System.out.println("INSERT INTO contact_authorization_type_index (contact_authorization_type_id, authorization_type_id) VALUES ("+id+","+auth_type+")");
+            }
+
+
+            connsso.commit();
+            connsso.setAutoCommit(true);
+        } catch (SQLException e) {
+            log.error(e);
+            log.info("Rolling back SSO detail update transaction.");
+            if(connsso != null) {
+                connsso.rollback();
+                connsso.setAutoCommit(true);
+            }
+            //re-throw original exception                                                                                                 
+            throw e;
+        }
+    }
+
     //mvkrenz added 6/1/2017
     public void ifContactExistAdd(String user_email, String dn_string, HttpServletRequest request) throws SQLException {
 	Connection conn = connectOIM();
