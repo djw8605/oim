@@ -404,6 +404,33 @@
                 <servlet-name>OIMDefinitionServlet</servlet-name>
                 <servlet-class>edu.iu.grid.oim.servlet.OIMDefinitionServlet</servlet-class>
         </servlet>
+ <servlet>
+                <description>
+                </description>
+                <display-name>OIMCertificateRenewalServlet</display-name>
+                <servlet-name>OIMCertificateRenewalServlet</servlet-name>
+                <servlet-class>edu.iu.grid.oim.servlet.OIMCertificateRenewalServlet</servlet-class>
+        </servlet>
+
+ <servlet>
+                <description>
+                </description>
+                <display-name>OIMCMSUserDocServlet</display-name>
+                <servlet-name>OIMCMSUserDocServlet</servlet-name>
+                <servlet-class>edu.iu.grid.oim.servlet.OIMCMSUserDocServlet</servlet-class>
+        </servlet>
+
+ <servlet>
+                <description>
+                </description>
+                <display-name>OIMWebInterfaceServlet</display-name>
+                <servlet-name>OIMWebInterfaceServlet</servlet-name>
+                <servlet-class>edu.iu.grid.oim.servlet.OIMWebInterfaceServlet</servlet-class>
+        </servlet>
+
+
+
+
 	<servlet-mapping>
                 <servlet-name>OIMRegistrationServlet</servlet-name>
                 <url-pattern>/oimregistration</url-pattern>
@@ -416,6 +443,20 @@
                 <servlet-name>OIMMaintServlet</servlet-name>
 		<url-pattern>/oimmaint</url-pattern>
         </servlet-mapping>
+	<servlet-mapping>
+                <servlet-name>OIMCertificateRenewalServlet</servlet-name>
+                <url-pattern>/oimcertificaterenewal</url-pattern>
+        </servlet-mapping>
+
+	<servlet-mapping>
+                <servlet-name>OIMCMSUserDocServlet</servlet-name>
+                <url-pattern>/oimcmsuserdoc</url-pattern>
+        </servlet-mapping>
+	<servlet-mapping>
+                <servlet-name>OIMWebInterfaceServlet</servlet-name>
+                <url-pattern>/oimwebinterface</url-pattern>
+        </servlet-mapping>
+
 
 	<servlet-mapping>
 		<servlet-name>DivRepServlet</servlet-name>
