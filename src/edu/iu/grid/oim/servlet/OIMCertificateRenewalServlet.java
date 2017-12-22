@@ -24,7 +24,7 @@ import edu.iu.grid.oim.view.IView;
 import edu.iu.grid.oim.view.LinkView;
 import edu.iu.grid.oim.view.SideContentView;
 
-public class OIMCertificateRenewal extends ServletBase  {
+public class OIMCertificateRenewalServlet extends ServletBase  {
 	private static final long serialVersionUID = 1L;
     static Logger log = Logger.getLogger(HomeServlet.class);  
 
@@ -61,12 +61,12 @@ public class OIMCertificateRenewal extends ServletBase  {
 			out.write("<h1><a name=\"OSG_PKI_Certificate_Renewal\"></a>  <strong>OSG PKI Certificate Renewal</strong> </h1>");
 			out.write("<p />");
 			out.write("<div class=\"twikiToc\"> <ul>");
-			out.write("<li> <a href=\"#Introduction\"> Introduction</a>");
-			out.write("</li> <li> <a href=\"#Supported_Modes_of_Renewal\"> Supported Modes of Renewal</a>");
-			out.write("</li> <li> <a href=\"#Certificate_Lifecycle\"> Certificate Lifecycle</a>");
-			out.write("</li> <li> <a href=\"#Notification\"> Notification</a>");
-			out.write("</li> <li> <a href=\"#OIM_Certificate_Renewal_Page\"> OIM Certificate Renewal Page</a>");
-			out.write("</li> <li> <a href=\"#Relevant_Policies\"> Relevant Policies</a>");
+			out.write("<li> <a href=\"/oim/oimcertificaterenewal#Introduction\"> Introduction</a>");
+			out.write("</li> <li> <a href=\"/oim/oimcertificaterenewal#Supported_Modes_of_Renewal\"> Supported Modes of Renewal</a>");
+			out.write("</li> <li> <a href=\"/oim/oimcertificaterenewal#Certificate_Lifecycle\"> Certificate Lifecycle</a>");
+			out.write("</li> <li> <a href=\"/oim/oimcertificaterenewal#Notification\"> Notification</a>");
+			out.write("</li> <li> <a href=\"/oim/oimcertificaterenewal#OIM_Certificate_Renewal_Page\"> OIM Certificate Renewal Page</a>");
+			out.write("</li> <li> <a href=\"/oim/oimcertificaterenewal#Relevant_Policies\"> Relevant Policies</a>");
 			out.write("</li></ul> ");
 			out.write("</div>");
 			out.write("<p />");
@@ -119,7 +119,7 @@ public class OIMCertificateRenewal extends ServletBase  {
 			out.write("</li> <li> The following is an example of a renewal email notification");
 			out.write("</li></ul> ");
 			out.write("<p />");
-			out.write("<p> <img alt=\"cert_renew_email.png\" src=\"https://twiki.grid.iu.edu/twiki/pub/Documentation/OSGPKICertificateRenewal/cert_renew_email.png\" /></p>");
+			out.write("<p> <img alt=\"cert_renew_email.png\" src=\"/oim/images/cert_renew_email.png\" /></p>");
 			out.write("<p />");
 			out.write("<h2 class=\"twikinetRoundedAttachments\"><span class=\"twikinetHeader\"><a name=\"OIM_Certificate_Renewal_Page\"></a> OIM Certificate Renewal Page </span></h2>");
 			out.write("<p /> <ul>");
@@ -127,7 +127,7 @@ public class OIMCertificateRenewal extends ServletBase  {
 			out.write("</li> <li> The user will be taken to the OIM certificate renewal page.  The following is an example of the page.");
 			out.write("</li></ul>"); 
 			out.write("<p />");
-			out.write("<p> <img alt=\"cert_renew_web.png\" src=\"https://twiki.grid.iu.edu/twiki/pub/Documentation/OSGPKICertificateRenewal/cert_renew_web.png\" /></p>");
+			out.write("<p> <img alt=\"cert_renew_web.png\" src=\"/oim/images/cert_renew_web.png\" /></p>");
 			out.write("<p /> <ul>");
 			out.write("<li> User will need to select the checkbox next to 'I Agree' button and click 'Next'");
 			out.write("</li></ul>");
@@ -135,12 +135,12 @@ public class OIMCertificateRenewal extends ServletBase  {
 			out.write("<li> The user will need to enter a new password twice before clicking on the green 'Renew' button in the 'Next Action' section at the bottom.");
 			out.write("</li></ul>"); 
 			out.write("<p />");
-			out.write("<p> <img alt=\"cert_renew_passwd.png\" src=\"https://twiki.grid.iu.edu/twiki/pub/Documentation/OSGPKICertificateRenewal/cert_renew_passwd.png\" /></p>");
+			out.write("<p> <img alt=\"cert_renew_passwd.png\" src=\"/oim/images/cert_renew_passwd.png\" /></p>");
 			out.write("<p /> <ul>");
 			out.write("<li> The page will refresh and the user will then now be able to download their new certificate (pkcs12 file).");
 			out.write("</li></ul> ");
 			out.write("<p />");
-			out.write("<p> <img alt=\"cert_renew_download.png\" src=\"https://twiki.grid.iu.edu/twiki/pub/Documentation/OSGPKICertificateRenewal/cert_renew_download.png\" /></p>");
+			out.write("<p> <img alt=\"cert_renew_download.png\" src=\"/oim/images/cert_renew_download.png\" /></p>");
 			out.write("<p /> <ul>");
 			out.write("<li> Last step for the user is to click on the blue 'Download Certificate &amp; Private Key (PKCS12)' button and select a location to save the certificate.");
 			out.write("</li></ul>");
@@ -151,7 +151,7 @@ public class OIMCertificateRenewal extends ServletBase  {
 			out.write("<p />");
 			out.write("Note the last bit, email should be sent to the user on renewal.");
 			out.write("<p />");
-			out.write("Relevant portions of Section 4.6 of the <a href=\"https://twiki.grid.iu.edu/twiki/pub/Operations/OSGPKIAgreements/OSG_RPS.pdf\" target=\"_top\">RPS</a>:");
+			out.write("Relevant portions of Section 4.6 of the <a href=\"/oim/images/OSG_RPS.pdf\" target=\"_top\">RPS</a>:");
 			out.write("<p />");
 			out.write("The OSG Operator may renew a certificate if:");
 			out.write("<p /> <ol>");
