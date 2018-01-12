@@ -256,7 +256,7 @@ public class RequestUserSSOVerifyConfForm extends DivRepForm
 		    
 		    if(answer!=null){
 			fp.update(ticket,answer);
-			ssomodel.updateSSOverifyConfirmation(sso_id,1);
+			ssomodel.updateSSOverifyConfirmation(sso_id,1,requester_contact.id);
 		    }else{
 			context.message(MessageType.ERROR, "You are not authorized verify this account");
 
