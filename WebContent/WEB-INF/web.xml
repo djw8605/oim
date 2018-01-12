@@ -404,7 +404,7 @@
                 <servlet-name>OIMDefinitionServlet</servlet-name>
                 <servlet-class>edu.iu.grid.oim.servlet.OIMDefinitionServlet</servlet-class>
         </servlet>
- <servlet>
+	<servlet>
                 <description>
                 </description>
                 <display-name>OIMCertificateRenewalServlet</display-name>
@@ -412,7 +412,7 @@
                 <servlet-class>edu.iu.grid.oim.servlet.OIMCertificateRenewalServlet</servlet-class>
         </servlet>
 
- <servlet>
+	<servlet>
                 <description>
                 </description>
                 <display-name>OIMCMSUserDocServlet</display-name>
@@ -420,7 +420,7 @@
                 <servlet-class>edu.iu.grid.oim.servlet.OIMCMSUserDocServlet</servlet-class>
         </servlet>
 
- <servlet>
+	<servlet>
                 <description>
                 </description>
                 <display-name>OIMWebInterfaceServlet</display-name>
