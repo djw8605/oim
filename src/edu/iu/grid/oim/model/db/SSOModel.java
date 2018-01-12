@@ -17,6 +17,7 @@ import edu.iu.grid.oim.model.db.record.RecordBase;
 import edu.iu.grid.oim.model.db.record.SSOAuthorizationTypeRecord;
 import edu.iu.grid.oim.model.db.record.SSORecord;
 import javax.servlet.http.HttpSession;
+import edu.iu.grid.oim.lib.Footprints.FPTicket;
 
 
 public class SSOModel extends SSOSmallTableModelBase<SSORecord> {
@@ -129,6 +130,22 @@ public class SSOModel extends SSOSmallTableModelBase<SSORecord> {
 	System.out.println("inside getByContactID");
 	return list;
     }
+
+    public SSORecord getBySSOID(Integer sso_id) throws SQLException
+    {
+       
+        for(RecordBase it : getCache())
+            {
+                SSORecord rec = (SSORecord)it;
+		if(rec.id.equals(sso_id)) {
+		    //     list.add(rec);
+		    return rec;
+		}
+            }
+        System.out.println("inside getBySSOID");
+	return null;
+    }
+
     public ArrayList<SSORecord> getEnabledByContactID(int contact_id) throws SQLException
     {
 	ArrayList<SSORecord> list = new ArrayList<SSORecord>();
@@ -237,19 +254,14 @@ public class SSOModel extends SSOSmallTableModelBase<SSORecord> {
         //Do insert / update to our DB                                                                                                    
         Connection connsso = connectSSO();
 	try {
-            //process detail information                                  
-
 	    Statement updateprivs = connsso.createStatement();
-	      updateprivs.execute("delete from contact_authorization_type_index where contact_authorization_type_id="+id+"");
+	    updateprivs.execute("delete from contact_authorization_type_index where contact_authorization_type_id="+id+"");
 	    System.out.println("delete from contact_authorization_type_index where contact_authorization_type_id="+id+"");
             connsso.setAutoCommit(false);
-
             for(Integer auth_type : auth_types) {
-	       updateprivs.execute("INSERT INTO contact_authorization_type_index (contact_authorization_type_id, authorization_type_id) VALUES ("+id+","+auth_type+")");
+		updateprivs.execute("INSERT INTO contact_authorization_type_index (contact_authorization_type_id, authorization_type_id) VALUES ("+id+","+auth_type+")");
 		System.out.println("INSERT INTO contact_authorization_type_index (contact_authorization_type_id, authorization_type_id) VALUES ("+id+","+auth_type+")");
             }
-
-
             connsso.commit();
             connsso.setAutoCommit(true);
         } catch (SQLException e) {
@@ -264,6 +276,156 @@ public class SSOModel extends SSOSmallTableModelBase<SSORecord> {
         }
     }
 
+    public void updateSSOstatus(Integer id, Boolean status_value) throws SQLException
+    {
+        //Do insert / update to our DB                                                                                                                                                          
+	Connection connsso = connectSSO();
+        try {
+            Statement updatestatus = connsso.createStatement();
+	    updatestatus.execute("update contact_authorization_type set disabled="+status_value+" where id="+id+"");
+		
+	    //     connsso.commit();
+	    // connsso.setAutoCommit(true);
+	} catch (SQLException e) {
+            log.error(e);
+            log.info("Rolling back SSO status update transaction.");
+            if(connsso != null) {
+                connsso.rollback();
+                connsso.setAutoCommit(true);
+            }
+            //re-throw original exception                                                                                                                                                       
+            throw e;
+        }
+    }
+
+
+
+
+
+
+    public void updateSSOverify(Integer sso_id, Integer sponsor_id, String ticket_id, Integer vo_id) throws SQLException
+    {
+        //Do insert / update to our DB                                                                                                                                                               
+        Connection connsso = connectSSO();
+        try {
+            //process detail information                                                                                                                                                             
+
+            Statement updateprivs = connsso.createStatement();
+	
+            connsso.setAutoCommit(false);
+
+	    //   for(Integer auth_type : auth_types) {
+		updateprivs.execute("update contact_authorization_type set verification_request_date=now(), verified_sponsor_id="+sponsor_id+", ticket_id="+ticket_id+", verified_vo_id="+vo_id+" where id="+sso_id+"");
+                System.out.println("");
+		// }
+            connsso.commit();
+            connsso.setAutoCommit(true);
+        } catch (SQLException e) {
+            log.error(e);
+            log.info("Rolling back SSO detail update  SSO Verify transaction.");
+            if(connsso != null) {
+                connsso.rollback();
+                connsso.setAutoCommit(true);
+            }
+            //re-throw original exception                                                                                                                                                            
+            throw e;
+	}
+    }
+
+    public String updateSSOverifyPair(Integer sponsor_id, String sso_id) throws SQLException
+    {
+	String answer = null;
+        Connection connsso = connectSSO();
+        Connection connoim = connectOIM();
+	Integer vo_id;
+        try {
+	    String select_contact ="select * from contact_authorization_type  where id="+sso_id+" and declined=0 and verified=0 and disabled=0";
+	    System.out.println(select_contact);
+	    Statement contact_stmt = connsso.createStatement();
+	    ResultSet contact_rs = contact_stmt.executeQuery(select_contact);
+
+	    if (contact_rs.next()){
+		System.out.println("There is Contact Record");
+		answer =contact_rs.getString("ticket_id");
+		vo_id= contact_rs.getInt("verified_vo_id");
+	    
+
+		String select_record= "select * from vo_contact where contact_id="+sponsor_id+" and vo_id="+vo_id+" and (contact_type_id=11 or contact_type_id=12)";
+		System.out.println(select_record);
+
+		Statement record_stmt = connoim.createStatement();
+		ResultSet record_rs = record_stmt.executeQuery(select_record);
+
+		if (record_rs.next()){
+		
+		    Integer contact_id= record_rs.getInt("contact_id");
+
+
+		    System.out.println("update ticket :" +answer);
+
+	    /*
+	    if(sso_id!= null && sso_id!="" && sponsor_id!=0 && sponsor_id!=null){
+
+
+		String select_contact ="select * from contact_authorization_type  where id="+sso_id+" and verified_sponsor_id="+sponsor_id+"";
+		System.out.println(select_contact);
+		Statement contact_stmt = connsso.createStatement();
+		ResultSet contact_rs = contact_stmt.executeQuery(select_contact);
+		
+		if (contact_rs.next()){
+		    System.out.println("There is Contact Record");
+		    answer =contact_rs.getString("ticket_id");
+		    return answer;
+		}else{
+		    return answer;
+		}
+	    }else{
+
+	    */
+
+		    return answer;
+		}
+		//}
+	    }
+	} catch (SQLException e) {
+            log.error(e);
+  	    throw e;
+
+        }
+	return answer;
+    }
+    
+    public void updateSSOverifyConfirmation(String sso_id, Integer action_id, Integer requester_id) throws SQLException
+    {
+	Connection connsso = connectSSO();
+        try {
+            Statement updateprivs = connsso.createStatement();
+
+	    if(action_id==1){
+		updateprivs.execute("update contact_authorization_type set verified_date=now(),approved_contact_id="+requester_id+",  verified=1 where id="+sso_id+"");
+		System.out.println("SSO record has been verified: " +sso_id);
+		log.info("update contact_authorization_type set verified_date=now(), verified=1, approved_contact_id="+requester_id+"  where id="+sso_id+"");
+	    }else{
+		updateprivs.execute("update contact_authorization_type set declined_date=now(), declined=1, declined_sponsor_id="+requester_id+" where id="+sso_id+"");
+		log.info("SSO REcord has been DECLINED: "+sso_id);
+		System.out.println("update contact_authorization_type set verified_date=now(), verified=1,declined_sponsor_id="+requester_id+" where id="+sso_id+"");
+	    }
+	
+        } catch (SQLException e) {
+            log.error(e);
+            log.info("Rolling back SSO detail update  SSO Verify Confirmationtransaction.");
+            if(connsso != null) {
+                connsso.rollback();
+                connsso.setAutoCommit(true);
+            }
+            //re-throw original exception                                                                                                         \
+                                                                                                                                                   
+            throw e;
+        }
+
+	
+    }
+    
     //mvkrenz added 6/1/2017
     public void ifContactExistAdd(String user_email, String dn_string, HttpServletRequest request) throws SQLException {
 	Connection conn = connectOIM();
@@ -309,6 +471,10 @@ public class SSOModel extends SSOSmallTableModelBase<SSORecord> {
 	
 	if (sso_rs.next()){
 	    System.out.println("There is SSO");
+            System.out.println("update contact_authorization_type set last_login=now() where id="+sso_rs.getInt("id")+"");
+	    Statement update_last_login = sso_conn.createStatement();
+	    update_last_login.execute("update contact_authorization_type set last_login=now() where id="+sso_rs.getInt("id")+"");
+	    //   System.out.println("update contact_authorization_type set last_login=now() where id="+sso_rs.getInt("id")+"");
 	    sso_exist=1;
 	    
 	    sso_id = sso_rs.getInt("id");
@@ -564,8 +730,8 @@ public class SSOModel extends SSOSmallTableModelBase<SSORecord> {
 		
 		Statement insert_index_stmt = sso_conn.createStatement();
 		
-		insert_index_stmt.execute("INSERT INTO contact_authorization_type_index (contact_authorization_type_id, authorization_type_id) VALUES ("+contact_authorization_type_id+",1)");
-		System.out.println("INSERT INTO contact_authorization_type_index (contact_authorization_type_id, authorization_type_id) VALUES ("+contact_authorization_type_id+",1)");
+		insert_index_stmt.execute("INSERT INTO contact_authorization_type_index (contact_authorization_type_id, authorization_type_id) VALUES ("+contact_authorization_type_id+",0)");
+		System.out.println("INSERT INTO contact_authorization_type_index (contact_authorization_type_id, authorization_type_id) VALUES ("+contact_authorization_type_id+",0)");
 	    }
 	}
 	

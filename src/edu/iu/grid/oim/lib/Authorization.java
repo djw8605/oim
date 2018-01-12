@@ -66,20 +66,21 @@ import com.nimbusds.openid.connect.sdk.util.*;
 
 //provide client the authorization information
 public class Authorization {
-	static Logger log = Logger.getLogger(Authorization.class);  
-	
-	private UserContext guest_context; //used to access DB befort auth/context is fully constructed (avoid chicken/egg)
-	
-	//internal states
-	private String user_dn = null;
+    static Logger log = Logger.getLogger(Authorization.class);  
+    
+    private UserContext guest_context; //used to access DB befort auth/context is fully constructed (avoid chicken/egg)
+    
+    //internal states
+    private String user_dn = null;
     private String user_email = null;
-
-	private String user_cn = null;
-	private DNRecord dnrec = null;
-
+    
+    private String user_cn = null;
+    private DNRecord dnrec = null;
+    
     private SSORecord ssorec = null;
-
+    
     private ContactRecord contact = null;
+
     public String getUserDN() { return user_dn; }
     public String getUserCN() { return user_cn; }
     public Integer getDNID() { 
@@ -116,6 +117,11 @@ public class Authorization {
     	return contact;
     }
     
+    public SSORecord getSSORecord()
+    {
+	return ssorec;
+    }
+
     //it really doesn't make sense that this belongs in Authorization, but since Authorization holds the Contact record..
     public TimeZone getTimeZone() {
 		//load timezone
@@ -244,16 +250,24 @@ public class Authorization {
 			//if(sso_user_dn_tmp==""){
 			//String user_access = user_access0.toLowerCase();
                         System.out.println("********** Lower case email: "+user_access_lower);
-
+			
 			ssorec = ssomodel.getByEmail(user_access_lower);
 			ContactModel cmodel = new ContactModel(guest_context);
 			// check here if the contact is pulled 
 			System.out.println("********** This is a contact ID "+ssorec.contact_id);
 			contact = cmodel.get(ssorec.contact_id);
 			
+			Integer sso_id = ssorec.id;
+			Integer verified = ssorec.verified;
+			session.setAttribute("sso_id", sso_id);
+                        System.out.println("********** verified "+verified);
+
 			//usertype = UserType.USER;
-			SSOinitAction(ssorec);   // call methods that might throw SQLException
-		    
+			if(verified==1 && ssorec.disabled==0){
+			    SSOinitAction(ssorec);   // call methods that might throw SQLException
+			    System.out.println("********** inside if verified "+verified);
+			    
+			}
 			//}    
 		    }
 		    catch (SQLException e)

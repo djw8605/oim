@@ -81,6 +81,7 @@ public class SSOServlet extends ServletBase  {
 		SmallTableModelBase.emptyAllCache();
 		SSOSmallTableModelBase.emptyAllCache();
 	
+		//String referrer = request.getHeader("referer");
 		
 		try {
 		     URI authzEndpoint = new URI("https://cilogon.org/authorize");
@@ -95,7 +96,8 @@ public class SSOServlet extends ServletBase  {
 		    Secret clientSecret = new Secret(StaticConfig.conf.getProperty("cilogon.client_secret"));
 		    String clientSecretstr = StaticConfig.conf.getProperty("cilogon.client_secret");
 		    // The client callback URI, typically pre-registered with the server \
-		    		 
+		    HttpSession session = request.getSession();
+
 
 		    URI callback = new URI(StaticConfig.conf.getProperty("cilogon.callback"));
 
@@ -108,6 +110,10 @@ public class SSOServlet extends ServletBase  {
 		
 		    if(request.getParameter("code")=="" || request.getParameter("code")==null){
 			try {
+			    String referrer = request.getHeader("referer");
+			    
+                            session.setAttribute("referer", referrer);
+
 			    // Compose the request (in code flow)
 			    AuthenticationRequest req = new AuthenticationRequest(
 						 authzEndpoint,
@@ -215,7 +221,7 @@ public class SSOServlet extends ServletBase  {
                             JSONObject json_userinfo = (JSONObject) JSONValue.parseWithException(jsonstr_userinfo);
                             String access_email = (String) json_userinfo.get("email");
 
-			    HttpSession session = request.getSession();
+			    //HttpSession session = request.getSession();
 
 			    //  String user_access=  (String) session.getAttribute("user_access");
 			   
@@ -239,7 +245,15 @@ public class SSOServlet extends ServletBase  {
 
 			    System.out.println(access_email + "<== access email"); 
                             System.out.print("############################# "+ access_email+ " <= access email");
+			    HttpSession session1 = request.getSession(false);
+			    String referer = (String)session1.getAttribute("referer");
+
+			    if(referer=="" || referer == null ){
 			    response.sendRedirect("/");
+			    }else{
+				response.sendRedirect(referer);
+
+			    }
 			    
 			}
 

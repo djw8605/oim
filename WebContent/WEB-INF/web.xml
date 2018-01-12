@@ -431,6 +431,7 @@
 		<url-pattern>/oimmaint</url-pattern>
         </servlet-mapping>
 
+
 	<servlet-mapping>
 		<servlet-name>DivRepServlet</servlet-name>
 		<url-pattern>/divrep</url-pattern>
@@ -730,10 +731,40 @@
 		<servlet-name>CertificateUserServlet</servlet-name>
 		<servlet-class>edu.iu.grid.oim.servlet.CertificateUserServlet</servlet-class>
 	</servlet>
+
+
+
 	<servlet-mapping>
 		<servlet-name>CertificateUserServlet</servlet-name>
 		<url-pattern>/certificateuser</url-pattern>
 	</servlet-mapping>	
+
+	
+	<servlet>
+                <description>
+                </description>
+                <display-name>RequestUserSSOVerifyServlet</display-name>
+                <servlet-name>RequestUserSSOVerifyServlet</servlet-name>
+                <servlet-class>edu.iu.grid.oim.servlet.RequestUserSSOVerifyServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+                <servlet-name>RequestUserSSOVerifyServlet</servlet-name>
+		        <url-pattern>/requestuserssoverify</url-pattern>
+        </servlet-mapping>
+	<servlet>
+          <description>
+                </description>
+                <display-name>RequestUserSSOVerifyConfirmationServlet</display-name>
+                <servlet-name>RequestUserSSOVerifyConfirmationServlet</servlet-name>
+                <servlet-class>edu.iu.grid.oim.servlet.RequestUserSSOVerifyConfirmationServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+                <servlet-name>RequestUserSSOVerifyConfirmationServlet</servlet-name>
+                        <url-pattern>/requestuserssoverifyconfirmation</url-pattern>
+        </servlet-mapping>
+
+
+
 	
 	<servlet>
 		<description>

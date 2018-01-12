@@ -225,9 +225,9 @@ public class CertificateHostServlet extends ServletBase  {
 								int idx;
 								public RevokeButton(DivRep parent, int idx) {
 									super(parent, "Revoke");
-									addClass("btn");
-									addClass("btn-mini");
-									addClass("pull-right");
+									addClass("btn-primary");
+									//addClass("divrep_submit");
+									//addClass("divrep_button");
 									this.idx = idx;
 								}
 								protected void onClick(DivRepEvent e) {

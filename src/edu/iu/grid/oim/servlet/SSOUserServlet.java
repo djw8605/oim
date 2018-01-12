@@ -89,19 +89,18 @@ public class SSOUserServlet extends ServletBase implements Servlet {
 				    ArrayList<SSORecord> contacts = model.getAll();
 
 				    for(final SSORecord rec : model.getAll()) {
-					/*String cls = "";
-					if(rec.disable){
-					    cls += " disabled";
-					    }*/
+					String cls = "";
+				
 					out.write("<tr>");	
 					out.write("<td>");	
 					out.write(StringEscapeUtils.escapeHtml(rec.given_name) + " " + StringEscapeUtils.escapeHtml(rec.family_name));
-					//	out.write( rec.given_name +" "+rec.family_name + " <" + rec.email + ">");
+				       	out.write(" (" + rec.email + ")");
 
-					/*if(rec.disable) {
+				
+					if(rec.disabled>0) {
 					    out.write(" <span class=\"label\">Disabled</span>");
-					    }*/
-					
+					}
+										
 					out.write("</td>");	
 											
 					Collection<Integer> types = dnauthmodel.getAuthorizationTypesByDNID(rec.id);

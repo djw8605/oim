@@ -25,6 +25,18 @@ public class SSORecord extends RecordBase {
     public Integer contact_id;
     public Boolean disable;
     public String idp;
+    public String updated;
+    public String created;
+    public Integer verified;
+    public String verified_date;
+    public Integer declined; 
+    public String declined_date;
+    public String verified_vo_id;
+    public String verified_sponsor_id;
+    public String idp_name;
+    public Integer disabled;
+    public String ticket_id;
+    public String last_login;
 
     //load from existing record                                                                                                                                   
     public SSORecord(ResultSet rs) throws SQLException { super(rs); }

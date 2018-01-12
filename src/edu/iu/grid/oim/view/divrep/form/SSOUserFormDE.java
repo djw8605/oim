@@ -106,18 +106,34 @@ public class SSOUserFormDE extends DivRepForm
 		auth_types.get(auth_type).setValue(true);
 	    }
 	}
+	new DivRepStaticContent(this, "<h3>Administration</h3>");
+	disable = new DivRepCheckBox(this);
+	disable.setLabel("Disable");
+	Boolean status_flag = false;
+        System.out.println("sso record status change: "+crec.disabled);
+
+	if (crec.disabled>0){
+            status_flag = true;
+	}
+
+	System.out.println("sso record status change: "+status_flag);
+	disable.setValue(status_flag);
+	
     }   
 	
     protected Boolean doSubmit() 
     {
 	//SSORecord rec = new SSORecord();
+
 	//rec.id = id;
+	//rec.disable = disable.getValue();
+        Boolean status_value = disable.getValue(); 
 	System.out.println("ID in doSubmit: " + id );
         System.out.println("IDs in doSubmit: " +ids );
 
 	//rec.email = dn_string.getValue();
 	//rec.disable = disable.getValue();
-	
+	System.out.println("this is a disable variable"+disable.getValue());
 	//just grab first contact record (always one contact per one dn)
 	//Collection<ContactRecord> contact_recs = contact.getContactRecords().keySet();
 	//for(ContactRecord crec : contact_recs) {
@@ -137,7 +153,7 @@ public class SSOUserFormDE extends DivRepForm
 	//Do insert / update to our DB
 	try {
 	    auth.check("admin");
-	        System.out.println("trying insert");
+	    
 	    SSOModel model = new SSOModel(context);
 	    //if(id == null) {
 	    //	    model.insertSSOprivs(id, auths);
@@ -148,8 +164,10 @@ public class SSOUserFormDE extends DivRepForm
 	    //	} else {
 	       System.out.println(auths.toString());
 
-		    model.updateSSOprives(id, auths);
-		    context.message(MessageType.SUCCESS, "Successfully updated a contact record authorization.");
+	       model.updateSSOprives(id, auths);
+               model.updateSSOstatus(id, status_value);
+
+	       context.message(MessageType.SUCCESS, "Successfully updated a contact record authorization.");
 		    //	}
 
 	    return true;

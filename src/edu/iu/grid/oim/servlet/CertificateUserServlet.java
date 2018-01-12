@@ -94,7 +94,7 @@ public class CertificateUserServlet extends ServletBase  {
 				LogDetail issued_log = model.getLastLog(CertificateRequestStatus.ISSUED, logs);
 				boolean need_generate_csr = false;
 				if(issued_log == null) {
-					need_generate_csr = true;
+									need_generate_csr = true;
 				}
 				
 				IView view = statusView(rec, need_generate_csr);

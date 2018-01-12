@@ -15,6 +15,10 @@ import edu.iu.grid.oim.lib.Authorization;
 import edu.iu.grid.oim.model.UserContext;
 import edu.iu.grid.oim.model.db.ContactModel;
 import edu.iu.grid.oim.model.db.record.ContactRecord;
+
+import edu.iu.grid.oim.model.db.SSOModel;
+import edu.iu.grid.oim.model.db.record.SSORecord;
+
 import edu.iu.grid.oim.view.BootMenuView;
 import edu.iu.grid.oim.view.BootPage;
 import edu.iu.grid.oim.view.ContactAssociationView;
@@ -64,6 +68,15 @@ public class HomeServlet extends ServletBase  {
 				} catch (SQLException e) {
 					log.error(e);
 				}				
+
+
+				try {
+				    SSORecord ssouser = auth.getSSORecord();
+				    SSOVerification verf = new SSOVerification(ssouser.id, context);
+				    verf.render(out);
+                                } catch (SQLException e) {
+				    log.error(e);
+                                }
 
 				//show entities that this user is associated
 				try {
@@ -169,5 +182,59 @@ public class HomeServlet extends ServletBase  {
 				out.write("</div>");
 			}
 		}	
+	}
+
+
+    @SuppressWarnings("serial")
+        class SSOVerification extends DivRep
+        {
+	    final SSORecord crec;
+	    final SSOModel cmodel;
+	    final UserContext context;
+
+	    public SSOVerification(Integer sso_id, UserContext _context) throws SQLException {
+		super(_context.getPageRoot());
+
+                cmodel = new SSOModel(_context);
+                crec = (SSORecord) cmodel.getBySSOID(sso_id);//.clone();                                                                                                              
+                context = _context;
+	    }
+
+	    protected void onEvent(DivRepEvent e) {
+		// TODO Auto-generated method stub                                                                                                                             
+
+	    }
+
+	    public void render(PrintWriter out) {
+		System.out.println("verified: "+crec.verified);
+
+		Integer disabled_h = crec.disabled;
+                Integer declined_h = crec.declined;
+                Integer verified_h = crec.verified;
+
+		if(disabled_h.equals(0)) {
+
+		    if(declined_h.equals(1)){
+			out.write("<p class=\"divrep_round divrep_elementerror\">Your account verification request has been declined. Please contact help@opensciencegrid.org with any further questions.</p>");
+		    }else if(verified_h.equals(0)) {
+
+			out.write("<div id=\""+getNodeID()+"\">");
+			out.write("<h2>Account Verification</h2>");
+			
+			out.write("<p class=\"divrep_round divrep_elementerror\">Your account has to be verified before you can add or edit any information in OIM</p>");
+						
+			out.write("<p>Please go to the ");
+			out.write("<a href=\"requestuserssoverify\">Verify Account here</a>");
+			out.write(" page to submit a request</p>");
+			out.write("</div>");
+			
+		    }
+
+		}else{
+		    out.write("<p class=\"divrep_round divrep_elementerror\">Your account has been disabled. Please contact help@opensciencegrid.org with any further questions.</p>");
+		    
+		}
+	    }
+		
 	}
 }
