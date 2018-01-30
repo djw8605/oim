@@ -61,14 +61,7 @@ public class HomeServlet extends ServletBase  {
 			//out.write("<div>");
 			Authorization auth = context.getAuthorization();
 			if(auth.isUser()) {
-				try {
-					ContactRecord user = auth.getContact();
-					Confirmation conf = new Confirmation(user.id, context);
-					conf.render(out);
-				} catch (SQLException e) {
-					log.error(e);
-				}				
-
+			
 
 				try {
 				    SSORecord ssouser = auth.getSSORecord();
@@ -77,6 +70,15 @@ public class HomeServlet extends ServletBase  {
                                 } catch (SQLException e) {
 				    log.error(e);
                                 }
+
+				try {
+				    ContactRecord user = auth.getContact();
+				    Confirmation conf = new Confirmation(user.id, context);
+				    conf.render(out);
+				} catch (SQLException e) {
+				    log.error(e);
+                                }
+
 
 				//show entities that this user is associated
 				try {
@@ -120,23 +122,13 @@ public class HomeServlet extends ServletBase  {
 		} else if(auth.isDisabled()) {
 			contentview.add(new HtmlView("<div class=\"alert alert-danger\"><p>Your contact or DN is disabled. Please contact GOC for more information.</p><a class=\"btn btn-danger\" href=\"https://ticket.grid.iu.edu\">Contact GOC</a></p></div>"));
 		} else if(!auth.isUser()) {
-			//old link - http://pki1.doegrids.org/ca/
-		    //			String text = "<p>OIM requires an X509 certificate issued by an <a target=\"_blank\" href='http://software.grid.iu.edu/cadist/'>OSG-approved Certifying Authority (CA)</a> to authenticate.</p>"+
-		    //			"<p><a class=\"btn btn-info\" href=\"/oim/certificaterequestuser\">Request New Certificate</a></p>"+
-		    //			"If you already have a certificate installed on your browser, please login.</p><p><a class=\"btn btn-info\" href=\""+context.getSecureUrl()+"\">Login</a></p>";
 		    String text = "<p><a class=\"btn btn-info\" href=\"/oim/sso/\">Login</a></p>";	
-			//If you are not sure how to register, or have any questions, please open <a target=\"_blank\" href=\"https://ticket.grid.iu.edu/goc/oim\">a ticket</a> with the OSG Grid Operations Center (GOC).";
-			contentview.add(new HtmlView("<div class=\"alert alert-info\"><p>"+text+"</p></div>"));
+		
+		    contentview.add(new HtmlView("<div class=\"alert alert-info\"><p>"+text+"</p></div>"));
 		}
 		
 		contentview.add(new HtmlView("<h2>Documentations</h2>"));
-		//contentview.add(new LinkView("https://twiki.grid.iu.edu/twiki/bin/view/Operations/OIMTermDefinition", "OIM Definitions", true));
-		//contentview.add(new LinkView("https://twiki.grid.iu.edu/twiki/bin/view/Operations/OIMRegistrationInstructions", "Registration", true));
-		//contentview.add(new LinkView("https://twiki.grid.iu.edu/twiki/bin/view/Operations/OIMMaintTool", "Resource Downtime", true));
-		//contentview.add(new LinkView("https://twiki.grid.iu.edu/twiki/bin/view/Operations/OIMStandardOperatingProcedures", "Operating Procedures", true));
-
-
-
+	
 		contentview.add(new LinkView("/oim/oimdefinition", "OIM Definitions", true));
 		contentview.add(new LinkView("/oim/oimregistration", "Registration", true));
 		contentview.add(new LinkView("/oim/oimmaint", "Resource Downtime", true));

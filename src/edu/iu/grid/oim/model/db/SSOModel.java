@@ -74,7 +74,8 @@ public class SSOModel extends SSOSmallTableModelBase<SSORecord> {
 		    if(rec.email1 != null){
 			
 			if(rec.email1.toString().toLowerCase().compareTo(email_toLower) == 0 ) {
-			    System.out.println(rec.email+"<-- email from inside getbyEmail 3-1");
+			    System.out.println(rec.email+" <-- email from inside getbyEmail 3-1: " + rec.contact_id);
+
 			    return rec;
 			}
 		    }
@@ -730,8 +731,8 @@ public class SSOModel extends SSOSmallTableModelBase<SSORecord> {
 		
 		Statement insert_index_stmt = sso_conn.createStatement();
 		
-		insert_index_stmt.execute("INSERT INTO contact_authorization_type_index (contact_authorization_type_id, authorization_type_id) VALUES ("+contact_authorization_type_id+",0)");
-		System.out.println("INSERT INTO contact_authorization_type_index (contact_authorization_type_id, authorization_type_id) VALUES ("+contact_authorization_type_id+",0)");
+		insert_index_stmt.execute("INSERT INTO contact_authorization_type_index (contact_authorization_type_id, authorization_type_id) VALUES ("+contact_authorization_type_id+",1)");
+		System.out.println("INSERT INTO contact_authorization_type_index (contact_authorization_type_id, authorization_type_id) VALUES ("+contact_authorization_type_id+",1)");
 	    }
 	}
 	
