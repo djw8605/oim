@@ -474,8 +474,11 @@ public class SSOModel extends SSOSmallTableModelBase<SSORecord> {
 	    System.out.println("There is SSO");
             System.out.println("update contact_authorization_type set last_login=now() where id="+sso_rs.getInt("id")+"");
 	    Statement update_last_login = sso_conn.createStatement();
+
+	
 	    update_last_login.execute("update contact_authorization_type set last_login=now() where id="+sso_rs.getInt("id")+"");
-	    //   System.out.println("update contact_authorization_type set last_login=now() where id="+sso_rs.getInt("id")+"");
+
+
 	    sso_exist=1;
 	    
 	    sso_id = sso_rs.getInt("id");
@@ -485,12 +488,23 @@ public class SSOModel extends SSOSmallTableModelBase<SSORecord> {
 	System.out.println(select_contact);
 	Statement contact_stmt = conn.createStatement();
 	ResultSet contact_rs = contact_stmt.executeQuery(select_contact);
+        
 	
 	if (contact_rs.next()){
 	    System.out.println("There is Contact Record");
 	    
 	    contact_exist=1;
 	    contact_id = contact_rs.getInt("id");
+	    
+	    if(sso_id>0){
+		    
+		String update_sso1 ="update contact_authorization_type set contact_id="+contact_id+" where id="+sso_id+"";
+		System.out.println(update_sso1);
+		Statement update_sso_stmt1 = sso_conn.createStatement();
+	    	update_sso_stmt1.execute(update_sso1);
+		
+	    }
+	    
 	}
 	
 	String select_dn ="select * from contact left join dn on dn.contact_id=contact.id  where dn_string='"+user_dn_sso+"'";
