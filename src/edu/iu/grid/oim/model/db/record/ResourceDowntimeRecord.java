@@ -16,6 +16,7 @@ public class ResourceDowntimeRecord extends RecordBase {
 	public Integer downtime_severity_id;
 	public Integer resource_id;
 	public Integer dn_id;
+        public Integer sso_id;
 	public Boolean disable;
 	
 	//copy ctor.. I need this to disable a downtime
@@ -30,6 +31,7 @@ public class ResourceDowntimeRecord extends RecordBase {
 		downtime_severity_id = copy.downtime_severity_id;
 		resource_id = copy.resource_id;
 		dn_id = copy.dn_id;
+		sso_id = copy.sso_id;
 		disable = copy.disable;
 	}
 	
