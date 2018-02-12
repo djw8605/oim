@@ -455,7 +455,7 @@ public class RequestUserSSOVerifyForm extends DivRepForm
 
 		    String ticket_id_existing = requester.ticket_id;
 
-		    ticket.description = "Dear "+voranames+", \n\n An unverified user; "+ requester.given_name +" " +requester.family_name+"  <"+requester.email+"> has requested an account approval. Please determine this request's authenticity, and approve / disapprove at https://oim-dev1.grid.iu.edu/oim/"+"requestuserssoverifyconfirmation?id="+requester.id +"\n\n"+"User has selected a registered sponsor: "+sponsor_rec.name+" who has been CC-ed to this request. "+"\n\n" + request_comment.getValue();
+		    ticket.description = "Dear "+voranames+", \n\n An unverified user; "+ requester.given_name +" " +requester.family_name+"  <"+requester.email+"> has requested an account approval. Please determine this request's authenticity, and approve / disapprove at https://oim.grid.iu.edu/oim/"+"requestuserssoverifyconfirmation?id="+requester.id +"\n\n"+"User has selected a registered sponsor: "+sponsor_rec.name+" who has been CC-ed to this request. "+"\n\n" + request_comment.getValue();
 
 
 		    if(ticket_id_existing == null){
