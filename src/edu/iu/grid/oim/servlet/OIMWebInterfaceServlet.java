@@ -153,7 +153,7 @@ public class OIMWebInterfaceServlet extends ServletBase  {
 			out.write("<p />");
 			out.write("<h1><a name=\"Requesting_a_New_User_Certificat\"></a> Requesting a New User Certificate </h1>");
 			out.write("<p /> <ol>");
-			out.write("<li> Start your browser and go to     <a href=\"https://oim.grid.iu.edu/oim/certificaterequestuser\" target=\"_top\">https://oim.grid.iu.edu/oim/certificaterequestuser</a>.");
+			out.write("<li> Start your browser and go to     <a href=\"https://oim.opensciencegrid.org/oim/certificaterequestuser\" target=\"_top\">https://oim.opensciencegrid.org/oim/certificaterequestuser</a>.");
 			out.write("</li> <li> Select the appropriate VO from the drop down menu.       <p> <img alt=\"select_vo.png\" src=\"/oim/images/select_vo.png\" /> </p>");
 			out.write("</li> <li> After having read through the OSG Policy Agreement, check the \"I AGREE\" box and click on Submit.      <p> <img alt=\"/oim/images/CA_agreement.png\" />  </p>");
 			out.write("</li></ol> ");
