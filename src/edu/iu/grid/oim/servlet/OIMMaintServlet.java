@@ -78,7 +78,7 @@ public class OIMMaintServlet extends ServletBase  {
 			out.write("<p />");
 			out.write("<a name='Introduction_to_the_OIM_Schedule'></a> Introduction to the OIM Scheduled Maintenance Tool");
 			out.write("<p />");
-			out.write("The <a href='https://oim.grid.iu.edu' target='_top'>OSG Information Management (OIM)</a> project has implemented a scheduled maintenance tool. It is important for OSG Users and Operations to have ");
+			out.write("The <a href='https://oim.opensciencegrid.org' target='_top'>OSG Information Management (OIM)</a> project has implemented a scheduled maintenance tool. It is important for OSG Users and Operations to have ");
 			out.write("accurate records for scheduled resource maintenance times. This will help users schedule jobs and operations to accurately calculate reports and not penalize resources for routine scheduled maintenance. ");
 			out.write("<p />");
 			out.write("You will only be able to schedule maintenance for registered resources if you are listed as an administrator of that resource in <a "); out.write("href='https://twiki.grid.iu.edu/bin/view/Documentation/GlossaryO#DefsOpenScienceGridInformationManagement' target='_top'>OIM</a>. ");

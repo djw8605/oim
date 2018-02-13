@@ -525,7 +525,7 @@ public class CertificateRequestHostModel extends CertificateRequestModelBase<Cer
     	if(StaticConfig.isDebug()) {
     		base = "https://oim-itb.grid.iu.edu/oim/";
     	} else {
-    		base = "https://oim.grid.iu.edu/oim/";
+    		base = "https://oim.opensciencegrid.org/oim/";
     	}
     	return base + "certificatehost?id=" + request_id;
     }

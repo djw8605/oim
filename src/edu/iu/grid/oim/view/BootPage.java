@@ -50,7 +50,7 @@ public class BootPage implements IView {
 		
 		//handle banner
 		if(StaticConfig.isDebug()) {
-			context.message(MessageType.INFO, "Running in debug mode. For production use, please use https://oim.grid.iu.edu");
+			context.message(MessageType.INFO, "Running in debug mode. For production use, please use https://oim.opensciencegrid.org");
 		}
 		URL url = context.getRequestURL();
 		if(url != null) {

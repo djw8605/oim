@@ -197,7 +197,7 @@ public class RequestUserSSOVerifyForm extends DivRepForm
 				return new DivRepStaticContent(this, 
 					"<div class=\"well\">"+
 					"<h4>Virtual Organization</h4>" +
-					"<p class=\"\">If you do not know which VO to select, please open a <a target=\"_blank\" href=\"https://ticket.grid.iu.edu\">GOC Ticket</a> for an assistance.</p>" +
+					"<p class=\"\">If you do not know which VO to select, please open a <a target=\"_blank\" href=\"https://ticket.opensciencegrid.org\">GOC Ticket</a> for an assistance.</p>" +
 					"<p class=\"\">If your VO does not appear, it currently has no RA agents assigned to it. Please contact GOC or the VO managers.</p>" +
 					"<p class=\"\">If you just need to access OSG secure web servers (OIM, DocDB, etc.), you may select the <b>MIS</b> VO.</p>" +
 					"<h4>What is a sponsor?</h4>" +
@@ -455,7 +455,7 @@ public class RequestUserSSOVerifyForm extends DivRepForm
 
 		    String ticket_id_existing = requester.ticket_id;
 
-		    ticket.description = "Dear "+voranames+", \n\n An unverified user; "+ requester.given_name +" " +requester.family_name+"  <"+requester.email+"> has requested an account approval. Please determine this request's authenticity, and approve / disapprove at https://oim.grid.iu.edu/oim/"+"requestuserssoverifyconfirmation?id="+requester.id +"\n\n"+"User has selected a registered sponsor: "+sponsor_rec.name+" who has been CC-ed to this request. "+"\n\n" + request_comment.getValue();
+		    ticket.description = "Dear "+voranames+", \n\n An unverified user; "+ requester.given_name +" " +requester.family_name+"  <"+requester.email+"> has requested an account approval. Please determine this request's authenticity, and approve / disapprove at https://oim.opensciencegrid.org/oim/"+"requestuserssoverifyconfirmation?id="+requester.id +"\n\n"+"User has selected a registered sponsor: "+sponsor_rec.name+" who has been CC-ed to this request. "+"\n\n" + request_comment.getValue();
 
 
 		    if(ticket_id_existing == null){

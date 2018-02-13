@@ -78,7 +78,7 @@ public class OIMDefinitionServlet extends ServletBase  {
 			out.write("OIM defines the topology used by various OSG systems and services; it is based on the OSG Trash/Trash/Blueprint Document available at <a href='http://osg-docdb.opensciencegrid.org/cgi-bin/ShowDocument?docid=18' target='_top'>http://osg-docdb.opensciencegrid.org/cgi-bin/ShowDocument?docid=18</a>. For example, MyOSG, BDII, Gratia all use topology defined in OIM.");
 			out.write("<p />");
 			out.write("<h2 class='twikinetRoundedAttachments'><span class='twikinetHeader'><a name='OIM_Home_Page'></a> OIM Home Page </span></h2> <ul>");
-			out.write("<li> <a href='https://oim.grid.iu.edu' target='_top'>https://oim.grid.iu.edu</a> -- Requires user to be register an X509 certificate issued by an <a href='http://software.grid.iu.edu/cadist/' target='_top'>OSG approved Certifying Authority (CA)</a> via their web browser.");
+			out.write("<li> <a href='https://oim.opensciencegrid.org' target='_top'>https://oim.opensciencegrid.org</a> -- Requires user to be register an X509 certificate issued by an <a href='http://software.grid.iu.edu/cadist/' target='_top'>OSG approved Certifying Authority (CA)</a> via their web browser.");
 			out.write("</li></ul> ");
 			out.write("<p />");
 			out.write("<h2 class='twikinetRoundedAttachments'><span class='twikinetHeader'><a name='OIM_Topology_Visual_Diagram'></a> OIM Topology - Visual Diagram </span></h2>");

@@ -1280,7 +1280,7 @@ public class CertificateRequestUserModel extends CertificateRequestModelBase<Cer
 					ticket.description += "Please renew your user certificate at "+getTicketUrl(rec.id, TabLabels.renew)+"\n\n";
 					ticket.status = "Engineering"; //reopen it - until user renew
 				} else {
-					ticket.description += "Please request for new user certificate by visiting https://oim.grid.iu.edu/oim/certificaterequestuser\n\n";
+					ticket.description += "Please request for new user certificate by visiting https://oim.opensciencegrid.org/oim/certificaterequestuser\n\n";
 				}
 			
 
@@ -1437,7 +1437,7 @@ public class CertificateRequestUserModel extends CertificateRequestModelBase<Cer
     	if(StaticConfig.isDebug()) {
     		url = "https://oim-itb.grid.iu.edu/oim/";
     	} else {
-    		url = "https://oim.grid.iu.edu/oim/";
+    		url = "https://oim.opensciencegrid.org/oim/";
     	}
     	url+="certificateuser?id=" + ticket_id;
     	if(tab != null) url+="&t="+tab;

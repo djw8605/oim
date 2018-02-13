@@ -111,7 +111,7 @@ public class OIMRegistrationServlet extends ServletBase  {
 			out.write("<p />");
 			out.write("<h2 class='twikinetRoundedAttachments'><span class='twikinetHeader'><a name='Registering_Yourself'></a> Registering Yourself </span></h2>");
 			out.write("<p />");
-			out.write("Before you register information about any OSG service, organization or other entity, you will need to give us some basic contact information about yourself. If you have not already done this, once you arrive at <a href='https://oim.grid.iu.edu/' target='_top'>OIM</a> with your x509 certificate, you will be prompted to register with the following message:");
+			out.write("Before you register information about any OSG service, organization or other entity, you will need to give us some basic contact information about yourself. If you have not already done this, once you arrive at <a href='https://oim.opensciencegrid.org/' target='_top'>OIM</a> with your x509 certificate, you will be prompted to register with the following message:");
 			out.write("<p />");
 			out.write("<b>'OIM requires the Distinguished Name (DN) of an X509 certificate issued by an OSG-approved Certifying Authority (CA) to be registered in order to proceed. ");
 			out.write("The following unregistered DN was detected from your web browser: ");

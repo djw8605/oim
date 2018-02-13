@@ -173,8 +173,8 @@ public class RequestUserSSOVerifyConfirmationServlet extends ServletBase  {
 					    try{
 						context.message(MessageType.SUCCESS, "Successfully declined a request with: " +dirty_id );
 						//js("location.reload()");
-						js("window.location.replace('http://oim.grid.iu.edu');");
-						System.out.println("Go here ttps://oim.grid.iu.edu");
+						js("window.location.replace('http://oim.opensciencegrid.org');");
+						System.out.println("Go here ttps://oim.opendsciencegrid.org");
 						//inside_response.sendRedirect("https://oim-dev1.grid.iu.edu");
 						return;
 					    }
@@ -207,7 +207,7 @@ public class RequestUserSSOVerifyConfirmationServlet extends ServletBase  {
 					    ssomodel.updateSSOverifyConfirmation(dirty_id,1,requester.contact_id);
 					    context.message(MessageType.SUCCESS, "Successfully approved a request with: " +dirty_id );
 
-					    js("window.location.replace('http://oim.grid.iu.edu');");
+					    js("window.location.replace('http://oim.opensciencegrid.org');");
 
 					}
 					catch(SQLException e3){
