@@ -467,7 +467,9 @@ public class RequestUserSSOVerifyForm extends DivRepForm
 			ticket.metadata.put("SUBMITTER_NAME", requester.given_name +" " +requester.family_name);
 			ticket.metadata.put("ASSOCIATED_VO_ID", Integer.toString(vo_id));
 			ticket.ccs.add(sponsor_rec.primary_email);
-			ticket.ccs.add("osg-ra@opensciencegrid.org"); //TODO - make this configurable                                                                                                              
+			ticket.ccs.add("osg-ra@opensciencegrid.org"); //TODO - make this configurable                                                       
+			ticket.assignees.add(StaticConfig.conf.getProperty("certrequest.user.assignee"));
+                             
 			ticket.nextaction = "OSG RA to process request";
 			String ticket_id = fp.open(ticket);
 			log.info("Opened SSO Verification Request ticket with ID:" + ticket_id);

@@ -47,7 +47,7 @@ public class RestServlet extends ServletBase  {
 	private static final long serialVersionUID = 1L;
     static Logger log = Logger.getLogger(RestServlet.class);  
     
-    static String GOC_TICKET_MESSAGE = " -- GOC alert will be sent to GOC infrastructure team about this issue. Meanwhile, feel free to open a GOC ticket at https://ticket.grid.iu.edu";
+    static String GOC_TICKET_MESSAGE = " -- GOC alert will be sent to GOC infrastructure team about this issue. Meanwhile, feel free to open a GOC ticket at https://ticket.opensciencegrid.org";
     
 	static enum Status {OK, FAILED, PENDING};
     class Reply {

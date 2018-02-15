@@ -340,7 +340,7 @@ public class CertificateRequestUserForm extends DivRepForm
 				return new DivRepStaticContent(this, 
 					"<div class=\"well\">"+
 					"<h4>Virtual Organization</h4>" +
-					"<p class=\"\">If you do not know which VO to select, please open a <a target=\"_blank\" href=\"https://ticket.grid.iu.edu\">GOC Ticket</a> for an assistance.</p>" +
+					"<p class=\"\">If you do not know which VO to select, please open a <a target=\"_blank\" href=\"https://ticket.opensciencegrid.org\">GOC Ticket</a> for an assistance.</p>" +
 					"<p class=\"\">If your VO does not appear, it currently has no RA agents assigned to it. Please contact GOC or the VO managers.</p>" +
 					"<p class=\"\">If you just need to access OSG secure web servers (OIM, DocDB, etc.), you may select the <b>MIS</b> VO.</p>" +
 					"<h4>What is a sponsor?</h4>" +

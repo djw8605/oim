@@ -373,7 +373,7 @@ public class OIMRegistrationServlet extends ServletBase  {
 			out.write("</li> <li> <strong>Acceptable Use Policy (AUP) Agreement</strong> You must agree to the Acceptable Use Policies.");
 			out.write("</li></ul> ");
 			out.write("<p />");
-			out.write("<strong>Follow-up</strong>: Once you submit a new SC registration, a <a href='https://ticket.grid.iu.edu/goc/list/open' target='_top'>ticket</a> will be created under name, and appropriate parties including yourself will be notified via email. Follow the instructions on the email to ensure your new registration is activated and ready to go!");
+			out.write("<strong>Follow-up</strong>: Once you submit a new SC registration, a <a href='https://ticket.opensciencegrid.org/goc/list/open' target='_top'>ticket</a> will be created under name, and appropriate parties including yourself will be notified via email. Follow the instructions on the email to ensure your new registration is activated and ready to go!");
 			out.write("<p />");
 			out.write("<h2 class='twikinetRoundedAttachments'><span class='twikinetHeader'><a name='Removal_or_Deletion_of_OIM_Regis'></a> Removal or Deletion of OIM Registrations </span></h2>");
 			out.write("<p />");

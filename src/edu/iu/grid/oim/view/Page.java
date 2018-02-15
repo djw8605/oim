@@ -56,7 +56,7 @@ public class Page implements IView {
 		}
 		*/
 		params.put("__BASE__", StaticConfig.conf.getProperty("application.base"));
-		params.put("__GOCTICKET__", "https://ticket.grid.iu.edu/goc");
+		params.put("__GOCTICKET__", "https://ticket.opensciencegrid.org/goc");
 		
 		params.put("__APPNAME__", StaticConfig.getApplicationName());
 		params.put("__VERSION__", StaticConfig.getVersion());

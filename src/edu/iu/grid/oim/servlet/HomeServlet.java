@@ -120,7 +120,7 @@ public class HomeServlet extends ServletBase  {
 		if(auth.isUnregistered()) {
 			contentview.add(new HtmlView("<div class=\"alert alert-info\"><p>Your certificate is not yet registered with OIM.</p><p><a class=\"btn btn-info\" href=\"register\">Register</a></p></div>"));
 		} else if(auth.isDisabled()) {
-			contentview.add(new HtmlView("<div class=\"alert alert-danger\"><p>Your contact or DN is disabled. Please contact GOC for more information.</p><a class=\"btn btn-danger\" href=\"https://ticket.grid.iu.edu\">Contact GOC</a></p></div>"));
+			contentview.add(new HtmlView("<div class=\"alert alert-danger\"><p>Your contact or DN is disabled. Please contact GOC for more information.</p><a class=\"btn btn-danger\" href=\"https://ticket.opensciencegrid.org\">Contact GOC</a></p></div>"));
 		} else if(!auth.isUser()) {
 		    String text = "<p><a class=\"btn btn-info\" href=\"/oim/sso/\">Login</a></p>";	
 		

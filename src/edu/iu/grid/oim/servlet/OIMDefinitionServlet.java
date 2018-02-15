@@ -136,13 +136,13 @@ public class OIMDefinitionServlet extends ServletBase  {
 			out.write("<h3><a name='Contact'></a> Contact </h3> <ul>");
 			out.write("<li> OIM defines contact as an individual or group responsible for addressing queries regarding OSG resources or virtual organizations or support centers. Contact types are explained below - most contact types allow one primary and one secondary contact for that type, and some allow multiple tertiary contacts.");
 			out.write("</li> <li> <strong>Support Center Contacts</strong>  <ul>");
-			out.write("<li> Operations contact (Ticketing) - <a href='http://ticket.grid.iu.edu/' target='_top'>GOC tickets</a> when assigned to a support center are sent to the primary Operations contact's email address for that SC.");
+			out.write("<li> Operations contact (Ticketing) - <a href='http://ticket.opensciencegrid.org/' target='_top'>GOC tickets</a> when assigned to a support center are sent to the primary Operations contact's email address for that SC.");
 			out.write("</li> <li> Notifications contact - GOC notifications (<a href='http://osggoc.blogspot.com/' target='_top'>also available via RSS</a>) are sent to both primary and secondary notification contacts for an SC");
 			out.write("</li> <li> Security contact - Security notifications sent out by the OSG security team are sent to primary and secondary security contacts for a SC if the notification is relevant to resources or VOs that SC may support.");
 			out.write("</li> <li> Miscellaneous contact - Contacts who do not fall under any of the above types but would like to be able to edit a support center can be added as miscellaneous contact");
 			out.write("</li></ul> ");
 			out.write("</li> <li> <strong>Resource Contacts</strong>  <ul>");
-			out.write("<li> Administrative contact - <a href='http://ticket.grid.iu.edu/' target='_top'>GOC tickets</a> when assigned to a support center of a resource are also sent to the primary resource admin contact (usually the sysadmin of a resource) via the ticket's CC mechanism. Admin contacts are also contacted by GOC staff and others to deal with system-administrative problems.");
+			out.write("<li> Administrative contact - <a href='http://ticket.opensciencegrid.org/' target='_top'>GOC tickets</a> when assigned to a support center of a resource are also sent to the primary resource admin contact (usually the sysadmin of a resource) via the ticket's CC mechanism. Admin contacts are also contacted by GOC staff and others to deal with system-administrative problems.");
 			out.write("</li> <li> Reporting contact - Gratia-accounting based resource-usage reports are sent out daily/weekly to one or more contacts listed as report contacts for a resource.");
 			out.write("</li> <li> Security contact - Security notifications sent out by the OSG security team are sent to primary and secondary security contacts for a resource if the notification is relevant to that or all resource(s).");
 			out.write("</li> <li> Miscellaneous contact - Contacts who do not fall under any of the above types but would like to be able to edit a resource can be added as miscellaneous contact");

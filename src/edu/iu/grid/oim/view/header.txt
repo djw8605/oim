@@ -91,7 +91,7 @@
         <p id="links">
             <a target="_blank" href="https://myosg.grid.iu.edu">MyOSG</a> |
             <span class="active">OIM</span> |
-            <a target="_blank" href="https://ticket.grid.iu.edu/goc">Ticket</a> |
+            <a target="_blank" href="https://ticket.opensciencegrid.org/goc">Ticket</a> |
             <a target="_blank" href="http://software.grid.iu.edu/">Software Cache</a> |
             <a target="_blank" href="http://is.grid.iu.edu/documentation.html">BDII</a> |
             <a target="_blank" href="https://twiki.grid.iu.edu/">TWiki</a> |
