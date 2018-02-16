@@ -39,7 +39,7 @@ public class BootMenuView implements IView {
 		out.println("<li class=\"dropdown\">");
 			out.println("<a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">"+StaticConfig.getApplicationName()+" <b class=\"caret\"></b></a>");
 			out.println("<ul class=\"dropdown-menu\">");
-				out.println("<li><a href=\"https://myosg.grid.iu.edu\">MyOSG</a></li>");
+				out.println("<li><a href=\"https://my.opensciencegrid.org\">MyOSG</a></li>");
 				out.println("<li class=\"active\"><a href=\"#\">OIM</a></li>");
 				out.println("<li><a href=\"https://ticket.opensciencegrid.org\">Ticket</a></li>");
 				//out.println("<li><a href=\"https://twiki.grid.iu.edu\">TWiki</a></li>");

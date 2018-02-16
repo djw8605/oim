@@ -111,7 +111,7 @@ public class OIMDefinitionServlet extends ServletBase  {
 			out.write("<p />");
 			out.write("<h3><a name=\"Service\"></a> Service </h3> <ul>");
 			out.write("<li> In OIM a service runs on a resource to let grid users run jobs. Compute Elements, Storage Elements (SRM V1, SRM V2, Bestman/XrootD, or GSIFTP) , Central Infrastructure Services, or Site Level Infrastructure are examples services. ");
-			out.write("</li> <li> <a href='http://myosg.grid.iu.edu/misccount/index?datasource=count&amp;count_total=on&amp;count_sg_501=on&amp;count_sg_101=on&amp;count_sg_1=on&amp;count_sg_201=on&amp;count_sg_1000=on&amp;count_sg_301=on&amp;count_sg_401=on' target='_top'>List</a> of possible OIM Services grouped by Service Group.");
+			out.write("</li> <li> <a href='https://my.opensciencegrid.org/misccount/index?datasource=count&amp;count_total=on&amp;count_sg_501=on&amp;count_sg_101=on&amp;count_sg_1=on&amp;count_sg_201=on&amp;count_sg_1000=on&amp;count_sg_301=on&amp;count_sg_401=on' target='_top'>List</a> of possible OIM Services grouped by Service Group.");
 			out.write("</li></ul> ");
 			out.write("<p />");
 			out.write("<p />");

@@ -97,7 +97,7 @@ public class OIMWebInterfaceServlet extends ServletBase  {
 			out.write("<h1><a name=\"Requirements\"></a> Requirements </h1>");
 			out.write("<p />");
 			out.write("You first need to know the VO you should join. If you're not sure,");
-			out.write("<a href=\"http://myosg.grid.iu.edu/vosummary?all_vos=on&amp;active=on&amp;active_value=1&amp;datasource=summary\" target=\"_top\">this list</a> may help, or please email the <a href=\"mailto&#58;goc&#64;opensciencegrid&#46;org\">Grid Operations Center</a>.");
+			out.write("<a href=\"https://my.opensciencegrid.org/vosummary?all_vos=on&amp;active=on&amp;active_value=1&amp;datasource=summary\" target=\"_top\">this list</a> may help, or please email the <a href=\"mailto&#58;goc&#64;opensciencegrid&#46;org\">Grid Operations Center</a>.");
 			out.write("<p />");
 			out.write("From your VO you should find out <ol>");
 			out.write("<li> Whether to use these instructions or some      VO specific ones instead;");
@@ -163,7 +163,7 @@ public class OIMWebInterfaceServlet extends ServletBase  {
 			out.write("In most cases, you will have to separately apply for VO membership. For that, you will likely use <a href=\"/bin/view/Documentation/GlossaryOfTerms#DefsVomsAdmin\" class=\"twikiAnchorLink\">VOMS-Admin server</a>. It requires that you have your certificate before applying.");
 			out.write("<p />");
 			out.write("Find out the URL of your VOMS-Admin");
-			out.write("server either from your VO administrator, or the <a href=\"http://myosg.grid.iu.edu/vosummary?all_vos=on&amp;active=on&amp;active_value=1&amp;datasource=summary\" target=\"_top\">list at MyOSG</a>.");
+			out.write("server either from your VO administrator, or the <a href=\"https://my.opensciencegrid.org/vosummary?all_vos=on&amp;active=on&amp;active_value=1&amp;datasource=summary\" target=\"_top\">list at MyOSG</a>.");
 			out.write("<p />");
 			out.write("<h2 class=\"twikinetRoundedAttachments\"><span class=\"twikinetHeader\"><a name=\"Registration_Using_a_VOMS_Admin\"></a> Registration Using a VOMS-Admin Server </span></h2>");
 			out.write("<p /> <ol>");

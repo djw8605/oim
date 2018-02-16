@@ -89,7 +89,7 @@
         <h2>by Grid Operations Center</h2>
         
         <p id="links">
-            <a target="_blank" href="https://myosg.grid.iu.edu">MyOSG</a> |
+            <a target="_blank" href="https://my.opensciencegrid.org">MyOSG</a> |
             <span class="active">OIM</span> |
             <a target="_blank" href="https://ticket.opensciencegrid.org/goc">Ticket</a> |
             <a target="_blank" href="http://software.grid.iu.edu/">Software Cache</a> |

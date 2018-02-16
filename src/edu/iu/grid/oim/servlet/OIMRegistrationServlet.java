@@ -240,7 +240,7 @@ public class OIMRegistrationServlet extends ServletBase  {
 			out.write("</div>");
 			out.write("<p />");
 			out.write("<h3><a name='Required_Information_AN2'></a> Required Information </h3> <ul>");
-			out.write("<li> Name - a name for the resource group. A short unique name for this resource group that will appear in <a href='https://myosg.grid.iu.edu/' target='_top'>MyOSG</a> or other catalogs as an identifier for out.write(\"this resource <strong>the  Name should not include spaces. Use a dash (-) or underscore (_) instead.  If spaces are present, they will automatically be converted to underscores.</strong> *Also note that any special characters apart from [A-Z], [a-z], [0-9], [-_] will be removed by the validation code.");
+			out.write("<li> Name - a name for the resource group. A short unique name for this resource group that will appear in <a href='https://my.opensciencegrid.org/' target='_top'>MyOSG</a> or other catalogs as an identifier for out.write(\"this resource <strong>the  Name should not include spaces. Use a dash (-) or underscore (_) instead.  If spaces are present, they will automatically be converted to underscores.</strong> *Also note that any special characters apart from [A-Z], [a-z], [0-9], [-_] will be removed by the validation code.");
 			out.write("</li> <li> Site - the associated site with this resource group.");
 			out.write("</li> <li> OSG Grid Type - Select whether this is a production (OSG) or test resource (OSG-ITB).");
 			out.write("</li> <li> Description - A description of this resource group.");
@@ -271,7 +271,7 @@ public class OIMRegistrationServlet extends ServletBase  {
 			out.write("<h3><a name='Required_Information_AN3'></a> Required Information </h3>");
 			out.write("The following information is <strong>required</strong> in the fields on the resource registration field.");
 			out.write("<p /> <ul>");
-			out.write("<li> <strong>Name</strong> - a short unique name for this resource that will appear in <a href='https://myosg.grid.iu.edu/' target='_top'>MyOSG</a> or other catalogs as an identifier for this resource <strong>the  Name should not include spaces. Use a dash (-) or underscore (_) instead.  If spaces are present, they will automatically be converted to underscores.</strong> *Also note that any special characters apart from [A-Z], [a-z], [0-9], [-_] will be removed by the validation code.");
+			out.write("<li> <strong>Name</strong> - a short unique name for this resource that will appear in <a href='https://my.opensciencegrid.org/' target='_top'>MyOSG</a> or other catalogs as an identifier for this resource <strong>the  Name should not include spaces. Use a dash (-) or underscore (_) instead.  If spaces are present, they will automatically be converted to underscores.</strong> *Also note that any special characters apart from [A-Z], [a-z], [0-9], [-_] will be removed by the validation code.");
 			out.write("</li> <li> <strong>Fully Qualified Domain Name</strong> - The fully qualified domain name <FQDN> for this resource that the catalog will use for contacting this resource for additional detailed information.");
 			out.write("</li> <li> <strong>Site</strong> - The associated site for this resource.");
 			out.write("</li> <li> <strong>Resource Group</strong> - The associated resource group for this resource.");
