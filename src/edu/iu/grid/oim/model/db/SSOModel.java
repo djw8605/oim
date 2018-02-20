@@ -535,21 +535,28 @@ public class SSOModel extends SSOSmallTableModelBase<SSORecord> {
 
 	if(sso_exist==1 && contact_exist==0){
 		    
-	    statement.executeUpdate();
-	    ResultSet rs = statement.getGeneratedKeys();
-	    while (rs.next()) {
-		System.out.println("--------- SSO YES --- Contact NO");
-		System.out.println("INSERT CONTACT"+ contact_insert_sql);
-		
-		last_inserted_id = rs.getInt(1);
-		String update_sso ="update contact_authorization_type  set contact_id='"+last_inserted_id+"' where id="+sso_id+"";
-		System.out.println(update_sso);
-		Statement update_sso_stmt = sso_conn.createStatement();
-		
-		update_sso_stmt.executeUpdate(update_sso);
-		update_sso_stmt.close();
-	    }	//need to create contact
-
+	    if(dn_exist==1 ){
+		String update_sso_dn_exist ="update contact_authorization_type  set contact_id='"+dn_contact_id+"' where id="+sso_id+"";
+                System.out.println(update_sso_dn_exist);
+		Statement update_sso_stmt_dn_exist = sso_conn.createStatement();
+		update_sso_stmt_dn_exist.executeUpdate(update_sso_dn_exist);
+		update_sso_stmt_dn_exist.close();
+	    }else{
+		statement.executeUpdate();
+		ResultSet rs = statement.getGeneratedKeys();
+		while (rs.next()) {
+		    System.out.println("--------- SSO YES --- Contact NO");
+		    System.out.println("INSERT CONTACT"+ contact_insert_sql);
+		    
+		    last_inserted_id = rs.getInt(1);
+		    String update_sso ="update contact_authorization_type  set contact_id='"+last_inserted_id+"' where id="+sso_id+"";
+		    System.out.println(update_sso);
+		    Statement update_sso_stmt = sso_conn.createStatement();
+		    
+		    update_sso_stmt.executeUpdate(update_sso);
+		    update_sso_stmt.close();
+		}	//need to create contact
+	    }
 	}else if(sso_exist==0 && contact_exist==1){
 	    System.out.println("INSERT SSO:  \n" +sso_insert_sql +  "\n");
 	    //insert_sso_stmt.executeUpdate(sso_insert_sql);
