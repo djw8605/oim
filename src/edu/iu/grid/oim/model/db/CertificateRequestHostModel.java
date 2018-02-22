@@ -520,14 +520,8 @@ public class CertificateRequestHostModel extends CertificateRequestModelBase<Cer
     }
     
     private String getTicketUrl(Integer request_id) {
-    	String base;
-    	//this is not an exactly correct assumption, but it should be good enough
-    	if(StaticConfig.isDebug()) {
-    		base = "https://oim-itb.grid.iu.edu/oim/";
-    	} else {
-    		base = "https://oim.opensciencegrid.org/oim/";
-    	}
-    	return base + "certificatehost?id=" + request_id;
+        String base = StaticConfig.getBaseUrl();
+        return base + "certificatehost?id=" + request_id;
     }
     
     //NO-AC

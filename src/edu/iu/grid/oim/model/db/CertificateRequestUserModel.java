@@ -1433,15 +1433,10 @@ public class CertificateRequestUserModel extends CertificateRequestModelBase<Cer
     }
   
     private String getTicketUrl(Integer ticket_id, String tab) {
-    	String url;
-    	if(StaticConfig.isDebug()) {
-    		url = "https://oim-itb.grid.iu.edu/oim/";
-    	} else {
-    		url = "https://oim.opensciencegrid.org/oim/";
-    	}
-    	url+="certificateuser?id=" + ticket_id;
-    	if(tab != null) url+="&t="+tab;
-		return url;
+        String url = StaticConfig.getBaseUrl();
+        url+="certificateuser?id=" + ticket_id;
+        if(tab != null) url+="&t="+tab;
+                return url;
     }
     
     //NO-AC 

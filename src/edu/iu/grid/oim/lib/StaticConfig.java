@@ -21,7 +21,9 @@ public class StaticConfig {
 	    System.out.println("Debugging Is Debug: "+ conf.getProperty("debug").equals("true"));
 	    return conf.getProperty("debug").equals("true"); 
 	}	
-
+	
+	
+	static public String getBaseUrl() { return conf.getProperty("baseurl");  }
 	static public String getGMapAPIKey() { return conf.getProperty("gmapapikey"); }
 	static public int getConfirmationExpiration() { return Integer.parseInt(conf.getProperty("confirmation.expiration")); }
 	static public int getDowntimeEditableEndDays() { return Integer.parseInt(conf.getProperty("downtime.editable.endday")); }
