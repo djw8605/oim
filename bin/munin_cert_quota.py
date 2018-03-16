@@ -4,8 +4,15 @@ import httplib
 import json
 import sys
 
+import M2Crypto
+
+M2Crypto.SSL.Connection.clientPostConnectionCheck = None
+
+conn = M2Crypto.httpslib.HTTPSConnection("localhost")
+
 #load quota info
-conn = httplib.HTTPConnection("localhost")
+#conn = httplib.HTTPConnection("localhost")
+
 conn.request("GET", "/oim/rest?action=quota_info&version=1")
 response = conn.getresponse()
 if response.status != 200:
