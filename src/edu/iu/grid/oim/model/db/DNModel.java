@@ -54,7 +54,7 @@ public class DNModel extends SmallTableModelBase<DNRecord> {
 			for(RecordBase it : getCache()) 
 			{
 				DNRecord rec = (DNRecord)it;
-				log.info(rec.dn_string);
+				//log.info(rec.dn_string);
 				if(rec.dn_string.compareTo(dn_string) == 0) {
 					return rec;
 				}
