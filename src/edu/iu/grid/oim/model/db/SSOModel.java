@@ -155,9 +155,10 @@ public class SSOModel extends SSOSmallTableModelBase<SSORecord> {
 		SSORecord rec = (SSORecord)it;
 		//System.out.println("getEnabledByContactID: " + rec.contact_id + " == " + contact_id   );
 		//if(rec.contact_id.equals(contact_id) && rec.disable == false) {
-		
-		if(rec.contact_id.equals(contact_id)) {
-		    list.add(rec);
+		if(rec.contact_id!= null){
+		    if(rec.contact_id.equals(contact_id)) {
+			list.add(rec);
+		    }
 		}
 	    }
 	System.out.println("inside getEnabledByContactID");
