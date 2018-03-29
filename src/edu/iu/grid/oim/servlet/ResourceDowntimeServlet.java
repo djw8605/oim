@@ -55,12 +55,8 @@ public class ResourceDowntimeServlet extends ServletBase implements Servlet {
 	{	
 		UserContext context = new UserContext(request);
 		Authorization auth = context.getAuthorization();
-		//auth.check("edit_my_resource");
-		if(!auth.isUser()) {
-			//context.message(MessageType.ERROR, "This page is for OIM user only. Please use MyOSG to see current downtimes.");
-			throw new ServletException("This page is for OIM user only. Please use MyOSG to see current downtimes.");
-		}
-		
+		auth.check("add_downtime");
+				
 		try {			
 			//construct view
 			BootMenuView menuview = new BootMenuView(context, "resourcedowntime");
@@ -188,7 +184,7 @@ public class ResourceDowntimeServlet extends ServletBase implements Servlet {
 		
 		DNModel dnmodel = new DNModel(context);
                 SSOModel ssomodel = new SSOModel(context);
-		System.out.println("sso _id"+rec.sso_id);
+		
 		if(rec.sso_id!=null){
 		    view.add(new HtmlView("<tr><th>Entered By</th><td class=\"muted\">"+ssomodel.get(rec.sso_id).given_name+" "+ ssomodel.get(rec.sso_id).family_name+"</td></tr>"));
 

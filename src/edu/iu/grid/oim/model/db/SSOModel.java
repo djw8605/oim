@@ -161,14 +161,14 @@ public class SSOModel extends SSOSmallTableModelBase<SSORecord> {
 		    }
 		}
 	    }
-	System.out.println("inside getEnabledByContactID");
+	
 	return list;
     }
 	
     public SSORecord get(int id) throws SQLException {
 	SSORecord keyrec = new SSORecord();
 	keyrec.id = id;
-	System.out.println("inside get SSORecord");
+	
 	return get(keyrec);
     }
     public ArrayList<SSORecord> getAll() throws SQLException
@@ -485,7 +485,7 @@ public class SSOModel extends SSOSmallTableModelBase<SSORecord> {
 	    sso_id = sso_rs.getInt("id");
 	}
 	
-	String select_contact ="select * from contact where primary_email='"+user_email+"' or secondary_email='"+user_email+"' order by id desc limit 1";
+	String select_contact ="select * from contact where (primary_email='"+user_email+"' or secondary_email='"+user_email+"') and disable=0 order by id desc limit 1";
 	System.out.println(select_contact);
 	Statement contact_stmt = conn.createStatement();
 	ResultSet contact_rs = contact_stmt.executeQuery(select_contact);
@@ -508,7 +508,7 @@ public class SSOModel extends SSOSmallTableModelBase<SSORecord> {
 	    
 	}
 	
-	String select_dn ="select * from contact left join dn on dn.contact_id=contact.id  where dn_string='"+user_dn_sso+"'";
+	String select_dn ="select * from contact left join dn on dn.contact_id=contact.id  where dn_string='"+user_dn_sso+"' and dn.disable=0 and contact.disable=0";
 	System.out.println(select_dn);
 	Statement dn_stmt = conn.createStatement();
 	ResultSet dn_rs = dn_stmt.executeQuery(select_dn);
