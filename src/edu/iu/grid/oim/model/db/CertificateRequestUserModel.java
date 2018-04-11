@@ -206,14 +206,14 @@ public class CertificateRequestUserModel extends CertificateRequestModelBase<Cer
 	public AuthorizationCriterias isOIMUser() {
 		AuthorizationCriterias criterias = new AuthorizationCriterias();
 		
-		String label = "You have provided your x509 certificate";
-		if(auth.getUserDN() != null) {
-			label += " ("+auth.getUserDN()+")";
+		String label = "You are logged in";
+		if(auth.getContactID() != null) {
+			label += ".";
 		}
 		criterias.new AuthorizationCriteria(label, "is_secure") {
 			@Override
 			public Boolean test() {
-				return (auth.getUserDN()!=null);
+				return (auth.getContactID()!=null);
 			}
 		};
 		
