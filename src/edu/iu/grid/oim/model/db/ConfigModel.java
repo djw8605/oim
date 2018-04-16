@@ -77,7 +77,7 @@ public class ConfigModel extends ModelBase<ConfigRecord> {
 	public Config QuotaGlobalHostCertTotalCount = new Config(this, "QuotaGlobalHostCertTotalCount", "0");
 	
 	public Config QuotaUserCertYearMax = new Config(this, "QuotaUserCertYearMax", "3");
-	public Config QuotaUserHostDayMax = new Config(this, "QuotaUserHostDayMax", "50");
+	public Config QuotaUserHostDayMax = new Config(this, "QuotaUserHostDayMax", "1000");
 	public Config QuotaUserHostYearMax = new Config(this, "QuotaUserHostYearMax", "1000");
 	
 	public Config CertificatePageBanner = new Config(this, "certificate_page_banner", "");
