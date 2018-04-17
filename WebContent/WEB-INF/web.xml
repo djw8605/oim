@@ -2,8 +2,11 @@
 <web-app id="WebApp_ID" version="2.4"
 	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-	<display-name>oim</display-name>
-
+  <session-config>
+    <session-timeout>1440</session-timeout>
+  </session-config>
+  <display-name>oim</display-name>
+  
 	<context-param>
 		<param-name>someparam</param-name>
 		<param-value>somevalue _ arvind</param-value>
@@ -277,6 +280,13 @@
 		<servlet-name>UserEditServlet</servlet-name>
 		<servlet-class>edu.iu.grid.oim.servlet.UserEditServlet</servlet-class>
 	</servlet>
+ <servlet>
+                <description>
+                        </description>
+                <display-name>SSOUserEditServlet</display-name>
+                <servlet-name>SSOUserEditServlet</servlet-name>
+                <servlet-class>edu.iu.grid.oim.servlet.SSOUserEditServlet</servlet-class>
+        </servlet>
 
 	<servlet>
 		<description>
@@ -285,6 +295,13 @@
 		<servlet-name>UserServlet</servlet-name>
 		<servlet-class>edu.iu.grid.oim.servlet.UserServlet</servlet-class>
 	</servlet>
+	<servlet>
+                <description>
+                        </description>
+                <display-name>SSOUserServlet</display-name>
+                <servlet-name>SSOUserServlet</servlet-name>
+                <servlet-class>edu.iu.grid.oim.servlet.SSOUserServlet</servlet-class>
+        </servlet>
 
 	<servlet>
 		<description>
@@ -381,6 +398,83 @@
 		<servlet-name>TopologyServlet</servlet-name>
 		<servlet-class>edu.iu.grid.oim.servlet.TopologyServlet</servlet-class>
 	</servlet>
+	<servlet>
+                <description>
+                </description>
+                <display-name>OIMMaintServlet</display-name>
+                <servlet-name>OIMMaintServlet</servlet-name>
+                <servlet-class>edu.iu.grid.oim.servlet.OIMMaintServlet</servlet-class>
+        </servlet>
+
+	<servlet>
+                <description>
+		          </description>
+		<display-name>OIMRegistrationServlet</display-name>
+                <servlet-name>OIMRegistrationServlet</servlet-name>
+                <servlet-class>edu.iu.grid.oim.servlet.OIMRegistrationServlet</servlet-class>
+        </servlet>
+
+	<servlet>
+                <description>
+		          </description>
+		<display-name>OIMDefinitionServlet</display-name>
+                <servlet-name>OIMDefinitionServlet</servlet-name>
+                <servlet-class>edu.iu.grid.oim.servlet.OIMDefinitionServlet</servlet-class>
+        </servlet>
+ <servlet>
+                <description>
+                </description>
+                <display-name>OIMCertificateRenewalServlet</display-name>
+                <servlet-name>OIMCertificateRenewalServlet</servlet-name>
+                <servlet-class>edu.iu.grid.oim.servlet.OIMCertificateRenewalServlet</servlet-class>
+        </servlet>
+
+ <servlet>
+                <description>
+                </description>
+                <display-name>OIMCMSUserDocServlet</display-name>
+                <servlet-name>OIMCMSUserDocServlet</servlet-name>
+                <servlet-class>edu.iu.grid.oim.servlet.OIMCMSUserDocServlet</servlet-class>
+        </servlet>
+
+ <servlet>
+                <description>
+                </description>
+                <display-name>OIMWebInterfaceServlet</display-name>
+                <servlet-name>OIMWebInterfaceServlet</servlet-name>
+                <servlet-class>edu.iu.grid.oim.servlet.OIMWebInterfaceServlet</servlet-class>
+        </servlet>
+
+
+
+
+	<servlet-mapping>
+                <servlet-name>OIMRegistrationServlet</servlet-name>
+                <url-pattern>/oimregistration</url-pattern>
+        </servlet-mapping>
+	<servlet-mapping>
+                <servlet-name>OIMDefinitionServlet</servlet-name>
+                <url-pattern>/oimdefinition</url-pattern>
+        </servlet-mapping>
+	<servlet-mapping>
+                <servlet-name>OIMMaintServlet</servlet-name>
+		<url-pattern>/oimmaint</url-pattern>
+        </servlet-mapping>
+	<servlet-mapping>
+                <servlet-name>OIMCertificateRenewalServlet</servlet-name>
+                <url-pattern>/oimcertificaterenewal</url-pattern>
+        </servlet-mapping>
+
+	<servlet-mapping>
+                <servlet-name>OIMCMSUserDocServlet</servlet-name>
+                <url-pattern>/oimcmsuserdoc</url-pattern>
+        </servlet-mapping>
+	<servlet-mapping>
+                <servlet-name>OIMWebInterfaceServlet</servlet-name>
+                <url-pattern>/oimwebinterface</url-pattern>
+        </servlet-mapping>
+
+
 
 	<servlet-mapping>
 		<servlet-name>DivRepServlet</servlet-name>
@@ -518,6 +612,17 @@
 		<servlet-name>UserServlet</servlet-name>
 		<url-pattern>/user</url-pattern>
 	</servlet-mapping>
+
+	<servlet-mapping>
+                <servlet-name>SSOUserEditServlet</servlet-name>
+                <url-pattern>/ssouseredit</url-pattern>
+        </servlet-mapping>
+
+        <servlet-mapping>
+                <servlet-name>SSOUserServlet</servlet-name>
+                <url-pattern>/ssouser</url-pattern>
+        </servlet-mapping>
+
 
 	<servlet-mapping>
 		<servlet-name>ResourceGroupEditServlet</servlet-name>
@@ -670,10 +775,40 @@
 		<servlet-name>CertificateUserServlet</servlet-name>
 		<servlet-class>edu.iu.grid.oim.servlet.CertificateUserServlet</servlet-class>
 	</servlet>
+
+
+
 	<servlet-mapping>
 		<servlet-name>CertificateUserServlet</servlet-name>
 		<url-pattern>/certificateuser</url-pattern>
 	</servlet-mapping>	
+
+	
+	<servlet>
+                <description>
+                </description>
+                <display-name>RequestUserSSOVerifyServlet</display-name>
+                <servlet-name>RequestUserSSOVerifyServlet</servlet-name>
+                <servlet-class>edu.iu.grid.oim.servlet.RequestUserSSOVerifyServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+                <servlet-name>RequestUserSSOVerifyServlet</servlet-name>
+		        <url-pattern>/requestuserssoverify</url-pattern>
+        </servlet-mapping>
+	<servlet>
+          <description>
+                </description>
+                <display-name>RequestUserSSOVerifyConfirmationServlet</display-name>
+                <servlet-name>RequestUserSSOVerifyConfirmationServlet</servlet-name>
+                <servlet-class>edu.iu.grid.oim.servlet.RequestUserSSOVerifyConfirmationServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+                <servlet-name>RequestUserSSOVerifyConfirmationServlet</servlet-name>
+                        <url-pattern>/requestuserssoverifyconfirmation</url-pattern>
+        </servlet-mapping>
+
+
+
 	
 	<servlet>
 		<description>
@@ -863,6 +998,18 @@
         <url-pattern>/projectedit</url-pattern>
     </servlet-mapping>  
     
+<servlet>
+  <description>
+    </description>
+  <display-name>SSOServlet</display-name>
+  <servlet-name>SSOServlet</servlet-name>
+  <servlet-class>edu.iu.grid.oim.servlet.SSOServlet</servlet-class>
+  </servlet>
+<servlet-mapping>
+  <servlet-name>SSOServlet</servlet-name>
+  <url-pattern>/sso/</url-pattern>
+  </servlet-mapping>
+
     <servlet>
 		<description>
 		</description>

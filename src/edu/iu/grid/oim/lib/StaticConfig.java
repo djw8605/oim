@@ -10,13 +10,20 @@ import org.apache.log4j.Logger;
 public class StaticConfig {
 	public static Properties conf = new Properties();
 	
-	static public String getVersion() { return "3.46"; } //version should be hardcoded.
+	static public String getVersion() { return "4.0"; } //version should be hardcoded.
 	
 	static Logger log = Logger.getLogger(StaticConfig.class);  
     
 	//just use getProperty() directly.. exists for backward compatibility and to reduce error
 	static public String getApplicationName() { return conf.getProperty("application.name"); }
-	static public Boolean isDebug() { return conf.getProperty("debug").equals("true"); }	
+
+	static public Boolean isDebug() { 
+	    System.out.println("Debugging Is Debug: "+ conf.getProperty("debug").equals("true"));
+	    return conf.getProperty("debug").equals("true"); 
+	}	
+	
+	
+	static public String getBaseUrl() { return conf.getProperty("baseurl");  }
 	static public String getGMapAPIKey() { return conf.getProperty("gmapapikey"); }
 	static public int getConfirmationExpiration() { return Integer.parseInt(conf.getProperty("confirmation.expiration")); }
 	static public int getDowntimeEditableEndDays() { return Integer.parseInt(conf.getProperty("downtime.editable.endday")); }

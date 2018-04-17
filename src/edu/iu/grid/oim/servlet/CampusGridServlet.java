@@ -116,7 +116,7 @@ public class CampusGridServlet extends ServletBase implements Servlet {
 
 	 	table.addRow("Name", rec.name);
 		table.addRow("Description", rec.description);
-		table.addRow("Gratia Probe URL", rec.gratia);
+		table.addRow("Probe URL", rec.gratia);
 		
 		HashMap<Integer, String> maturities = CampusGridFormDE.Maturities;
 		table.addRow("Maturity Level", maturities.get(rec.maturity));

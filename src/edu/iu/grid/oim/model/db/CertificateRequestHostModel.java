@@ -453,6 +453,13 @@ public class CertificateRequestHostModel extends CertificateRequestModelBase<Cer
     		String[] request_ccs, 
     		Integer approver_vo_id) throws CertificateRequestException 
     {
+    	
+    	int count = csrs.size();
+    	//check quota
+    	CertificateQuotaModel quota = new CertificateQuotaModel(context);
+    	if(!quota.canApproveHostCert(count)) {
+    		throw new CertificateRequestException("You will exceed your host certificate quota.");
+    	}
     	CertificateRequestHostRecord rec = new CertificateRequestHostRecord();
 		//Date current = new Date();
     	rec.requester_contact_id = requester.id;
@@ -511,14 +518,8 @@ public class CertificateRequestHostModel extends CertificateRequestModelBase<Cer
     }
     
     private String getTicketUrl(Integer request_id) {
-    	String base;
-    	//this is not an exactly correct assumption, but it should be good enough
-    	if(StaticConfig.isDebug()) {
-    		base = "https://oim-itb.grid.iu.edu/oim/";
-    	} else {
-    		base = "https://oim.grid.iu.edu/oim/";
-    	}
-    	return base + "certificatehost?id=" + request_id;
+        String base = StaticConfig.getBaseUrl();
+        return base + "certificatehost?id=" + request_id;
     }
     
     //NO-AC
@@ -719,7 +720,7 @@ public class CertificateRequestHostModel extends CertificateRequestModelBase<Cer
 				throw new CertificateRequestException("Failed to lookup GridAdmin to approve host:" + cn, e);	
 			}
 			if(domain == null) {
-				throw new CertificateRequestException("The hostname you have provided in the CSR/CN=" + cn + " does not match any domain OIM is currently configured to issue certificates for.\n\nPlease double check the CN you have specified. If you'd like to be a GridAdmin for this domain, please open GOC Ticket at https://ticket.grid.iu.edu ");	
+				throw new CertificateRequestException("The hostname you have provided in the CSR/CN=" + cn + " does not match any domain OIM is currently configured to issue certificates for.\n\nPlease double check the CN you have specified. If you'd like to be a GridAdmin for this domain, please open GOC Ticket at https://ticket.opensciencegrid.org ");	
 			}
 			
 			

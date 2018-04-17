@@ -155,7 +155,7 @@ public class VOFormDE extends DivRepForm
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			new DivRepStaticContent(this, "<p class=\"help-block\">* If you can't find the field of science you are trying to enter, please <a href=\"https://ticket.grid.iu.edu\" target='_blank'\">submit GOC ticket</a> and request to add a new field of science.</p>");
+			new DivRepStaticContent(this, "<p class=\"help-block\">* If you can't find the field of science you are trying to enter, please <a href=\"https://ticket.opensciencegrid.org\" target='_blank'\">submit GOC ticket</a> and request to add a new field of science.</p>");
 
 			// Handle reporting names
 			new DivRepStaticContent(this, "<h3>Reporting Names for your VO</h3>");
@@ -771,7 +771,7 @@ public class VOFormDE extends DivRepForm
 					foss,
 					vo_report_name_div.getVOReports(model),
 					oasis_info.getManagerContacts());
-				context.message(MessageType.SUCCESS, "Successfully registered new VO. You should receive a notification with an instruction on how to active your VO.");
+				context.message(MessageType.SUCCESS, "Successfully registered new VO. A ticket has been generated and OSG Operations will alert you when they have reviewed and activated your VO.");
 				
 				try {
 					//Find the Footprint ID of the associated SC

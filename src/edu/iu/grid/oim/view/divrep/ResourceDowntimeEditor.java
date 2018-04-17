@@ -524,7 +524,8 @@ public class ResourceDowntimeEditor extends DivRepFormElement {
 		newrec.end_time = new Timestamp(getEndTime().getTime());
 		newrec.downtime_class_id = class_id.getValue();
 		newrec.downtime_severity_id = severity_id.getValue();
-		newrec.dn_id = auth.getDNID();
+		newrec.dn_id = 0;//auth.getDNID();
+		newrec.sso_id = auth.getSSOID(); 
 		newrec.timestamp = timestamp;
 		newrec.disable = false;
 

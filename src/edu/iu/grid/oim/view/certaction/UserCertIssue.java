@@ -205,7 +205,7 @@ public class UserCertIssue implements IView {
 							out.write("<script>setTimeout(\"divrep('"+getNodeID()+"', null, null, 'download');\", 0);</script>");
 						} else {
 							out.write("<p class=\"alert alert-danger\">Something went wrong while issuing your certificate.\n");
-							out.write("OSG support staff will investigate and contact you shortly. If you have any questions, please feel free to contact us at <a href=\"mailto:goc@opensciencegrid.org\">goc@opensciencegrid.org</a></p>");
+							out.write("OSG support staff will investigate and contact you shortly. If you have any questions, please feel free to contact us at <a href=\"mailto:help@opensciencegrid.org\">help@opensciencegrid.org</a></p>");
 
 						}
 							

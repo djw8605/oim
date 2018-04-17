@@ -40,6 +40,8 @@ public class UserContext {
 	
 	//let's lookup once per user request (not session)
     private DataSource oimds;
+    private DataSource ssods;
+
     
     private boolean issecure;
     public boolean isSecure() { return issecure; }
@@ -136,7 +138,26 @@ public class UserContext {
     	//log.debug(oim.toString());
 		return oim;
 	}
+       public Connection getSSOConnection() throws SQLException {
+	if(ssods == null) {
+	    try {
+		//log.debug("Looking for jdbc connection");                                                                                                                                       
+		Context initContext = new InitialContext();
+		Context envContext  = (Context)initContext.lookup("java:/comp/env");
+		ssods = (DataSource)envContext.lookup("jdbc/sso");
+		//log.debug(oimds.toString());                                                                                                                                                    
+	    } catch( NamingException ne ) {
+		throw new RuntimeException( "Unable to aquire data source", ne );
+	    }
+	}
+        //log.debug("Connecting..");                                                                                                                                                                      
+	Connection ssooim = ssods.getConnection();
+        //log.debug(oim.toString());                                                                                                                                                                      
+	return ssooim;
+    }
 	
+
+
 	private UserContext(){}	//used to create guest context
 	public static UserContext getGuestContext(HttpServletRequest request)
 	{

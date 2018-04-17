@@ -378,7 +378,7 @@ public class ResourceFormDE extends DivRepForm
 						resource_services.getResourceServiceRecords(),
 						resource_services.getResourceServiceDetailsRecords(),
 						owners.getOwners());
-				context.message(MessageType.SUCCESS, "Successfully registered new resource. You should receive a notification with an instruction on how to active your resource.");
+				context.message(MessageType.SUCCESS, "Successfully registered new resource. A ticket has been generated and OSG Operations will alert you when they have reviewed and activated your resource.");
 				
 				try {
 					//Traverse OIM hirearchy to find the Footprint ID of the associated SC

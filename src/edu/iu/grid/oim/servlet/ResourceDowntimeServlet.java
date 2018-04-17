@@ -25,6 +25,7 @@ import edu.iu.grid.oim.lib.StaticConfig;
 import edu.iu.grid.oim.model.UserContext;
 import edu.iu.grid.oim.model.UserContext.MessageType;
 import edu.iu.grid.oim.model.db.DNModel;
+import edu.iu.grid.oim.model.db.SSOModel;
 import edu.iu.grid.oim.model.db.DowntimeClassModel;
 import edu.iu.grid.oim.model.db.DowntimeSeverityModel;
 import edu.iu.grid.oim.model.db.FieldOfScienceModel;
@@ -54,12 +55,8 @@ public class ResourceDowntimeServlet extends ServletBase implements Servlet {
 	{	
 		UserContext context = new UserContext(request);
 		Authorization auth = context.getAuthorization();
-		//auth.check("edit_my_resource");
-		if(!auth.isUser()) {
-			//context.message(MessageType.ERROR, "This page is for OIM user only. Please use MyOSG to see current downtimes.");
-			throw new ServletException("This page is for OIM user only. Please use MyOSG to see current downtimes.");
-		}
-		
+		auth.check("add_downtime");
+				
 		try {			
 			//construct view
 			BootMenuView menuview = new BootMenuView(context, "resourcedowntime");
@@ -186,8 +183,18 @@ public class ResourceDowntimeServlet extends ServletBase implements Servlet {
 		//table.addRow("Affected Services", createAffectedServices(rec.id));
 		
 		DNModel dnmodel = new DNModel(context);
-		view.add(new HtmlView("<tr><th>Entered By</th><td class=\"muted\">"+dnmodel.get(rec.dn_id).dn_string+"</td></tr>"));
+                SSOModel ssomodel = new SSOModel(context);
+		
+		if(rec.sso_id!=null){
+		    view.add(new HtmlView("<tr><th>Entered By</th><td class=\"muted\">"+ssomodel.get(rec.sso_id).given_name+" "+ ssomodel.get(rec.sso_id).family_name+"</td></tr>"));
+
 		//table.addRow("DN", dnmodel.get(rec.dn_id).dn_string);
+		}else{
+		    if(rec.dn_id>0){
+			System.out.println("Downtime DN info: "+dnmodel.get(rec.dn_id).dn_string);
+			view.add(new HtmlView("<tr><th>Entered By</th><td class=\"muted\">"+dnmodel.get(rec.dn_id).dn_string+"</td></tr>"));                                            
+		    }
+		}
 
 		if(rec.created != null){
 		    view.add(new HtmlView("<tr><th>Created</th><td class=\"muted\">"+dformat.format(rec.created)+"</td></tr>"));

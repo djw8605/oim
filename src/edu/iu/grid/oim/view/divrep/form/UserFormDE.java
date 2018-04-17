@@ -102,6 +102,7 @@ public class UserFormDE extends DivRepForm
 		if(id != null) {
 			disable.setValue(rec.disable);
 		}
+		System.out.println("rec.disable: "+rec.disable);
 		disable.addValidator(new DivRepIValidator<Boolean>(){
 			String error;
 			@Override

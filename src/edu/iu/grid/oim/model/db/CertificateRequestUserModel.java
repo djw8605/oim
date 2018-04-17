@@ -206,14 +206,14 @@ public class CertificateRequestUserModel extends CertificateRequestModelBase<Cer
 	public AuthorizationCriterias isOIMUser() {
 		AuthorizationCriterias criterias = new AuthorizationCriterias();
 		
-		String label = "You have provided your x509 certificate";
-		if(auth.getUserDN() != null) {
-			label += " ("+auth.getUserDN()+")";
+		String label = "You are logged in";
+		if(auth.getContactID() != null) {
+			label += ".";
 		}
 		criterias.new AuthorizationCriteria(label, "is_secure") {
 			@Override
 			public Boolean test() {
-				return (auth.getUserDN()!=null);
+				return (auth.getContactID()!=null);
 			}
 		};
 		
@@ -1280,7 +1280,7 @@ public class CertificateRequestUserModel extends CertificateRequestModelBase<Cer
 					ticket.description += "Please renew your user certificate at "+getTicketUrl(rec.id, TabLabels.renew)+"\n\n";
 					ticket.status = "Engineering"; //reopen it - until user renew
 				} else {
-					ticket.description += "Please request for new user certificate by visiting https://oim.grid.iu.edu/oim/certificaterequestuser\n\n";
+					ticket.description += "Please request for new user certificate by visiting https://oim.opensciencegrid.org/oim/certificaterequestuser\n\n";
 				}
 			
 
@@ -1433,15 +1433,10 @@ public class CertificateRequestUserModel extends CertificateRequestModelBase<Cer
     }
   
     private String getTicketUrl(Integer ticket_id, String tab) {
-    	String url;
-    	if(StaticConfig.isDebug()) {
-    		url = "https://oim-itb.grid.iu.edu/oim/";
-    	} else {
-    		url = "https://oim.grid.iu.edu/oim/";
-    	}
-    	url+="certificateuser?id=" + ticket_id;
-    	if(tab != null) url+="&t="+tab;
-		return url;
+        String url = StaticConfig.getBaseUrl();
+        url+="certificateuser?id=" + ticket_id;
+        if(tab != null) url+="&t="+tab;
+                return url;
     }
     
     //NO-AC 

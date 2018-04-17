@@ -54,6 +54,7 @@ public class ContactServlet extends ServletBase {
 			//display either list, or a single resource
 			ContactRecord rec = null;
 			String contact_id_str = request.getParameter("id");
+			System.out.println("ContactServlet contact ID ->" +  contact_id_str);
 			if(contact_id_str != null) {
 				ContactModel model = new ContactModel(context);
 				Integer contact_id = Integer.parseInt(contact_id_str);
@@ -113,7 +114,8 @@ public class ContactServlet extends ServletBase {
 		ArrayList<ContactRecord> editable_disabled_contacts = new ArrayList<ContactRecord>();
 		ArrayList<ContactRecord> readonly_contacts = new ArrayList<ContactRecord>();
 		for(ContactRecord rec : contacts) {
-			if(model.canEdit(rec.id)) {
+		    //    System.out.println("******************contact ID from Content View ->" + rec.id + "-- " + model.canEdit(rec.id));
+		        if(model.canEdit(rec.id)) {
 				if (rec.disable) {
 					editable_disabled_contacts.add(rec);
 				} else {
@@ -122,8 +124,11 @@ public class ContactServlet extends ServletBase {
 			} else {
 				readonly_contacts.add(rec);
 			}
+		    
+		    
 		}
-		
+		//System.out.println(contacts.toString());
+
 		return createContentViewHelper(context, contentview, editable_contacts, editable_disabled_contacts, readonly_contacts);
 	}
 

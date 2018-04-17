@@ -72,7 +72,7 @@ public class RegisterServlet extends ServletBase  {
 	{
 		ContentView contentview = new ContentView(context);
 		
-		contentview.add(new HtmlView("<p class=\"alert\">If you already have an OIM account and wish to associate another DN to your existing account, please open a <a href=\"https://ticket.grid.iu.edu\">GOC ticket</a> requesting for contact DN association.</p>"));		
+		contentview.add(new HtmlView("<p class=\"alert\">If you already have an OIM account and wish to associate another DN to your existing account, please open a <a href=\"https://ticket.opensciencegrid.org\">GOC ticket</a> requesting for contact DN association.</p>"));		
 		
 		contentview.add(new HtmlView("<h2>OIM Registration</h2>"));
 		//contentview.add(new HtmlView("<p>Your X509 certificate is not registered on OIM. </p>"));
@@ -335,7 +335,7 @@ public class RegisterServlet extends ServletBase  {
 	/*
 	private SideContentView createSideView(UserContext context) {
 		SideContentView view = new SideContentView();
-		view.add(new HtmlView("<p class=\"alert\">If you already have an OIM account and wish to associate another DN to your existing account, please open a <a href=\"https://ticket.grid.iu.edu\">GOC ticket</a> requesting for contact DN association.</p>"));		
+		view.add(new HtmlView("<p class=\"alert\">If you already have an OIM account and wish to associate another DN to your existing account, please open a <a href=\"https://ticket.opensciencegrid.org\">GOC ticket</a> requesting for contact DN association.</p>"));		
 		return view;
 	}
 	*/

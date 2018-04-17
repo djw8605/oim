@@ -63,7 +63,7 @@ public class ErrorServlet extends HttpServlet {
 	    }
 	    request_uri_full += request_uri;
 	    
-	    String ticket_url = "https://ticket.grid.iu.edu/submit?app_issue_check&app_issue_type=goc&app_goc_url="+StringEscapeUtils.escapeHtml(request_uri_full);
+	    String ticket_url = "https://ticket.opensciencegrid.org/submit?app_issue_check&app_issue_type=goc&app_goc_url="+StringEscapeUtils.escapeHtml(request_uri_full);
 	    
 	    if(throwable instanceof AuthorizationException) {
 			contentview.add(new HtmlView("<h2>Authorization Error</h2>"));

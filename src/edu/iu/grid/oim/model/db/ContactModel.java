@@ -14,10 +14,17 @@ import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 
 import edu.iu.grid.oim.model.UserContext;
+
 import edu.iu.grid.oim.model.db.record.ContactRecord;
 import edu.iu.grid.oim.model.db.record.DNRecord;
 import edu.iu.grid.oim.model.db.record.RecordBase;
 import edu.iu.grid.oim.model.db.record.ServiceRecord;
+
+import edu.iu.grid.oim.model.db.record.SSORecord;
+import edu.iu.grid.oim.model.db.SSOAuthorizationTypeModel;
+import edu.iu.grid.oim.model.db.SSOModel;
+import javax.servlet.http.HttpSession;
+
 
 public class ContactModel extends SmallTableModelBase<ContactRecord> {
     static Logger log = Logger.getLogger(ContactModel.class);  
@@ -115,18 +122,22 @@ public class ContactModel extends SmallTableModelBase<ContactRecord> {
 	//returns all record id that the user has access to
 	private HashSet<Integer> getEditableIDs() throws SQLException
 	{
-		DNModel dnmodel = new DNModel(context);
-		
-		HashSet<Integer> list = new HashSet<Integer>();
+	    //   HttpSession session = request.getSession(false);
+	    SSOModel dnmodel = new SSOModel(context);
+	    
+	    HashSet<Integer> list = new HashSet<Integer>();
 		for(ContactRecord rec : getAll()) {
 			//allow editing if user is submitter_dn
-			if(rec.submitter_dn_id != null && rec.submitter_dn_id.compareTo(auth.getDNID()) == 0)  {
+		    //System.out.println("************* submitter DN ID " + rec.id + " -- " +auth.getContactID() );
+		    //if(rec.submitter_dn_id != null && rec.submitter_dn_id.compareTo(auth.getDNID()) == 0)  {
+		    if( rec.id.equals(auth.getContactID()))  {
+
 				//only allow editing if the contact is not yet associated with any enabled DN
-				ArrayList<DNRecord> dnrecs = dnmodel.getEnabledByContactID(rec.id);
+				ArrayList<SSORecord> dnrecs = dnmodel.getEnabledByContactID(rec.id);
 				if(dnrecs.size() == 0) {
 					list.add(rec.id);
 				}
-			}
+		    }
 		}
 		return list;
 	}

@@ -50,7 +50,7 @@ public class BootPage implements IView {
 		
 		//handle banner
 		if(StaticConfig.isDebug()) {
-			context.message(MessageType.INFO, "Running in debug mode. For production use, please use https://oim.grid.iu.edu");
+			context.message(MessageType.INFO, "Running in debug mode. For production use, please use https://oim.opensciencegrid.org");
 		}
 		URL url = context.getRequestURL();
 		if(url != null) {
@@ -88,7 +88,7 @@ public class BootPage implements IView {
 		//Authorization auth = context.getAuthorization();
 		
 		params.put("__BASE__", StaticConfig.conf.getProperty("application.base"));
-		params.put("__GOCTICKET__", "https://ticket.grid.iu.edu/goc");
+		params.put("__GOCTICKET__", "https://ticket.opensciencegrid.org/goc");
 		
 		if(StaticConfig.isDebug()) {
 			params.put("__APPNAME__", StaticConfig.getApplicationName() + " (Debug)");

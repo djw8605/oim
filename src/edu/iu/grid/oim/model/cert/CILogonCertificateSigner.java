@@ -161,10 +161,13 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 		post.setParameter("cert_request", payload);
 		post.setParameter("cert_lifetime", "34128000000"); //TODO - how long is this?		
 		post.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
+
+		System.out.println("request user cert CN:  " + cn);
+
 		try {
 			cl.executeMethod(post);
 
-			
+			System.out.println("post status code:  " + post.getStatusCode());
 			switch(post.getStatusCode()) {
 			case 200:
 				CertificateBase cert = new CertificateBase();
@@ -205,9 +208,9 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 				throw new CILogonCertificateSignerException("Unknown status code from cilogon: " +post.getStatusCode() + response);	
 			}		
 		} catch (HttpException e) {
-			throw new CILogonCertificateSignerException("Failed to make cilogon/rest request: "+e, e);
+			throw new CILogonCertificateSignerException("Failed to make cilogon/rest HTTP request: "+e, e);
 		} catch (IOException e) {
-			throw new CILogonCertificateSignerException("Failed to make cilogon/rest request: "+e, e);
+			throw new CILogonCertificateSignerException("Failed to make cilogon/rest IO request: "+e, e);
 		} catch (CertificateException e) {
 			throw new CILogonCertificateSignerException("Failed to parse certificate: "+e, e);
 		} catch (CMSException e) {
@@ -270,13 +273,13 @@ public class CILogonCertificateSigner implements ICertificateSigner {
 				throw new CILogonCertificateSignerException("Unknown status code from cilogon: " +post.getStatusCode());	
 			}	
 		} catch (HttpException e) {
-			throw new CILogonCertificateSignerException("Failed to make cilogon/rest request: "+e, e);
+			throw new CILogonCertificateSignerException("Failed to make cilogon/rest request HTTP : "+e, e);
 		} catch (IOException e) {
-			throw new CILogonCertificateSignerException("Failed to make cilogon/rest request: "+e, e);
+			throw new CILogonCertificateSignerException("Failed to make cilogon/rest request IO: "+e, e);
 		} catch (CertificateException e) {
-			throw new CILogonCertificateSignerException("Failed to make cilogon/rest request: "+e, e);
+			throw new CILogonCertificateSignerException("Failed to make cilogon/rest request Certificate: "+e, e);
 		} catch (CMSException e) {
-			throw new CILogonCertificateSignerException("Failed to make cilogon/rest request "+e, e);
+			throw new CILogonCertificateSignerException("Failed to make cilogon/rest request CMS: "+e, e);
 		}
 	}
 	

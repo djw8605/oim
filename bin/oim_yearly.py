@@ -3,9 +3,14 @@ import urllib
 import httplib
 import json
 import sys
+import M2Crypto
 
+M2Crypto.SSL.Connection.clientPostConnectionCheck = None
+
+conn = M2Crypto.httpslib.HTTPSConnection("localhost")
 #do quota yearly reset
-conn = httplib.HTTPConnection("localhost")
+#conn = httplib.HTTPConnection("localhost")
+
 conn.request("POST", "/oim/rest?action=reset_yearly_quota&version=1")
 response = conn.getresponse()
 if response.status != 200:

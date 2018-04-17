@@ -15,6 +15,10 @@ import edu.iu.grid.oim.lib.Authorization;
 import edu.iu.grid.oim.model.UserContext;
 import edu.iu.grid.oim.model.db.ContactModel;
 import edu.iu.grid.oim.model.db.record.ContactRecord;
+
+import edu.iu.grid.oim.model.db.SSOModel;
+import edu.iu.grid.oim.model.db.record.SSORecord;
+
 import edu.iu.grid.oim.view.BootMenuView;
 import edu.iu.grid.oim.view.BootPage;
 import edu.iu.grid.oim.view.ContactAssociationView;
@@ -57,13 +61,24 @@ public class HomeServlet extends ServletBase  {
 			//out.write("<div>");
 			Authorization auth = context.getAuthorization();
 			if(auth.isUser()) {
+			
+
 				try {
-					ContactRecord user = auth.getContact();
-					Confirmation conf = new Confirmation(user.id, context);
-					conf.render(out);
+				    SSORecord ssouser = auth.getSSORecord();
+				    SSOVerification verf = new SSOVerification(ssouser.id, context);
+				    verf.render(out);
+                                } catch (SQLException e) {
+				    log.error(e);
+                                }
+
+				try {
+				    ContactRecord user = auth.getContact();
+				    Confirmation conf = new Confirmation(user.id, context);
+				    conf.render(out);
 				} catch (SQLException e) {
-					log.error(e);
-				}				
+				    log.error(e);
+                                }
+
 
 				//show entities that this user is associated
 				try {
@@ -105,22 +120,18 @@ public class HomeServlet extends ServletBase  {
 		if(auth.isUnregistered()) {
 			contentview.add(new HtmlView("<div class=\"alert alert-info\"><p>Your certificate is not yet registered with OIM.</p><p><a class=\"btn btn-info\" href=\"register\">Register</a></p></div>"));
 		} else if(auth.isDisabled()) {
-			contentview.add(new HtmlView("<div class=\"alert alert-danger\"><p>Your contact or DN is disabled. Please contact GOC for more information.</p><a class=\"btn btn-danger\" href=\"https://ticket.grid.iu.edu\">Contact GOC</a></p></div>"));
+			contentview.add(new HtmlView("<div class=\"alert alert-danger\"><p>Your contact or DN is disabled. Please contact GOC for more information.</p><a class=\"btn btn-danger\" href=\"https://ticket.opensciencegrid.org\">Contact GOC</a></p></div>"));
 		} else if(!auth.isUser()) {
-			//old link - http://pki1.doegrids.org/ca/
-			String text = "<p>OIM requires an X509 certificate issued by an <a target=\"_blank\" href='http://software.grid.iu.edu/cadist/'>OSG-approved Certifying Authority (CA)</a> to authenticate.</p>"+
-					"<p><a class=\"btn btn-info\" href=\"/oim/certificaterequestuser\">Request New Certificate</a></p>"+
-					"If you already have a certificate installed on your browser, please login.</p><p><a class=\"btn btn-info\" href=\""+context.getSecureUrl()+"\">Login</a></p>";
-			
-			//If you are not sure how to register, or have any questions, please open <a target=\"_blank\" href=\"https://ticket.grid.iu.edu/goc/oim\">a ticket</a> with the OSG Grid Operations Center (GOC).";
-			contentview.add(new HtmlView("<div class=\"alert alert-info\"><p>"+text+"</p></div>"));
+		    String text = "<p><a class=\"btn btn-info\" href=\"/oim/sso/\">Login</a></p>";	
+		
+		    contentview.add(new HtmlView("<div class=\"alert alert-info\"><p>"+text+"</p></div>"));
 		}
 		
 		contentview.add(new HtmlView("<h2>Documentations</h2>"));
-		contentview.add(new LinkView("https://twiki.grid.iu.edu/twiki/bin/view/Operations/OIMTermDefinition", "OIM Definitions", true));
-		contentview.add(new LinkView("https://twiki.grid.iu.edu/twiki/bin/view/Operations/OIMRegistrationInstructions", "Registration", true));
-		contentview.add(new LinkView("https://twiki.grid.iu.edu/twiki/bin/view/Operations/OIMMaintTool", "Resource Downtime", true));
-		//contentview.add(new LinkView("https://twiki.grid.iu.edu/twiki/bin/view/Operations/OIMStandardOperatingProcedures", "Operating Procedures", true));
+	
+		contentview.add(new LinkView("/oim/oimdefinition", "OIM Definitions", true));
+		contentview.add(new LinkView("/oim/oimregistration", "Registration", true));
+		contentview.add(new LinkView("/oim/oimmaint", "Resource Downtime", true));
 
 		if(auth.isUser()) {
 			contentview.addContactLegend();
@@ -163,5 +174,59 @@ public class HomeServlet extends ServletBase  {
 				out.write("</div>");
 			}
 		}	
+	}
+
+
+    @SuppressWarnings("serial")
+        class SSOVerification extends DivRep
+        {
+	    final SSORecord crec;
+	    final SSOModel cmodel;
+	    final UserContext context;
+
+	    public SSOVerification(Integer sso_id, UserContext _context) throws SQLException {
+		super(_context.getPageRoot());
+
+                cmodel = new SSOModel(_context);
+                crec = (SSORecord) cmodel.getBySSOID(sso_id);//.clone();                                                                                                              
+                context = _context;
+	    }
+
+	    protected void onEvent(DivRepEvent e) {
+		// TODO Auto-generated method stub                                                                                                                             
+
+	    }
+
+	    public void render(PrintWriter out) {
+		System.out.println("verified: "+crec.verified);
+
+		Integer disabled_h = crec.disabled;
+                Integer declined_h = crec.declined;
+                Integer verified_h = crec.verified;
+
+		if(disabled_h.equals(0)) {
+
+		    if(declined_h.equals(1)){
+			out.write("<p class=\"divrep_round divrep_elementerror\">Your account verification request has been declined. Please contact help@opensciencegrid.org with any further questions.</p>");
+		    }else if(verified_h.equals(0)) {
+
+			out.write("<div id=\""+getNodeID()+"\">");
+			out.write("<h2>Account Verification</h2>");
+			
+			out.write("<p class=\"divrep_round divrep_elementerror\">Your account has to be verified before you can add or edit any information in OIM</p>");
+						
+			out.write("<p>Please go to the ");
+			out.write("<a href=\"requestuserssoverify\">Verify Account here</a>");
+			out.write(" page to submit a request</p>");
+			out.write("</div>");
+			
+		    }
+
+		}else{
+		    out.write("<p class=\"divrep_round divrep_elementerror\">Your account has been disabled. Please contact help@opensciencegrid.org with any further questions.</p>");
+		    
+		}
+	    }
+		
 	}
 }
