@@ -62,42 +62,35 @@ public class SSOModel extends SSOSmallTableModelBase<SSORecord> {
 	    for(RecordBase it : getCache()) 
 		{
 		    SSORecord rec = (SSORecord)it;
-		    if(rec.family_name.toString().toLowerCase() == "krenz"){
-			System.out.println("getby EMail:" + rec.email.toString().toLowerCase() + " - - - " + email_toLower);
-		    }
+		 
 		    if(rec.email.toString().toLowerCase().compareTo(email_toLower) == 0 ) {
-			
-			System.out.println(rec.email+"<-- email from inside getbyEmail 2");
+					
 			return rec;
 		    }
 		    
 		    if(rec.email1 != null){
 			
 			if(rec.email1.toString().toLowerCase().compareTo(email_toLower) == 0 ) {
-			    System.out.println(rec.email+" <-- email from inside getbyEmail 3-1: " + rec.contact_id);
-
+			
 			    return rec;
 			}
 		    }
 		    
 		    if(rec.email2 != null){
-			
-			
+					
 			if(rec.email2.toString().toLowerCase().compareTo(email_toLower) == 0 ) {
-			    System.out.println(rec.email+"<-- email from inside getbyEmail 4-1");
-                                        return rec;
+			    return rec;
 			}
 		    }
 		    
 		    if(rec.email3 != null){
 			if(rec.email3.toString().toLowerCase().compareTo(email_toLower) == 0 ) {
-			    System.out.println(rec.email+"<-- email from inside getbyEmail 5");
+			 
 			    return rec;
 			}
 		    }
 		    
 		}
-	    System.out.println("inside getbyEmail");
 	}
 	return null;
     }
@@ -114,7 +107,7 @@ public class SSOModel extends SSOSmallTableModelBase<SSORecord> {
 		    }
 		}
 	}
-	System.out.println("inside getEnabledByDNString");
+
 	return null;
     }
 	
@@ -153,8 +146,7 @@ public class SSOModel extends SSOSmallTableModelBase<SSORecord> {
 	for(RecordBase it : getCache()) 
 	    {
 		SSORecord rec = (SSORecord)it;
-		//System.out.println("getEnabledByContactID: " + rec.contact_id + " == " + contact_id   );
-		//if(rec.contact_id.equals(contact_id) && rec.disable == false) {
+	
 		if(rec.contact_id!= null){
 		    if(rec.contact_id.equals(contact_id)) {
 			list.add(rec);
