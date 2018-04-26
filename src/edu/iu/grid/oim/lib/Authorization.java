@@ -202,7 +202,7 @@ public class Authorization {
 		HttpSession session = request.getSession(false);
 		String user_access = (String)session.getAttribute("user_access");
 		user_email = (String)session.getAttribute("user_access");
-		//String user_access = "fuess@fnal.gov";
+
 		String user_agent =(String)request.getHeader("user-agent");                                                                                                             
           
 		log.info("User agent "+ user_agent);                                                                                                                                           		
