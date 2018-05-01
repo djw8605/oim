@@ -178,14 +178,9 @@ public class Authorization {
 
 	    System.out.println("Starting Authorization ");
 
-	    Enumeration params = request.getParameterNames(); 
-	    while(params.hasMoreElements()){
-		String paramName = (String)params.nextElement();
-		System.out.println("Parameter Name - "+paramName+", Value - "+request.getParameter(paramName));
-	    }
-
+	
 		guest_context = UserContext.getGuestContext(request);
-		//usertype = UserType._GUEST; // mvkrenz disabled on 6/5/2017
+		
 		usertype = UserType.USER;
 		loadGuestAction();
 		//usertype = UserType.USER;
@@ -203,17 +198,11 @@ public class Authorization {
 		log.debug("Request received from " + remoteaddr);
 		
 
-		//String user_access0 = (String)request.getHeader("OIDC_CLAIM_email");                                                                                                                  
-			
+					
 		HttpSession session = request.getSession(false);
 		String user_access = (String)session.getAttribute("user_access");
 		user_email = (String)session.getAttribute("user_access");
-		//String user_access ="GARHAN.ATTEBURY@UNL.EDU";
-		//String user_access = "bbockelman2@unl.edu";
-                //String user_access = "marinochka007@suso.com";
-		//String user_access = "BOCKELMAN@UNL.EDU";
-		//String user_access =  "bbockelm@cse.unl.edu";
-		//String user_access =  "DWEITZEL@UNL.EDU";
+
 		String user_agent =(String)request.getHeader("user-agent");                                                                                                             
           
 		log.info("User agent "+ user_agent);                                                                                                                                           		
@@ -226,9 +215,6 @@ public class Authorization {
 		    usertype = UserType._GUEST;
 		}
 
-		
-
-		//System.out.println("############################### "+user_access + "<= email");
 		if(user_access!="" && user_access!=null && user_access!="null"){
 		    String user_access_lower = user_access.toString().toLowerCase();
 		    System.out.println("user_access_lower:"+user_access_lower);

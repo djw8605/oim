@@ -204,31 +204,44 @@ public class CertificateRequestUserModel extends CertificateRequestModelBase<Cer
 	
 	//TODO should move to Authorization?
 	public AuthorizationCriterias isOIMUser() {
-		AuthorizationCriterias criterias = new AuthorizationCriterias();
-		
-		String label = "You are logged in";
-		if(auth.getContactID() != null) {
-			label += ".";
-		}
-		criterias.new AuthorizationCriteria(label, "is_secure") {
-			@Override
+	    AuthorizationCriterias criterias = new AuthorizationCriterias();
+	    
+	    String label = "You are logged in";
+	    if(auth.getContactID() != null) {
+		label += ".";
+	    }else if(auth.getUserDN() != null) {
+		label += " ("+auth.getUserDN()+")";
+	    }
+	    
+	    criterias.new AuthorizationCriteria(label, "is_secure") {
+		    @Override
 			public Boolean test() {
-				return (auth.getContactID()!=null);
+			if(auth.getContactID()!=null){
+			    log.debug("get contactID: "+ auth.getContactID());
+			    return true;
+			}else if(auth.getUserDN()!=null){
+                            log.debug("get contactID: "+ auth.getUserDN());
+			    return true;
+			}else {
+                            log.debug("else all FALSE: ");
+
+			    return false;
 			}
+		    }
 		};
-		
-		//make sure user is not disabled, unregistered, etc..
-		label = "Your x509 certificate is recognized as OIM user";
-		if(auth.isUser()) {
-			label += " ("+auth.getContact().name+")";
-		}
-		criterias.new AuthorizationCriteria(label, "oim_user") {
-			@Override
+	    
+	    //make sure user is not disabled, unregistered, etc..
+	    label = "Your x509 certificate is recognized as OIM user";
+	    if(auth.isUser()) {
+		label += " ("+auth.getContact().name+")";
+	    }
+	    criterias.new AuthorizationCriteria(label, "oim_user") {
+		    @Override
 			public Boolean test() {
-				return auth.isUser();
-			}
+			return auth.isUser();
+		    }
 		};
-		return criterias;
+	    return criterias;
 	}
 	
 	public AuthorizationCriterias canRenew(CertificateRequestUserRecord rec, ArrayList<LogDetail> logs) {
@@ -249,6 +262,7 @@ public class CertificateRequestUserModel extends CertificateRequestModelBase<Cer
 		criterias.new AuthorizationCriteria("The certificate is in ISSUED status", null) {
 			@Override
 			public Boolean test() {
+			    log.debug("Certificate Status issued? " + rec.status.equals(CertificateRequestStatus.ISSUED));
 				return rec.status.equals(CertificateRequestStatus.ISSUED);
 			}
 		};
@@ -258,6 +272,7 @@ public class CertificateRequestUserModel extends CertificateRequestModelBase<Cer
 		criterias.new AuthorizationCriteria("You are the original requester of this certificate", "certificate_owner") {
 			@Override
 			public Boolean test() {
+			    log.debug("You are the original requester of this certificate: "+ rec.requester_contact_id.equals(contact.id));
 				if(contact == null) return false;
 				return rec.requester_contact_id.equals(contact.id);
 			}
@@ -271,6 +286,7 @@ public class CertificateRequestUserModel extends CertificateRequestModelBase<Cer
 				if(last == null) return false; //never approved
 				Calendar five_years_ago = Calendar.getInstance();
 				five_years_ago.add(Calendar.YEAR, -5);
+				log.debug("This certificate was approved within the last 5 years? "+ last.time.before(five_years_ago.getTime()));
 				if(last.time.before(five_years_ago.getTime())) return false; //older than 5 years.
 				
 				//all good
@@ -286,6 +302,7 @@ public class CertificateRequestUserModel extends CertificateRequestModelBase<Cer
 				Calendar six_month_future = Calendar.getInstance();
 				six_month_future.add(Calendar.MONTH, 6);
 				if(rec.cert_notafter.after(six_month_future.getTime()))  {
+				    log.debug("This certificate will expire in MORE than 6 month: " + rec.cert_notafter.after(six_month_future.getTime()));
 					/*
 					//nope... but, if it's in debug mode, let user(testers) renew it
 					if(!StaticConfig.isDebug()) {
@@ -316,6 +333,7 @@ public class CertificateRequestUserModel extends CertificateRequestModelBase<Cer
 						return true;
 					}
 					
+					log.debug("Your current email address matches the email address of the previously issued certificate.  CERT EMAIL : " + cert_email + ", Primary Email:" + contact.primary_email);
 					//let's primary first.. it should never be null.
 					if(!cert_email.equals(contact.primary_email)) {
 						//doesn't match primary.. let give secondary a chance (if not null)
@@ -340,6 +358,7 @@ public class CertificateRequestUserModel extends CertificateRequestModelBase<Cer
 		    	if(!quota.canRequestUserCert(rec.requester_contact_id)) {
 		    		return false;
 		    	}
+			log.debug("Requester has not exceeded certificate quota." + quota.canRequestUserCert(rec.requester_contact_id));
 		    	return true;
 			}
 		};
@@ -348,6 +367,7 @@ public class CertificateRequestUserModel extends CertificateRequestModelBase<Cer
 			@Override
 			public Boolean test() {
 				 if(rec.vo_id == 35 || rec.vo_id == 3) {
+				     log.debug("Requester IS an ATLAS user.");
 					 return false;				 
 					 }
 				 return true;

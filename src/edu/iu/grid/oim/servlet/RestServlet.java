@@ -595,6 +595,7 @@ public class RestServlet extends ServletBase  {
 			//load log
 			ArrayList<CertificateRequestModelBase<CertificateRequestUserRecord>.LogDetail> logs = model.getLogs(CertificateRequestUserModel.class, rec.id);		
 			AuthorizationCriterias criterias = model.canRenew(rec, logs);
+		       
 			if(criterias.passAll()) {
 				model.renew(rec, password);
 				reply.params.put("request_id", rec.id);
